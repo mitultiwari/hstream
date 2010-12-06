@@ -29,7 +29,7 @@ def saveState():
 
 def saveItem(url, timestamp, author, parent, contents):
   log(url)
-  conn = sqlite3.connect('../db/development.sqlite3')
+  conn = sqlite3.connect('db/development.sqlite3')
   c = conn.cursor()
   c.execute("""insert into items (hnid,timestamp,author,parent_hnid,contents)
                 values (%s,%s,'%s',%s,'%s')"""
@@ -38,6 +38,7 @@ def saveItem(url, timestamp, author, parent, contents):
   c.close()
 
 def id(url):
+  if url is None: return 'NULL'
   return url.split('=')[1]
 
 
@@ -68,9 +69,10 @@ def readNewComments(initurl):
 
     comments = soup.findAll(attrs={'class': 'default'})
     for comment in comments:
-      if url(comment, 'link') == bound:
+      u = url(comment, 'link')
+      if u == bound:
         return
-      saveComment(comment)
+      saveComment(comment, u)
 
     initurl = url(soup, 'More')
 
@@ -96,14 +98,23 @@ def readNewStories(initurl):
     for s in stories:
       if s.find('a') is not None:
         if s.parent.nextSibling is not None:
-          currUrl = urlOfStoryTitle(s, s.parent.nextSibling.contents[1])
+          currUrl = urlOfStoryTitle(s)
           if currUrl == bound:
             return
-          # TODO: parse story
+          saveStory(s, currUrl)
 
     initurl = url(soup, 'More')
 
-def urlOfStoryTitle(title, subtext):
+def saveStory(title, link=None):
+  subtext = title.parent.nextSibling.contents[1]
+  saveItem(link or url(subtext, 'discuss'),
+           computeTimestamp(subtext),
+           computeAuthor(subtext),
+           parent=None,
+           contents=unicode(title.find('a')))
+
+def urlOfStoryTitle(title):
+  subtext = title.parent.nextSibling.contents[1]
   try: return subtext.contents[4]['href']
   except IndexError: return title.find('a')['href']
 
@@ -145,7 +156,6 @@ import httplib
 while 1:
   try:
     readNewComments('newcomments')
-    break
     readNewStories('newest')
     saveState()
   except (urllib2.URLError, httplib.BadStatusLine):
