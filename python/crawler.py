@@ -16,26 +16,36 @@ def log(*args):
 
 
 import sqlite3
-import json
+
+def dbWrite(cmd):
+  conn = sqlite3.connect('db/development.sqlite3')
+  c = conn.cursor()
+  c.execute(cmd)
+  conn.commit()
+  c.close()
+
+def dbRead(cmd):
+  conn = sqlite3.connect('db/development.sqlite3')
+  c = conn.cursor()
+  ans = c.execute(cmd)
+  c.close()
+  return ans
 
 def loadState():
-  # TODO
-  return [None, None]
+  base = 'http://news.ycombinator.com/item?id='
+  for [_, comment, story] in dbRead('select * from crawler_state'):
+    return [base+str(comment), base+str(story)]
 mostRecentComment, mostRecentStory = loadState()
 
 def saveState():
-  # TODO
-  pass
+  dbWrite("""update crawler_state set most_recent_comment = %s, most_recent_story = %s"""
+      % (id(mostRecentComment), id(mostRecentStory)))
 
 def saveItem(url, timestamp, author, parent, contents):
   log(url)
-  conn = sqlite3.connect('db/development.sqlite3')
-  c = conn.cursor()
-  c.execute("""insert into items (hnid,timestamp,author,parent_hnid,contents)
-                values (%s,%s,'%s',%s,'%s')"""
-      % (id(url),timestamp,author,id(parent),contents.replace("'", "&apos;")))
-  conn.commit()
-  c.close()
+  dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
+             values (%s,%s,'%s',%s,'%s')"""
+      % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
 
 def id(url):
   if url is None: return 'NULL'
@@ -54,7 +64,7 @@ def getSoup(url):
   for p in soup.findAll('a'):
     try: p['href'] = absolutify(p['href'])
     except KeyError:
-      print "a without href:", p
+      print 'a without href:', p
   return soup
 
 def readNewComments(initurl):
@@ -134,15 +144,15 @@ def computeTimestamp(subtext):
 
   now = time()
 
-  r = re.compile("\s*(\d+) minutes? ago.*")
+  r = re.compile('\s*(\d+) minutes? ago.*')
   if r.match(s):
     return now-int(re.sub(r, '\\1', s))*60
 
-  r = re.compile("\s*(\d+) hours? ago.*")
+  r = re.compile('\s*(\d+) hours? ago.*')
   if r.match(s):
     return now-int(re.sub(r, '\\1', s))*60*60
 
-  r = re.compile("\s*(\d+) days? ago.*")
+  r = re.compile('\s*(\d+) days? ago.*')
   if r.match(s):
     return now-int(re.sub(r, '\\1', s))*60*60*24
 
@@ -160,5 +170,5 @@ while 1:
     saveState()
   except (urllib2.URLError, httplib.BadStatusLine):
     pass
-  except "bad item":
+  except 'bad item':
     pass
