@@ -3,7 +3,6 @@
 
 import os, sys, re
 
-
 
 from time import time, ctime, sleep
 
@@ -13,7 +12,6 @@ def log(*args):
     print justTime(), ' '.join(map(str, args))
     sys.stdout.flush()
 
-
 
 import sqlite3
 
@@ -47,11 +45,16 @@ def saveItem(url, timestamp, author, parent, contents):
              values (%s,%s,'%s',%s,'%s')"""
       % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
 
+def saveRecentItem(url):
+  log(url)
+  dbWrite("""insert into recentitems (hnid)
+             values (%s)"""
+      % (id(url)))
+
 def id(url):
   if url is None: return 'NULL'
   return url.split('=')[1]
 
-
 
 import urllib2
 from BeautifulSoup import BeautifulSoup, Tag
@@ -93,6 +96,7 @@ def saveComment(comment, link=None):
            computeAuthor(comhead),
            url(comhead, 'parent'),
            unicode(comment))
+  saveRecentItem(link or url(comhead, 'link'))
 
 def readNewStories(initurl):
   global mostRecentStory
