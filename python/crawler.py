@@ -6,6 +6,8 @@ import os, sys, re
 
 from time import time, ctime, sleep
 
+
+
 def justTime(): return ctime()[11:-5]
 
 def log(*args):
@@ -47,13 +49,36 @@ def saveItem(url, timestamp, author, parent, contents):
 
 def saveRecentItem(url):
   log(url)
-  dbWrite("""insert into recentitems (hnid)
-             values (%s)"""
-      % (id(url)))
+  dbWrite("""insert into recentitems (hnid) values (%s)""" % (id(url)))
 
 def id(url):
   if url is None: return 'NULL'
   return url.split('=')[1]
+
+
+def getItemTimeSpan(item):
+  for ts in dbRead("""select timestamp from items where hnid=%s""" % (item)):
+    log(ts[0])
+    return time() - ts[0]
+    
+MAX_SPAN = 5
+
+def deleteOldItems():
+  conn = sqlite3.connect('db/development.sqlite3')
+  c = conn.cursor()
+  olditems = []
+  for items in c.execute("""select hnid from recentitems"""):
+    log("hnid=%s" %(items) )
+    span = getItemTimeSpan(items[0])
+    log(span)
+    if span > MAX_SPAN:
+      log("appending %s" %(items[0]))
+      olditems.append(items[0])
+    # else break #TODO
+  c.close()
+  for oldi in olditems:
+    log("deleting %s" %(oldi))
+    dbWrite("""delete from recentitems where hnid=%s""" % (oldi) )
 
 
 import urllib2
@@ -169,9 +194,12 @@ def computeAuthor(subtext):
 import httplib
 while 1:
   try:
-    readNewComments('newcomments')
-    readNewStories('newest')
-    saveState()
+    #readNewComments('newcomments')
+    #readNewStories('newest')
+    #saveState()
+    #getItemTimeSpan(1973388)
+    deleteOldItems()
+    break
   except (urllib2.URLError, httplib.BadStatusLine):
     pass
   except 'bad item':
