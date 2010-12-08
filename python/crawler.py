@@ -27,9 +27,9 @@ def dbWrite(cmd):
 def dbRead(cmd):
   conn = sqlite3.connect('db/development.sqlite3')
   c = conn.cursor()
-  ans = c.execute(cmd)
+  for item in c.execute(cmd):
+    yield item
   c.close()
-  return ans
 
 def loadState():
   base = 'http://news.ycombinator.com/item?id='
@@ -46,10 +46,9 @@ def saveItem(url, timestamp, author, parent, contents):
   dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
              values (%s,%s,'%s',%s,'%s')"""
       % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
-
-def saveRecentItem(url):
-  log(url)
+  
   dbWrite("""insert into recentitems (hnid) values (%s)""" % (id(url)))
+
 
 def id(url):
   if url is None: return 'NULL'
@@ -64,21 +63,22 @@ def getItemTimeSpan(item):
 MAX_SPAN = 5
 
 def deleteOldItems():
-  conn = sqlite3.connect('db/development.sqlite3')
-  c = conn.cursor()
   olditems = []
-  for items in c.execute("""select hnid from recentitems"""):
-    log("hnid=%s" %(items) )
+  recentitems = []
+  for items in dbRead("""select hnid from recentitems"""):
     span = getItemTimeSpan(items[0])
-    log(span)
-    if span > MAX_SPAN:
-      log("appending %s" %(items[0]))
+    log("hnid=%s, span=%s" % (items, span))
+    if getItemTimeSpan(items[0]) > MAX_SPAN:
+      log("appending %s" % (items[0]))
       olditems.append(items[0])
-    # else break #TODO
-  c.close()
+    else:
+      recentitems.append(items[0])
+    # else break
+  log("not deleting items: %s" %(recentitems))
   for oldi in olditems:
     log("deleting %s" %(oldi))
     dbWrite("""delete from recentitems where hnid=%s""" % (oldi) )
+
 
 
 import urllib2
@@ -121,7 +121,6 @@ def saveComment(comment, link=None):
            computeAuthor(comhead),
            url(comhead, 'parent'),
            unicode(comment))
-  saveRecentItem(link or url(comhead, 'link'))
 
 def readNewStories(initurl):
   global mostRecentStory
@@ -194,12 +193,11 @@ def computeAuthor(subtext):
 import httplib
 while 1:
   try:
-    #readNewComments('newcomments')
-    #readNewStories('newest')
-    #saveState()
-    #getItemTimeSpan(1973388)
+    readNewComments('newcomments')
+    readNewStories('newest')
+    saveState()
     deleteOldItems()
-    break
+    #break
   except (urllib2.URLError, httplib.BadStatusLine):
     pass
   except 'bad item':
