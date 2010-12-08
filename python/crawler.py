@@ -46,7 +46,7 @@ def saveItem(url, timestamp, author, parent, contents):
   dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
              values (%s,%s,'%s',%s,'%s')"""
       % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
-  
+
   dbWrite("""insert into recentitems (hnid) values (%s)""" % (id(url)))
 
 
@@ -59,10 +59,10 @@ def getItemTimeSpan(item):
   for ts in dbRead("""select timestamp from items where hnid=%s""" % (item)):
     log(ts[0])
     return time() - ts[0]
-    
+
 MAX_SPAN = 5
 
-def deleteOldItems():
+def pruneRecentItems():
   olditems = []
   recentitems = []
   for items in dbRead("""select hnid from recentitems"""):
@@ -196,8 +196,7 @@ while 1:
     readNewComments('newcomments')
     readNewStories('newest')
     saveState()
-    deleteOldItems()
-    #break
+    pruneRecentItems()
   except (urllib2.URLError, httplib.BadStatusLine):
     pass
   except 'bad item':
