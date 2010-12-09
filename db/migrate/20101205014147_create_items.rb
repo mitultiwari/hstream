@@ -9,9 +9,12 @@ class CreateItems < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :items, :hnid
   end
 
   def self.down
     drop_table :items
+    remove_index :items, :hnid
   end
 end
