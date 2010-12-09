@@ -33,13 +33,13 @@ def loadState():
     return [base+str(comment), base+str(story)]
 mostRecentComment, mostRecentStory = loadState()
 
-def updateRecentComment(url):
+def updateMostRecentComment(url):
   global mostRecentComment
   mostRecentComment = id(url)
   dbWrite("update crawler_state set most_recent_comment = %s"
           % (mostRecentComment))
 
-def updateRecentStory(url):
+def updateMostRecentStory(url):
   global mostRecentStory
   mostRecentStory = id(url)
   dbWrite("update crawler_state set most_recent_story = %s"
@@ -83,7 +83,7 @@ def readNewComments(initurl):
     log(initurl)
     soup = getSoup(initurl)
     if mostRecentComment is None:
-      updateRecentComment(url(soup, 'link'))
+      updateMostRecentComment(url(soup, 'link'))
 
     comments = soup.findAll(attrs={'class': 'default'})
     for comment in comments:
@@ -113,7 +113,7 @@ def readNewStories(initurl):
     soup = getSoup(initurl)
     if mostRecentStory is None:
       # assumption: newest story hasn't comments yet.
-      updateRecentStory(url(soup, 'discuss'))
+      updateMostRecentStory(url(soup, 'discuss'))
 
     stories = soup.findAll(attrs={'class': 'title'})
     for s in stories:
