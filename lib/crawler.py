@@ -33,9 +33,17 @@ def loadState():
     return [base+str(comment), base+str(story)]
 mostRecentComment, mostRecentStory = loadState()
 
-def saveState():
-  dbWrite("""update crawler_state set most_recent_comment = %s, most_recent_story = %s"""
-      % (id(mostRecentComment), id(mostRecentStory)))
+def updateRecentComment(url):
+  global mostRecentComment
+  mostRecentComment = id(url)
+  dbWrite("update crawler_state set most_recent_comment = %s"
+          % (mostRecentComment))
+
+def updateRecentStory(url):
+  global mostRecentStory
+  mostRecentStory = id(url)
+  dbWrite("update crawler_state set most_recent_story = %s"
+          % (mostRecentStory))
 
 def saveItem(url, timestamp, author, parent, contents):
   log("  "+url)
@@ -74,7 +82,8 @@ def readNewComments(initurl):
   while initurl != '':
     log(initurl)
     soup = getSoup(initurl)
-    if mostRecentComment is None: mostRecentComment = url(soup, 'link')
+    if mostRecentComment is None:
+      updateRecentComment(url(soup, 'link'))
 
     comments = soup.findAll(attrs={'class': 'default'})
     for comment in comments:
@@ -102,7 +111,9 @@ def readNewStories(initurl):
   while initurl != '':
     log(initurl)
     soup = getSoup(initurl)
-    if mostRecentStory is None: mostRecentStory = url(soup, 'discuss') # Kludge: assume newest story hasn't comments yet.
+    if mostRecentStory is None:
+      # assumption: newest story hasn't comments yet.
+      updateRecentStory(url(soup, 'discuss'))
 
     stories = soup.findAll(attrs={'class': 'title'})
     for s in stories:
@@ -185,7 +196,6 @@ while 1:
   try:
     readNewComments('newcomments')
     readNewStories('newest')
-    saveState()
     pruneRecentItems()
   except (urllib2.URLError, httplib.BadStatusLine):
     pass
