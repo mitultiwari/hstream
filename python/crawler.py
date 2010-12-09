@@ -18,18 +18,12 @@ def log(*args):
 import sqlite3
 
 def dbWrite(cmd):
-  conn = sqlite3.connect('db/development.sqlite3')
-  c = conn.cursor()
-  c.execute(cmd)
-  conn.commit()
-  c.close()
+  with sqlite3.connect('db/development.sqlite3') as conn:
+    conn.execute(cmd)
 
 def dbRead(cmd):
-  conn = sqlite3.connect('db/development.sqlite3')
-  c = conn.cursor()
-  for item in c.execute(cmd):
+  for item in sqlite3.connect('db/development.sqlite3').execute(cmd):
     yield item
-  c.close()
 
 def loadState():
   base = 'http://news.ycombinator.com/item?id='
@@ -47,7 +41,7 @@ def saveItem(url, timestamp, author, parent, contents):
              values (%s,%s,'%s',%s,'%s')"""
       % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
 
-  dbWrite("""insert into recentitems (hnid) values (%s)""" % (id(url)))
+  dbWrite("insert into recentitems (hnid) values (%s)" % (id(url)))
 
 
 def id(url):
@@ -168,28 +162,18 @@ def computeAuthor(subtext):
 
 
 def recency(item):
-  for ts in dbRead("""select timestamp from items where hnid=%s""" % (item)):
-    log(ts[0])
+  for ts in dbRead("select timestamp from items where hnid=%s" % (item)):
     return time() - ts[0]
 
-RECENCY_THRESHOLD = 5
+RECENCY_THRESHOLD = 5 # seconds; sync with templates
 
 def pruneRecentItems():
-  olditems = []
-  recentitems = []
-  for items in dbRead("""select hnid from recentitems"""):
-    span = recency(items[0])
-    log("hnid=%s, span=%s" % (items, span))
-    if recency(items[0]) > RECENCY_THRESHOLD:
-      log("appending %s" % (items[0]))
-      olditems.append(items[0])
-    else:
-      recentitems.append(items[0])
-    # else break
-  log("not deleting items: %s" %(recentitems))
-  for oldi in olditems:
-    log("deleting %s" %(oldi))
-    dbWrite("""delete from recentitems where hnid=%s""" % (oldi) )
+  for item in [items[0] for items in dbRead("select hnid from recentitems")
+                          if recency(items[0]) > RECENCY_THRESHOLD]:
+    log("deleting %s" % (item))
+    dbWrite("delete from recentitems where hnid=%s" % (item))
+  log("recent items: %s"
+      % ([x[0] for x in dbRead("select hnid from recentitems")]))
 
 
 
