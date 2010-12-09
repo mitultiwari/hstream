@@ -3,10 +3,9 @@
 
 import os, sys, re
 
+
 
 from time import time, ctime, sleep
-
-
 
 def justTime(): return ctime()[11:-5]
 
@@ -14,6 +13,7 @@ def log(*args):
     print justTime(), ' '.join(map(str, args))
     sys.stdout.flush()
 
+
 
 import sqlite3
 
@@ -54,6 +54,7 @@ def id(url):
   if url is None: return 'NULL'
   return url.split('=')[1]
 
+
 
 def getItemTimeSpan(item):
   for ts in dbRead("""select timestamp from items where hnid=%s""" % (item)):
@@ -79,7 +80,7 @@ def pruneRecentItems():
     log("deleting %s" %(oldi))
     dbWrite("""delete from recentitems where hnid=%s""" % (oldi) )
 
-
+
 
 import urllib2
 from BeautifulSoup import BeautifulSoup, Tag
