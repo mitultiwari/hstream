@@ -56,32 +56,6 @@ def id(url):
 
 
 
-def getItemTimeSpan(item):
-  for ts in dbRead("""select timestamp from items where hnid=%s""" % (item)):
-    log(ts[0])
-    return time() - ts[0]
-
-MAX_SPAN = 5
-
-def pruneRecentItems():
-  olditems = []
-  recentitems = []
-  for items in dbRead("""select hnid from recentitems"""):
-    span = getItemTimeSpan(items[0])
-    log("hnid=%s, span=%s" % (items, span))
-    if getItemTimeSpan(items[0]) > MAX_SPAN:
-      log("appending %s" % (items[0]))
-      olditems.append(items[0])
-    else:
-      recentitems.append(items[0])
-    # else break
-  log("not deleting items: %s" %(recentitems))
-  for oldi in olditems:
-    log("deleting %s" %(oldi))
-    dbWrite("""delete from recentitems where hnid=%s""" % (oldi) )
-
-
-
 import urllib2
 from BeautifulSoup import BeautifulSoup, Tag
 
@@ -190,6 +164,34 @@ def computeTimestamp(subtext):
 def computeAuthor(subtext):
   try: return str(subtext.contents[2].string)
   except IndexError: return ''
+
+
+
+def recency(item):
+  for ts in dbRead("""select timestamp from items where hnid=%s""" % (item)):
+    log(ts[0])
+    return time() - ts[0]
+
+RECENCY_THRESHOLD = 5
+
+def pruneRecentItems():
+  olditems = []
+  recentitems = []
+  for items in dbRead("""select hnid from recentitems"""):
+    span = recency(items[0])
+    log("hnid=%s, span=%s" % (items, span))
+    if recency(items[0]) > RECENCY_THRESHOLD:
+      log("appending %s" % (items[0]))
+      olditems.append(items[0])
+    else:
+      recentitems.append(items[0])
+    # else break
+  log("not deleting items: %s" %(recentitems))
+  for oldi in olditems:
+    log("deleting %s" %(oldi))
+    dbWrite("""delete from recentitems where hnid=%s""" % (oldi) )
+
+
 
 import httplib
 while 1:
