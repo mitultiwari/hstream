@@ -25,6 +25,8 @@ def dbRead(cmd):
   for item in sqlite3.connect('db/development.sqlite3').execute(cmd):
     yield item
 
+
+
 def loadState():
   base = 'http://news.ycombinator.com/item?id='
   for [_, comment, story] in dbRead('select * from crawler_state'):
@@ -36,13 +38,12 @@ def saveState():
       % (id(mostRecentComment), id(mostRecentStory)))
 
 def saveItem(url, timestamp, author, parent, contents):
-  log(url)
+  log("  "+url)
   dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
              values (%s,%s,'%s',%s,'%s')"""
       % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
 
   dbWrite("insert into recentitems (hnid) values (%s)" % (id(url)))
-
 
 def id(url):
   if url is None: return 'NULL'
@@ -53,7 +54,7 @@ def id(url):
 import urllib2
 from BeautifulSoup import BeautifulSoup, Tag
 
-root = 'http://news.ycombinator.com/'
+root = 'http://news.ycombinator.com'
 
 def getSoup(url):
   sleep(1)
@@ -71,6 +72,7 @@ def readNewComments(initurl):
   mostRecentComment = None
 
   while initurl != '':
+    log(initurl)
     soup = getSoup(initurl)
     if mostRecentComment is None: mostRecentComment = url(soup, 'link')
 
@@ -98,6 +100,7 @@ def readNewStories(initurl):
   mostRecentStory = None
 
   while initurl != '':
+    log(initurl)
     soup = getSoup(initurl)
     if mostRecentStory is None: mostRecentStory = url(soup, 'discuss') # Kludge: assume newest story hasn't comments yet.
 
@@ -131,9 +134,9 @@ def url(soup, linktext):
   except AttributeError: return ''
 
 def absolutify(url):
-  # Kludge: relative == absolute urls
-  if len(url) <= 5 or url[4] != ':': return root+url
-  return url
+  if len(url) > 4 and url[:4] == 'http': return url
+  if url[0] == '/': return root+url
+  else: return root+'/'+url # assumption: relative == absolute urls
 
 def computeTimestamp(subtext):
   try: s = subtext.contents[3]
