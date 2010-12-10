@@ -4,5 +4,11 @@ function setupPage() {
 }
 
 function loadNewItems() {
-  //alert($('.item').length);
+  $.ajax({
+    url: '/root.json',
+    method: 'get',
+    success: function(response) {
+      alert(response);
+    },
+  });
 }
