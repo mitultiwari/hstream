@@ -4,9 +4,6 @@ class RootController < ApplicationController
   end
   
   def foo
-    
-#update_page do |page|
-#      page.alert 'high' 
-#    end
+    @recentitems = Recentitem.find(:all)
   end
 end
