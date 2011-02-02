@@ -1,10 +1,13 @@
-Hnrt::Application.routes.draw do
+Hnrt::Application.routes.draw do |map|
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   root :to => "root#index"
 
-  resources :root
+#resources :root
+
+#  map.connect ':controller/:action'
+  map.connect "/root/foo", :controller => "root", :action => "foo", :format => "rjs"
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
