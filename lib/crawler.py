@@ -30,20 +30,18 @@ def dbRead(cmd):
 def loadState():
   base = 'http://news.ycombinator.com/item?id='
   for [_, comment, story] in dbRead('select * from crawler_state'):
-    return [base+str(comment), base+str(story)]
+    return [comment, story]
 mostRecentComment, mostRecentStory = loadState()
 
-def updateMostRecentComment(url):
+def updateMostRecentComment(id):
   global mostRecentComment
-  mostRecentComment = url
-  dbWrite("update crawler_state set most_recent_comment = %s"
-          % (id(mostRecentComment)))
+  mostRecentComment = id
+  dbWrite("update crawler_state set most_recent_comment = %s" %(id))
 
-def updateMostRecentStory(url):
+def updateMostRecentStory(id):
   global mostRecentStory
-  mostRecentStory = url
-  dbWrite("update crawler_state set most_recent_story = %s"
-          % (id(mostRecentStory)))
+  mostRecentStory = id
+  dbWrite("update crawler_state set most_recent_story = %s" % (id))
 
 def saveItem(url, timestamp, author, parent, contents):
   log("  "+url)
@@ -55,7 +53,7 @@ def saveItem(url, timestamp, author, parent, contents):
 
 def id(url):
   if url is None: return 'NULL'
-  return url.split('=')[1]
+  return int(url.split('=')[1])
 
 
 
@@ -83,14 +81,14 @@ def readNewComments(initurl):
     log(initurl)
     soup = getSoup(initurl)
     if mostRecentComment is None:
-      updateMostRecentComment(url(soup, 'link'))
+      updateMostRecentComment(id(url(soup, 'link')))
 
     comments = soup.findAll(attrs={'class': 'default'})
     for comment in comments:
-      u = url(comment, 'link')
-      if u == bound:
+      currUrl = url(comment, 'link')
+      if id(currUrl) == bound:
         return
-      saveComment(comment, u)
+      saveComment(comment, currUrl)
 
     initurl = url(soup, 'More')
 
@@ -113,14 +111,14 @@ def readNewStories(initurl):
     soup = getSoup(initurl)
     if mostRecentStory is None:
       # assumption: newest story hasn't comments yet.
-      updateMostRecentStory(url(soup, 'discuss'))
+      updateMostRecentStory(id(url(soup, 'discuss')))
 
     stories = soup.findAll(attrs={'class': 'title'})
     for s in stories:
       if s.find('a') is not None:
         if s.parent.nextSibling is not None:
           currUrl = urlOfStoryTitle(s)
-          if currUrl == bound:
+          if id(currUrl) == bound:
             return
           saveStory(s, currUrl)
 
