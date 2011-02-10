@@ -33,15 +33,15 @@ def loadState():
     return [comment, story]
 mostRecentComment, mostRecentStory = loadState()
 
-def updateMostRecentComment(id):
+def updateMostRecentComment(url):
   global mostRecentComment
-  mostRecentComment = id
-  dbWrite("update crawler_state set most_recent_comment = %s" %(id))
+  mostRecentComment = url
+  dbWrite("update crawler_state set most_recent_comment = '%s'" %(url))
 
-def updateMostRecentStory(id):
+def updateMostRecentStory(url):
   global mostRecentStory
-  mostRecentStory = id
-  dbWrite("update crawler_state set most_recent_story = %s" % (id))
+  mostRecentStory = url
+  dbWrite("update crawler_state set most_recent_story = '%s'" % (url))
 
 def saveItem(url, timestamp, author, parent, contents):
   log("  "+url)
@@ -81,12 +81,12 @@ def readNewComments(initurl):
     log(initurl)
     soup = getSoup(initurl)
     if mostRecentComment is None:
-      updateMostRecentComment(id(url(soup, 'link')))
+      updateMostRecentComment(url(soup, 'link'))
 
     comments = soup.findAll(attrs={'class': 'default'})
     for comment in comments:
       currUrl = url(comment, 'link')
-      if id(currUrl) == bound:
+      if currUrl == bound:
         return
       saveComment(comment, currUrl)
 
@@ -111,14 +111,14 @@ def readNewStories(initurl):
     soup = getSoup(initurl)
     if mostRecentStory is None:
       # assumption: newest story hasn't comments yet.
-      updateMostRecentStory(id(url(soup, 'discuss')))
+      updateMostRecentStory(url(soup, 'discuss'))
 
     stories = soup.findAll(attrs={'class': 'title'})
     for s in stories:
       if s.find('a') is not None:
         if s.parent.nextSibling is not None:
           currUrl = urlOfStoryTitle(s)
-          if id(currUrl) == bound:
+          if currUrl == bound:
             return
           saveStory(s, currUrl)
 
