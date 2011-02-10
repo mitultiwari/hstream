@@ -35,13 +35,15 @@ mostRecentComment, mostRecentStory = loadState()
 
 def updateMostRecentComment(url):
   global mostRecentComment
-  mostRecentComment = url
-  dbWrite("update crawler_state set most_recent_comment = '%s'" %(url))
+  mostRecentComment = id(url)
+  dbWrite("update crawler_state set most_recent_comment = %s"
+          % (mostRecentComment))
 
 def updateMostRecentStory(url):
   global mostRecentStory
-  mostRecentStory = url
-  dbWrite("update crawler_state set most_recent_story = '%s'" % (url))
+  mostRecentStory = id(url)
+  dbWrite("update crawler_state set most_recent_story = %s"
+          % (mostRecentStory))
 
 def saveItem(url, timestamp, author, parent, contents):
   log("  "+url)
@@ -86,7 +88,7 @@ def readNewComments(initurl):
     comments = soup.findAll(attrs={'class': 'default'})
     for comment in comments:
       currUrl = url(comment, 'link')
-      if currUrl == bound:
+      if id(currUrl) == bound:
         return
       saveComment(comment, currUrl)
 
@@ -118,7 +120,7 @@ def readNewStories(initurl):
       if s.find('a') is not None:
         if s.parent.nextSibling is not None:
           currUrl = urlOfStoryTitle(s)
-          if currUrl == bound:
+          if id(currUrl) == bound:
             return
           saveStory(s, currUrl)
 
