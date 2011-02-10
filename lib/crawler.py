@@ -29,13 +29,17 @@ def dbRead(cmd):
 
 def loadState():
   base = 'http://news.ycombinator.com/item?id='
-  for [_, comment, story] in dbRead('select * from crawler_state'):
-    return [base+str(comment), base+str(story)]
+  try:
+    for [_, comment, story] in dbRead('select * from crawler_state'):
+      return [comment, story]
+  except TypeError:
+    return [None, None]
 mostRecentComment, mostRecentStory = loadState()
 
 def updateMostRecentComment(url):
   global mostRecentComment
   mostRecentComment = id(url)
+  log("mostRecentComment = %s" %(mostRecentComment))
   dbWrite("update crawler_state set most_recent_comment = %s"
           % (mostRecentComment))
 
@@ -55,7 +59,7 @@ def saveItem(url, timestamp, author, parent, contents):
 
 def id(url):
   if url is None: return 'NULL'
-  return url.split('=')[1]
+  return int(url.split('=')[1])
 
 
 
@@ -88,7 +92,10 @@ def readNewComments(initurl):
     comments = soup.findAll(attrs={'class': 'default'})
     for comment in comments:
       u = url(comment, 'link')
-      if u == bound:
+      idc = id(u)
+      log("comment id: %s, bound: %s" %(idc, bound))
+      if idc <= bound:
+        log("comment is old returning")
         return
       saveComment(comment, u)
 
@@ -120,7 +127,8 @@ def readNewStories(initurl):
       if s.find('a') is not None:
         if s.parent.nextSibling is not None:
           currUrl = urlOfStoryTitle(s)
-          if currUrl == bound:
+          idu = id(currUrl)
+          if idu <= bound:
             return
           saveStory(s, currUrl)
 
