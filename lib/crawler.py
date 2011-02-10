@@ -35,15 +35,15 @@ mostRecentComment, mostRecentStory = loadState()
 
 def updateMostRecentComment(url):
   global mostRecentComment
-  mostRecentComment = id(url)
+  mostRecentComment = url
   dbWrite("update crawler_state set most_recent_comment = %s"
-          % (mostRecentComment))
+          % (id(mostRecentComment)))
 
 def updateMostRecentStory(url):
   global mostRecentStory
-  mostRecentStory = id(url)
+  mostRecentStory = url
   dbWrite("update crawler_state set most_recent_story = %s"
-          % (mostRecentStory))
+          % (id(mostRecentStory)))
 
 def saveItem(url, timestamp, author, parent, contents):
   log("  "+url)
