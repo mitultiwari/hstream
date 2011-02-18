@@ -4,11 +4,8 @@ function setupPage() {
 }
 
 function loadNewItems() {
-  $.ajax({
-    url: '/root.json',
-    method: 'get',
-    success: function(response) {
-      alert(response);
-    },
-  });
+  new Ajax.Request('/root/foo', {
+      type: 'get',
+    });
+  return false;
 }
