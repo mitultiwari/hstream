@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Hacker News in real-time</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
-</head>
+  <head>
+    <title>Hacker News in real-time</title>
+    <%= stylesheet_link_tag :all %>
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tag %>
+  </head>
 
-<body onload="setupPage()">
-  <%= yield %>
-</body>
+  <body onload="setupPage()">
+    <center>
+      <table cellspacing="0" cellpadding="0" border="0" bgcolor="#f6f6ef" width="100%">
+        <tbody>
+          <tr>
+            <td bgcolor="#ff6600">
+              <table cellspacing="0" cellpadding="0" border="0" width="100%" style="padding: 2px;">
+                <tbody>
+                  <tr>
+                    <td style="width: 18px; padding-right: 4px;">
+                      <img height="18" width="18" style="border: 1px solid rgb(255, 255, 255);" src="/images/s.gif">
+                    </td>
+                    <td style="line-height: 12pt; height: 10px;">
+                      <span class="pagetop">
+                        <b><a href="http://news.ycombinator.com">HN in real-time</a></b>
+                        <img height="1" width="10" src="/images/s.gif">
+                        <a href="newest">new</a> | 
+                        <a href="newcomments">comments</a> | 
+                        <a href="ask">ask</a> | 
+                        <a href="jobs">jobs</a> | 
+                        <a href="submit">submit</a>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+
+    <div class="content">
+      <%= yield %>
+    </div>
+  </body>
 </html>
