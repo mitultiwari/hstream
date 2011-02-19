@@ -4,11 +4,6 @@ Hnrt::Application.routes.draw do |map|
 
   root :to => "root#index"
 
-#resources :root
-
-#  map.connect ':controller/:action'
-  map.connect "/root/foo", :controller => "root", :action => "foo", :format => "rjs"
-
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
