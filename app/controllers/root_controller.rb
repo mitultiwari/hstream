@@ -5,5 +5,6 @@ class RootController < ApplicationController
   
   def foo
     @recentitems = Recentitem.find(:all)
+    @mostRecentItem = @recentitems[0].hnid unless @recentitems.blank?
   end
 end
