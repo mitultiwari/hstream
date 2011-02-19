@@ -66,6 +66,7 @@ root = 'http://news.ycombinator.com'
 
 def getSoup(url):
   sleep(1)
+  log(url)
   soup = BeautifulSoup(urllib2.urlopen(absolutify(url)))
   for p in soup.findAll('a'):
     try: p['href'] = absolutify(p['href'])
@@ -73,26 +74,18 @@ def getSoup(url):
       print 'a without href:', p
   return soup
 
-def readNewComments(initurl):
+def readNewComments():
   global mostRecentComment
-  log('crawling new comments until', mostRecentComment)
   bound = mostRecentComment
-  mostRecentComment = None
+  soup = getSoup('newcomments')
+  updateMostRecentComment(url(soup, 'link'))
 
-  while initurl != '':
-    log(initurl)
-    soup = getSoup(initurl)
-    if mostRecentComment is None:
-      updateMostRecentComment(url(soup, 'link'))
-
-    comments = soup.findAll(attrs={'class': 'default'})
-    for comment in comments:
-      currUrl = url(comment, 'link')
-      if id(currUrl) == bound:
-        return
-      saveComment(comment, currUrl)
-
-    initurl = url(soup, 'More')
+  comments = soup.findAll(attrs={'class': 'default'})
+  for comment in comments:
+    currUrl = url(comment, 'link')
+    if id(currUrl) == bound:
+      return
+    saveComment(comment, currUrl)
 
 def saveComment(comment, link=None):
   comhead = comment.find(attrs={'class': 'comhead'})
@@ -102,29 +95,21 @@ def saveComment(comment, link=None):
            url(comhead, 'parent'),
            unicode(comment))
 
-def readNewStories(initurl):
+def readNewStories():
   global mostRecentStory
-  log('crawling new stories until', mostRecentStory)
   bound = mostRecentStory
-  mostRecentStory = None
+  soup = getSoup('newest')
+  # assumption: newest story hasn't comments yet.
+  updateMostRecentStory(url(soup, 'discuss'))
 
-  while initurl != '':
-    log(initurl)
-    soup = getSoup(initurl)
-    if mostRecentStory is None:
-      # assumption: newest story hasn't comments yet.
-      updateMostRecentStory(url(soup, 'discuss'))
-
-    stories = soup.findAll(attrs={'class': 'title'})
-    for s in stories:
-      if s.find('a') is not None:
-        if s.parent.nextSibling is not None:
-          currUrl = urlOfStoryTitle(s)
-          if id(currUrl) == bound:
-            return
-          saveStory(s, currUrl)
-
-    initurl = url(soup, 'More')
+  stories = soup.findAll(attrs={'class': 'title'})
+  for s in stories:
+    if s.find('a') is not None:
+      if s.parent.nextSibling is not None:
+        currUrl = urlOfStoryTitle(s)
+        if id(currUrl) == bound:
+          return
+        saveStory(s, currUrl)
 
 def saveStory(title, link=None):
   subtext = title.parent.nextSibling.contents[1]
@@ -194,8 +179,8 @@ def pruneRecentItems():
 import httplib
 while 1:
   try:
-    readNewComments('newcomments')
-    readNewStories('newest')
+    readNewComments()
+    readNewStories()
     pruneRecentItems()
   except (urllib2.URLError, httplib.BadStatusLine):
     pass
