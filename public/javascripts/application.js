@@ -5,7 +5,7 @@ function setupPage() {
 
 var mostRecentItem = 0;
 function loadNewItems() {
-  new Ajax.Request('/', {
+  new Ajax.Request('/root/index.js', {
       parameters: {
         mostRecentItem: mostRecentItem,
       },
