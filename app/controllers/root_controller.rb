@@ -1,6 +1,8 @@
 class RootController < ApplicationController
   def index
-    @recentItems = Item.find(:all, :order => "hnid desc", :limit => 10)
+    @recentItems = params[:mostRecentItem].blank? ?
+        Item.find(:all, :order => "hnid desc", :limit => 10) :
+        Item.find(:all, :order => "hnid desc", :limit => 10, :conditions => ["hnid > ?", params[:mostRecentItem]])
   end
   
   def foo
