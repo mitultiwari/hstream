@@ -51,8 +51,6 @@ def saveItem(url, timestamp, author, parent, contents):
              values (%s,%s,'%s',%s,'%s')"""
       % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
 
-  dbWrite("insert into recentitems (hnid) values (%s)" % (id(url)))
-
 def id(url):
   if url is None: return 'NULL'
   return int(url.split('=')[1])
@@ -160,28 +158,11 @@ def computeAuthor(subtext):
 
 
 
-def recency(item):
-  for ts in dbRead("select timestamp from items where hnid=%s" % (item)):
-    return time() - ts[0]
-
-RECENCY_THRESHOLD = 5 # seconds; sync with templates
-
-def pruneRecentItems():
-  for item in [items[0] for items in dbRead("select hnid from recentitems")
-                          if recency(items[0]) > RECENCY_THRESHOLD]:
-    log("deleting %s" % (item))
-    dbWrite("delete from recentitems where hnid=%s" % (item))
-  log("recent items: %s"
-      % ([x[0] for x in dbRead("select hnid from recentitems")]))
-
-
-
 import httplib
 while 1:
   try:
     readNewComments()
     readNewStories()
-    pruneRecentItems()
   except KeyboardInterrupt:
     break
   except:
