@@ -1,2 +1,2 @@
-page.insert_html :top, 'content', :partial => "foo"
+page.insert_html :top, 'content', :partial => "show_item"
 page << "mostRecentItem = #{@mostRecentItem};" unless @recentItems.blank?
