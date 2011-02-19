@@ -117,7 +117,7 @@ def saveStory(title, link=None):
            computeTimestamp(subtext),
            computeAuthor(subtext),
            parent=None,
-           contents=unicode(title.find('a')))
+           contents=unicode(title.find('a'))+"<div class=\"subtext\">"+unicode(subtext)+"</div>")
 
 def urlOfStoryTitle(title):
   subtext = title.parent.nextSibling.contents[1]
