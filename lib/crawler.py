@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Crawl news.yc updates
 
-import os, sys, re
+import os, sys, re, traceback
 
 
 
@@ -182,7 +182,7 @@ while 1:
     readNewComments()
     readNewStories()
     pruneRecentItems()
-  except (urllib2.URLError, httplib.BadStatusLine):
-    pass
-  except 'bad item':
-    pass
+  except KeyboardInterrupt:
+    break
+  except:
+    traceback.print_exc(file=sys.stdout)
