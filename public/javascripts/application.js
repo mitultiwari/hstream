@@ -19,10 +19,16 @@ function loadNewItems() {
 
 var shortlist = new Object;
 function copyIntoShortlist() {
+  if ($('#shortlist .item').length == 0) {
+    $('.content').animate({width: '49%'});
+  }
   var hnid = $(this).attr('hnid');
   if (shortlist[hnid]) return true;
 
-  $('#shortlist').prepend($(this).clone());
+  var itemCopy = $(this).clone();
+  itemCopy.hide();
+  $('#shortlist').prepend(itemCopy);
+  itemCopy.slideDown();
   shortlist[hnid] = true;
   return true;
 }
