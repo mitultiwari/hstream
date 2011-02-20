@@ -63,7 +63,7 @@ from BeautifulSoup import BeautifulSoup, Tag
 root = 'http://news.ycombinator.com'
 
 def getSoup(url):
-  sleep(1)
+  sleep(5)
   log(url)
   soup = BeautifulSoup(urllib2.urlopen(absolutify(url)))
   for p in soup.findAll('a'):
