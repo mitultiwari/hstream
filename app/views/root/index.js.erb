@@ -1,3 +1,4 @@
 mostRecentItem = <%= @mostRecentItem %>
 
 $("#river").prepend("<%= escape_javascript(render :partial => 'show_recent_items')%>")
+$('a').attr('target', 'blank');
