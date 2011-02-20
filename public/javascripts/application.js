@@ -19,8 +19,12 @@ function loadNewItems() {
 
 var shortlist = new Object;
 function copyIntoShortlist() {
-  shortlist[$(this).attr('hnid')] = true;
-  return true; // clicks get processed further
+  var hnid = $(this).attr('hnid');
+  if (shortlist[hnid]) return true;
+
+  $('#shortlist').prepend($(this).clone());
+  shortlist[hnid] = true;
+  return true;
 }
 
 function postProcess() {
