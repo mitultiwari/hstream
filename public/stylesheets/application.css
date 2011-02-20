@@ -1,4 +1,4 @@
-#content{ background:#f6f6ef; padding-top:10px; font-size:9pt; }
+.content{ background:#f6f6ef; padding-top:10px; font-size:9pt; width:49%; float:left; border:1px ; }
 .item{ margin-bottom:15px; padding:5px; }
 #pagetop{ background:#f6f6ef; width:100%; }
 
