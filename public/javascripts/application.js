@@ -5,7 +5,7 @@ $(function() {
 var mostRecentItem = 0;
 function loadNewItems() {
   $.ajax({
-    url: '/root/index.js',
+    url: '/root.js',
     method: 'get',
     parameters: {
       mostRecentItem: mostRecentItem,
