@@ -34,6 +34,7 @@ function copyIntoShortlist() {
 }
 
 function postProcess() {
+  $('.item').remove(':nth-child(30)')
   $('a').attr('target', 'blank');
 }
 
