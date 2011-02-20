@@ -1,5 +1,5 @@
   <% @recentItems.each do |r| %>
-    <div class='item'>
+    <div class='item' hnid='<%= r.hnid %>'>
       <%= raw r.contents %>
     </div>
   <% end %>
