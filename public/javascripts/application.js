@@ -8,7 +8,7 @@ function loadNewItems() {
   $.ajax({
     url: '/.js',
     method: 'get',
-    parameters: {
+    data: {
       mostRecentItem: mostRecentItem,
     },
   });
