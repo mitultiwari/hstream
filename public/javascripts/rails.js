@@ -1,1 +1,1 @@
-rails-prototype.js
+rails-jquery.js

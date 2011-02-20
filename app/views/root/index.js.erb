@@ -1,0 +1,3 @@
+mostRecentItem = <%= @mostRecentItem %>
+
+$("#content").prepend("<%= escape_javascript(render :partial => 'show_item')%>")

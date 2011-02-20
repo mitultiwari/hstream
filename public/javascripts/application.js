@@ -1,14 +1,17 @@
-function setupPage() {
-  loadNewItems();
-  setTimeout(setupPage, 5000); // keep sync'd with crawler RECENCY_THRESHOLD
-}
+$(function() {
+  $(document).ready(loadNewItems);
+});
 
 var mostRecentItem = 0;
 function loadNewItems() {
-  new Ajax.Request('/root/index.js', {
-      parameters: {
-        mostRecentItem: mostRecentItem,
-      },
-    });
+  $.ajax({
+    url: '/root/index.js',
+    method: 'get',
+    parameters: {
+      mostRecentItem: mostRecentItem,
+    },
+  });
+  setTimeout(loadNewItems, 5000);
+
   return false;
 }
