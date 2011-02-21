@@ -17,10 +17,7 @@ class Item < ActiveRecord::Base
 
   def levels_of_descendants
     max = 0
-    p Item.find(:all).length
-    p Item.find(:all).collect{|i|i.hnid}
     items = Item.find(:all, :conditions => ["hnid > ?", self.hnid])
-    p items.collect{|i|i.hnid}
     items.each do |item|
       l = levels_below(item)
       max = l if l > max
