@@ -1,9 +1,9 @@
 mostRecentItem = <%= @mostRecentItem %>;
 
-$('#stream').prepend("<%= escape_javascript(render(:partial => 'show_items', :locals => {:items => @recentItems}))%>")
+$('#stream').prepend("<%= escape_javascript(render2 :partial => 'show_items', :items => @recentItems)%>")
 
 <% if @shortlist != [] %>
   $('#shortlist').empty();
-  $('#shortlist').prepend("<%= escape_javascript(render(:partial => 'show_items', :locals => {:items => @shortlist}))%>");
+  $('#shortlist').prepend("<%= escape_javascript(render2 :partial => 'show_items', :items => @shortlist)%>");
 <% end %>
 $('.item').slideDown();
