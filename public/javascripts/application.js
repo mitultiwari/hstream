@@ -81,14 +81,10 @@ function switchIntoShortlist() {
   zzxz = true;
   setTimeout(function() { zzxz = false; }, 100);
 
-  console.log("shortlist before: "+shortlist);
   var currhnid = $(this).closest('.item').attr('hnid');
   var currhnidIndex = $.inArray(currhnid, shortlist);
-  console.log("index of "+currhnid+": "+currhnidIndex);
   var newhnid = hnid($(this).attr('href'));
-  console.log("replacing with: "+newhnid);
   shortlist.splice(currhnidIndex, 1, newhnid);
-  console.log("after: "+shortlist);
 
   refreshShortlist = true;
   refreshPage();
