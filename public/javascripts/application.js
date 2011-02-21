@@ -14,7 +14,7 @@ function loadNewItems() {
       shortlist: keys(shortlist).join(),
     },
   });
-  setTimeout(loadNewItems, 5000);
+  setTimeout(loadNewItems, 60000);
   return false;
 }
 
