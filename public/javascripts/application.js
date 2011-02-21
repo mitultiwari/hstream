@@ -10,6 +10,7 @@ function loadNewItems() {
     method: 'get',
     data: {
       mostRecentItem: mostRecentItem,
+      shortlist: keys(shortlist).join(),
     },
   });
   setTimeout(loadNewItems, 5000);
@@ -66,7 +67,9 @@ function ajax(args) {
   }));
 }
 
-function meths(obj) {
+
+
+function keys(obj) {
   var ans = [];
   for (var field in obj) {
     ans.push(field);
