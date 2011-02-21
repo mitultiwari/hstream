@@ -5,6 +5,7 @@ describe Item do
     @item = Factory.build(:item)
     @parent = @item.parent
     @grandparent = @parent.parent
+    @uncle = Factory.build(:uncle)
   end
 
   describe :levels_below do
@@ -16,6 +17,15 @@ describe Item do
     end
     it "should work with grandchildren" do
       @grandparent.levels_below(@item).should == 2
+    end
+  end
+
+  describe :levels_of_descendants do
+    it "should work on leaves" do
+      @item.levels_of_descendants.should == 0
+    end
+    it "should work on internals" do
+      @grandparent.levels_of_descendants.should == 2
     end
   end
 end

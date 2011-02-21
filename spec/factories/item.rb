@@ -14,3 +14,9 @@ Factory.define :grandparent, :class => 'item' do |i|
   i.hnid 2
   i.contents "frist post!!1"
 end
+
+Factory.define :uncle, :class => 'item' do |i|
+  i.hnid 5
+  i.association :parent, :factory => :grandparent
+  i.contents "uncle"
+end
