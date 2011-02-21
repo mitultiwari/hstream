@@ -18,7 +18,7 @@ function refreshPage() {
     method: 'get',
     data: {
       mostRecentItem: mostRecentItem,
-      shortlist: keys(shortlist).join(),
+      shortlist: shortlist.join(),
       refreshShortlist: refreshShortlist,
     },
   });
@@ -37,15 +37,15 @@ function shortlistHandlers() {
   $('.shortlistClose').live('click', deleteFromShortlist);
 }
 
-var shortlist = new Object;
+var shortlist = [];
 function copyIntoShortlist() {
   if ($('#shortlist .item').length == 0) {
     $('.content').animate({width: '49.5%'});
   }
 
   var hnid = $(this).attr('hnid');
-  if (shortlist[hnid]) return true;
-  shortlist[hnid] = true;
+  if ($.inArray(hnid, shortlist) >= 0) return true;
+  shortlist.splice(0, 0, hnid);
 
   var itemCopy = $(this).clone();
   itemCopy.hide();
@@ -59,7 +59,8 @@ function copyIntoShortlist() {
 
 function deleteFromShortlist() {
   var item = $(this).closest('.item');
-  delete shortlist[item.attr('hnid')];
+  var shortlistIdx = $.inArray(item.attr('hnid'));
+  shortlist.splice(shortlistIdx, 1);
   item.slideUp();
   item.remove();
 
@@ -80,10 +81,14 @@ function switchIntoShortlist() {
   zzxz = true;
   setTimeout(function() { zzxz = false; }, 100);
 
-  delete shortlist[$(this).closest('.item').attr('hnid')];
-
+  console.log("shortlist before: "+shortlist);
+  var currhnid = $(this).closest('.item').attr('hnid');
+  var currhnidIndex = $.inArray(currhnid, shortlist);
+  console.log("index of "+currhnid+": "+currhnidIndex);
   var newhnid = hnid($(this).attr('href'));
-  shortlist[newhnid]=true;
+  console.log("replacing with: "+newhnid);
+  shortlist.splice(currhnidIndex, 1, newhnid);
+  console.log("after: "+shortlist);
 
   refreshShortlist = true;
   refreshPage();
@@ -102,14 +107,4 @@ function ajax(args) {
   $.ajax($.extend(args, {
     complete: postProcess,
   }));
-}
-
-
-
-function keys(obj) {
-  var ans = [];
-  for (var field in obj) {
-    ans.push(field);
-  }
-  return ans;
 }
