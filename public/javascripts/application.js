@@ -69,13 +69,15 @@ function deleteFromShortlist() {
   return false;
 }
 
-function switchIntoShortlist() {
-  var newhnid = $(this).closest('[hnid]').attr('hnid');
-  shortlist[newhnid]=true;
+function hnid(url) {
+  return url.replace('http://news.ycombinator.com/item?id=', '');
+}
 
-  var item = $(this).closest('.item');
-  var hnid = item.attr('hnid');
-  delete shortlist[hnid];
+function switchIntoShortlist() {
+  delete shortlist[$(this).closest('.item').attr('hnid')];
+
+  var newhnid = hnid($(this).attr('href'));
+  shortlist[newhnid]=true;
 
   refreshShortlist = true;
   refreshPage();
