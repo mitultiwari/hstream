@@ -21,7 +21,7 @@ function loadNewItems() {
 
 
 function toggleContext() {
-  $(this).ancestor('.item').children('.context').slideToggle();
+  $(this).siblings('.context').slideToggle();
   return false;
 }
 
@@ -50,7 +50,7 @@ function copyIntoShortlist() {
 }
 
 function deleteFromShortlist() {
-  var item = $(this).ancestor('.item');
+  var item = $(this).closest('.item');
   delete shortlist[item.attr('hnid')];
   item.slideUp();
   item.remove();
@@ -81,11 +81,5 @@ function keys(obj) {
   for (var field in obj) {
     ans.push(field);
   }
-  return ans;
-}
-
-jQuery.prototype.ancestor = function(selector) {
-  var ans = this;
-  while (ans && !ans.is(selector)) ans = ans.parent();
   return ans;
 }
