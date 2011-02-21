@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Item do
   before(:each) do
-    @item = Factory.build(:item)
-    @parent = @item.parent
-    @grandparent = @parent.parent
-    @uncle = Factory.build(:uncle)
+    @grandparent = Factory(:grandparent)
+    @uncle = Factory(:uncle)
+    @parent = Factory(:parent)
+    @item = Factory(:item)
   end
 
   describe :levels_below do
