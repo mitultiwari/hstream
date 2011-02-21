@@ -84,6 +84,7 @@ function switchIntoShortlist() {
   var currhnid = $(this).closest('.item').attr('hnid');
   var currhnidIndex = $.inArray(currhnid, shortlist);
   var newhnid = hnid($(this).attr('href'));
+  if (currhnid == newhnid) return true; // not a reload, assume they really want to switch
   shortlist.splice(currhnidIndex, 1, newhnid);
 
   refreshShortlist = true;
