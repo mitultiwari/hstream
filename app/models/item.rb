@@ -12,7 +12,7 @@ class Item < ActiveRecord::Base
   end
 
   def children
-    Item.find(:all, :conditions => ["hnid > ? and parent_hnid = ?", self.hnid, self.hnid])
+    Item.find(:all, :conditions => ['hnid > ? and parent_hnid = ?', self.hnid, self.hnid])
   end
 
   def render_thread
@@ -20,11 +20,11 @@ class Item < ActiveRecord::Base
   end
 
   def render_children(max, curr=max-1)
-    return "" unless children
+    ans = ''
+    return ans unless children
     curr = 1 if curr <= 0
     width = 100.0*curr/max
     margin = 100.0-width
-    ans = ""
     children.each do |child|
       ans += "<div style='margin-left:#{margin}%; width:#{width}%'>#{child.contents}</div>"
       ans += child.render_children(max, curr-1) if child
