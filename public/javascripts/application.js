@@ -36,7 +36,9 @@ function copyIntoShortlist() {
     $('.content').animate({width: '49%'});
   }
 
-  shortlist[$(this).attr('hnid')] = true;
+  var hnid = $(this).attr('hnid');
+  if (shortlist[hnid]) return true;
+  shortlist[hnid] = true;
 
   var itemCopy = $(this).clone();
   itemCopy.hide();
