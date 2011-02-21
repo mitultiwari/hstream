@@ -1,6 +1,6 @@
 $(function() {
   $(document).ready(loadNewItems);
-  $('.item').live('click', copyIntoShortlist);
+  shortlistHandlers();
 });
 
 var mostRecentItem = 0;
@@ -17,21 +17,43 @@ function loadNewItems() {
   return false;
 }
 
+
+
+function shortlistHandlers() {
+  $('#stream .item').live('click', copyIntoShortlist);
+  $('.shortlistClose').live('click', deleteFromShortlist);
+}
+
 var shortlist = new Object;
 function copyIntoShortlist() {
   if ($('#shortlist .item').length == 0) {
     $('.content').animate({width: '49%'});
   }
-  var hnid = $(this).attr('hnid');
-  if (shortlist[hnid]) return true;
+
+  shortlist[$(this).attr('hnid')] = true;
 
   var itemCopy = $(this).clone();
   itemCopy.hide();
+  itemCopy.prepend("<div class='shortlistClose'>x</div>");
   $('#shortlist').prepend(itemCopy);
   itemCopy.slideDown();
-  shortlist[hnid] = true;
   return true;
 }
+
+function deleteFromShortlist() {
+  var item = $(this).parent();
+  delete shortlist[item.attr('hnid')];
+  item.slideUp();
+  item.remove();
+
+  if ($('#shortlist .item').length == 0) {
+    $('.content').animate({width: '99%'});
+  }
+
+  return false;
+}
+
+
 
 function postProcess() {
   $('.item').remove(':nth-child(30)')
