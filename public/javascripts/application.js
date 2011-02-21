@@ -73,7 +73,13 @@ function hnid(url) {
   return url.replace('http://news.ycombinator.com/item?id=', '');
 }
 
+// suppress multiple clicks
+var zzxz = false;
 function switchIntoShortlist() {
+  if (zzxz) return;
+  zzxz = true;
+  setTimeout(function() { zzxz = false; }, 100);
+
   delete shortlist[$(this).closest('.item').attr('hnid')];
 
   var newhnid = hnid($(this).attr('href'));
