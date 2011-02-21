@@ -1,3 +1,14 @@
 <div class='item' hnid='<%= item.hnid %>' style='display:none'>
+  <% if item.parent %>
+    <div class='contextbutton'></div>
+    <div class='context'>
+      <% item.ancestors.each do |ancestor| %>
+        <div class='ancestor'>
+          <%= raw ancestor.contents %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
   <%= raw item.contents %>
 </div>

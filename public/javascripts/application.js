@@ -1,5 +1,6 @@
 $(function() {
   $(document).ready(loadNewItems);
+  $('.item .contextbutton').live('click', toggleContext);
   shortlistHandlers();
 });
 
@@ -14,11 +15,15 @@ function loadNewItems() {
     },
   });
   setTimeout(loadNewItems, 5000);
-
   return false;
 }
 
 
+
+function toggleContext() {
+  $(this).parent().children('.context').slideToggle();
+  return false;
+}
 
 function shortlistHandlers() {
   $('#stream .item').live('click', copyIntoShortlist);
@@ -38,6 +43,7 @@ function copyIntoShortlist() {
   itemCopy.prepend("<div class='shortlistClose'>x</div>");
   $('#shortlist').prepend(itemCopy);
   itemCopy.slideDown();
+
   return true;
 }
 
@@ -50,7 +56,6 @@ function deleteFromShortlist() {
   if ($('#shortlist .item').length == 0) {
     $('.content').animate({width: '99%'});
   }
-
   return false;
 }
 

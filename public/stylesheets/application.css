@@ -2,6 +2,8 @@
 .item{ margin-bottom:15px; padding:5px; }
 #pagetop{ background:#f6f6ef; width:100%; }
 .shortlistClose{ float:right; color:red; }
+.context{ background:grey; display:none; }
+.contextbutton{ width:10em; height:1em; float:right; background:grey; }
 
 body{ font-family:Verdana; font-size:10pt; color:#828282; margin:2 auto; }
 .admin td{ font-family:Verdana; font-size:8.5pt; color:#000000; }
