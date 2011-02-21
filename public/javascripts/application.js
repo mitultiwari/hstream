@@ -33,7 +33,7 @@ function shortlistHandlers() {
 var shortlist = new Object;
 function copyIntoShortlist() {
   if ($('#shortlist .item').length == 0) {
-    $('.content').animate({width: '49%'});
+    $('.content').animate({width: '49.5%'});
   }
 
   var hnid = $(this).attr('hnid');
@@ -56,7 +56,7 @@ function deleteFromShortlist() {
   item.remove();
 
   if ($('#shortlist .item').length == 0) {
-    $('.content').animate({width: '99%'});
+    $('.content').animate({width: '100%'});
   }
   return false;
 }
