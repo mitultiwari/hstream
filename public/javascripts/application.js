@@ -42,7 +42,7 @@ function copyIntoShortlist() {
 
   var itemCopy = $(this).clone();
   itemCopy.hide();
-  itemCopy.prepend("<div class='shortlistClose'>x</div>");
+  itemCopy.children('.itembox').prepend("<div class='shortlistClose'>x</div>");
   $('#shortlist').prepend(itemCopy);
   itemCopy.slideDown();
 
