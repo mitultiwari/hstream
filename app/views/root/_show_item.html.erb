@@ -3,7 +3,7 @@
     <% if item.parent %>
       <div class='contextbutton'>all parents</div>
       <div class='context'>
-        <% item.ancestors.each do |ancestor| %>
+        <% item.ancestors.reverse.each do |ancestor| %>
           <div class='ancestor'>
             <%= raw ancestor.contents %>
           </div>

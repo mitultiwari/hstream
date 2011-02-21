@@ -8,10 +8,30 @@ class Item < ActiveRecord::Base
       ancestors << x
       x = x.parent
     end
-    ancestors.reverse
+    ancestors
   end
 
   def children
     Item.find(:all, :conditions => ["hnid > ? and parent_hnid = ?", self.hnid, self.hnid])
+  end
+
+  def levels_of_descendants
+    max = 0
+    items = Item.find(:all, :conditions => ["hnid > ?", self.hnid])
+    items.each do |item|
+      l = levels_below(item)
+      max = l if l > max
+    end
+    max
+  end
+
+  def levels_below(item)
+    ans = 0
+    until !item || item.hnid < self.hnid
+      return ans if item.hnid == self.hnid
+      ans += 1
+      item = item.parent
+    end
+    -1 # not found
   end
 end
