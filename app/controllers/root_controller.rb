@@ -7,8 +7,10 @@ class RootController < ApplicationController
     @shortlist = []
     unless params[:shortlist].blank?
       shortlist_ids = params[:shortlist].split(',').collect{|x| x.to_i}
-      @recentItems.index{|x| shortlist_ids & x.ancestors.collect(&:hnid) != []} and
+      if !params[:refreshShortlist].blank? ||
+            @recentItems.index{|x| shortlist_ids & x.ancestors.collect(&:hnid) != []}
         @shortlist = Item.find(:all, :conditions => ['hnid in (?)', shortlist_ids])
+      end
     end
   end
 end

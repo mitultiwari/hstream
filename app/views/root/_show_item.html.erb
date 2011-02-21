@@ -4,7 +4,7 @@
       <div class='contextbutton'>all parents</div>
       <div class='context'>
         <% item.ancestors.reverse.each do |ancestor| %>
-          <div class='ancestor'>
+          <div class='ancestor' hnid='<%= ancestor.hnid %>'>
             <%= raw ancestor.contents %>
           </div>
         <% end %>

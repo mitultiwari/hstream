@@ -1,21 +1,28 @@
 $(function() {
-  $(document).ready(loadNewItems);
+  $(document).ready(perpetuallyRefreshPage);
   $('.item .contextbutton').live('click', toggleContext);
   shortlistHandlers();
 });
 
 var mostRecentItem = 0;
-function loadNewItems() {
+var refreshShortlist = '';
+function perpetuallyRefreshPage() {
+  refreshPage();
+  setTimeout(perpetuallyRefreshPage, 5000);
+  return false;
+}
+
+function refreshPage() {
   ajax({
     url: '/.js',
     method: 'get',
     data: {
       mostRecentItem: mostRecentItem,
       shortlist: keys(shortlist).join(),
+      refreshShortlist: refreshShortlist,
     },
   });
-  setTimeout(loadNewItems, 60000);
-  return false;
+  refreshShortlist = '';
 }
 
 
@@ -42,7 +49,8 @@ function copyIntoShortlist() {
 
   var itemCopy = $(this).clone();
   itemCopy.hide();
-  itemCopy.children('.itembox').prepend("<div class='shortlistClose'>x</div>");
+  itemCopy.find('.itembox').prepend("<div class='shortlistClose'>x</div>");
+  itemCopy.find('a[href^="http://news.ycombinator.com/item"]').click(switchIntoShortlist);
   $('#shortlist').prepend(itemCopy);
   itemCopy.slideDown();
 
@@ -61,11 +69,25 @@ function deleteFromShortlist() {
   return false;
 }
 
+function switchIntoShortlist() {
+  var newhnid = $(this).closest('[hnid]').attr('hnid');
+  shortlist[newhnid]=true;
+
+  var item = $(this).closest('.item');
+  var hnid = item.attr('hnid');
+  delete shortlist[hnid];
+
+  refreshShortlist = true;
+  refreshPage();
+  return false;
+}
+
 
 
 function postProcess() {
   $('.item').remove(':nth-child(30)')
   $('a').attr('target', 'blank');
+  $('#shortlist').find('a[href^="http://news.ycombinator.com/item"]').click(switchIntoShortlist);
 }
 
 function ajax(args) {
