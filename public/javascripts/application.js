@@ -8,7 +8,7 @@ var mostRecentItem = 0;
 var refreshShortlist = '';
 function perpetuallyRefreshPage() {
   refreshPage();
-  setTimeout(perpetuallyRefreshPage, 5000);
+  setTimeout(perpetuallyRefreshPage, 30000);
   return false;
 }
 

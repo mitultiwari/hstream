@@ -63,7 +63,7 @@ from BeautifulSoup import BeautifulSoup, Tag
 root = 'http://news.ycombinator.com'
 
 def getSoup(url):
-  sleep(120)
+  sleep(30)
   log(url)
   soup = BeautifulSoup(urllib2.urlopen(absolutify(url)))
   for p in soup.findAll('a'):
@@ -164,6 +164,7 @@ while 1:
     readNewComments()
     readNewStories()
   except KeyboardInterrupt:
+    traceback.print_exc(file=sys.stdout)
     break
   except:
     traceback.print_exc(file=sys.stdout)
