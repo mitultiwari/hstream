@@ -48,18 +48,12 @@ function copyIntoShortlist() {
   $('#shortlist').prepend(itemCopy);
   itemCopy.slideDown();
 
-  $(this).slideUp();
-  $(this).hide();
-
   return true;
 }
 
 function deleteFromShortlist() {
   var item = $(this).closest('.item');
   var hnid = item.attr('hnid');
-
-  var orig = $('#stream [hnid="'+hnid+'"]');
-  if (orig) orig.slideDown();
 
   var shortlistIdx = $.inArray(item.attr('hnid'));
   shortlist.splice(shortlistIdx, 1);

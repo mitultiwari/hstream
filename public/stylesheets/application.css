@@ -5,7 +5,7 @@
 .contextbutton{ text-align:right; color:#828282; cursor:pointer; }
 .ancestor{ padding-bottom:0.5em; }
 
-.shortlistClose{ float:right; cursor:pointer; }
+.shortlistClose{ float:right; cursor:pointer; margin-left:2em; }
 #stream .shortlistClose{ display:none; }
 #shortlist .shortlistClose{ display: block; }
 
