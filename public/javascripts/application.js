@@ -39,10 +39,6 @@ function shortlistHandlers() {
 
 var shortlist = [];
 function copyIntoShortlist() {
-  if ($('#shortlist .item').length == 0) {
-    $('.content').animate({width: '49.5%'});
-  }
-
   var hnid = $(this).attr('hnid');
   if ($.inArray(hnid, shortlist) >= 0) return true;
   shortlist.splice(0, 0, hnid);
@@ -63,10 +59,6 @@ function deleteFromShortlist() {
   shortlist.splice(shortlistIdx, 1);
   item.slideUp();
   item.remove();
-
-  if ($('#shortlist .item').length == 0) {
-    $('.content').animate({width: '100%'});
-  }
   return false;
 }
 
