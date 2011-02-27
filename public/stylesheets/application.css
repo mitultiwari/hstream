@@ -2,10 +2,13 @@
 #shortlist{ margin-left:1%; }
 .item{ margin-bottom:15px; padding:5px; }
 #pagetop{ background:#f6f6ef; width:100%; }
-.shortlistClose{ float:right; color:red; }
 .context{ background:#e6e6df; display:none; }
 .contextbutton{ text-align:right; color:#828282; cursor:pointer; }
 .ancestor{ padding-bottom:0.5em; }
+
+.shortlistClose{ float:right; color:red; }
+#stream .shortlistClose{ display:none; }
+#shortlist .shortlistClose{ display: block; }
 
 body{ font-family:Verdana; font-size:10pt; color:#828282; margin:2 auto; }
 .admin td{ font-family:Verdana; font-size:8.5pt; color:#000000; }

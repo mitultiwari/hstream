@@ -34,7 +34,7 @@ function toggleContext() {
 
 function shortlistHandlers() {
   $('#stream .item').live('click', copyIntoShortlist);
-  $('.shortlistClose').live('click', deleteFromShortlist);
+  $('#shortlist .shortlistClose').live('click', deleteFromShortlist);
 }
 
 var shortlist = [];
@@ -45,7 +45,6 @@ function copyIntoShortlist() {
 
   var itemCopy = $(this).clone();
   itemCopy.hide();
-  itemCopy.find('.itembox').prepend("<div class='shortlistClose'>x</div>");
   itemCopy.find('a[href^="http://news.ycombinator.com/item"]').click(switchIntoShortlist);
   $('#shortlist').prepend(itemCopy);
   itemCopy.slideDown();
