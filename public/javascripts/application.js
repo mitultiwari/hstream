@@ -73,12 +73,8 @@ function hnid(url) {
   return url.replace('http://news.ycombinator.com/item?id=', '');
 }
 
-// suppress multiple clicks
-var zzxz = false;
 function switchIntoShortlist() {
-  if (zzxz) return;
-  zzxz = true;
-  setTimeout(function() { zzxz = false; }, 100);
+  if (recentClick()) return;
 
   var currhnid = $(this).closest('.item').attr('hnid');
   var currhnidIndex = $.inArray(currhnid, shortlist);
@@ -88,6 +84,15 @@ function switchIntoShortlist() {
 
   refreshShortlist = true;
   refreshPage();
+  return false;
+}
+
+// suppress multiple clicks
+var zzxz = false;
+function recentClick() {
+  if (zzxz) return true;
+  zzxz = true;
+  setTimeout(function() { zzxz = false; }, 100);
   return false;
 }
 
