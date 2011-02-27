@@ -45,7 +45,6 @@ function copyIntoShortlist() {
 
   var itemCopy = $(this).clone();
   itemCopy.hide();
-  itemCopy.find('a[href^="http://news.ycombinator.com/item"]').click(switchIntoShortlist);
   $('#shortlist').prepend(itemCopy);
   itemCopy.slideDown();
 
@@ -73,35 +72,11 @@ function hnid(url) {
   return url.replace('http://news.ycombinator.com/item?id=', '');
 }
 
-function switchIntoShortlist() {
-  if (recentClick()) return;
-
-  var currhnid = $(this).closest('.item').attr('hnid');
-  var currhnidIndex = $.inArray(currhnid, shortlist);
-  var newhnid = hnid($(this).attr('href'));
-  if (currhnid == newhnid) return true; // not a reload, assume they really want to switch
-  shortlist.splice(currhnidIndex, 1, newhnid);
-
-  refreshShortlist = true;
-  refreshPage();
-  return false;
-}
-
-// suppress multiple clicks
-var zzxz = false;
-function recentClick() {
-  if (zzxz) return true;
-  zzxz = true;
-  setTimeout(function() { zzxz = false; }, 100);
-  return false;
-}
-
 
 
 function postProcess() {
   $('.item').remove(':nth-child(30)')
   $('a').attr('target', '_blank');
-  $('#shortlist').find('a[href^="http://news.ycombinator.com/item"]').click(switchIntoShortlist);
 }
 
 function ajax(args) {
