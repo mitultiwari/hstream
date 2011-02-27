@@ -43,7 +43,7 @@ function copyIntoShortlist() {
   if ($.inArray(hnid, shortlist) >= 0) return true;
   shortlist.splice(0, 0, hnid);
 
-  var itemCopy = $(this).clone();
+  var itemCopy = $(this);
   itemCopy.hide();
   itemCopy.find('.itembox').prepend("<div class='shortlistClose'>x</div>");
   itemCopy.find('a[href^="http://news.ycombinator.com/item"]').click(switchIntoShortlist);
