@@ -52,9 +52,7 @@ def saveItem(url, timestamp, author, parent, contents):
                values (%s,%s,'%s',%s,'%s')"""
         % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
   except sqlite3.IntegrityError:
-    log('  update')
-    dbWrite("""update items set contents = '%s'"""
-        % (contents.replace("'", '&apos;')))
+    pass # ignore dups
 
 def id(url):
   if url is None: return 'NULL'
