@@ -43,18 +43,26 @@ function copyIntoShortlist() {
   if ($.inArray(hnid, shortlist) >= 0) return true;
   shortlist.splice(0, 0, hnid);
 
-  var itemCopy = $(this);
+  var itemCopy = $(this).clone();
   itemCopy.hide();
   itemCopy.find('.itembox').prepend("<div class='shortlistClose'>x</div>");
   itemCopy.find('a[href^="http://news.ycombinator.com/item"]').click(switchIntoShortlist);
   $('#shortlist').prepend(itemCopy);
   itemCopy.slideDown();
 
+  $(this).slideUp();
+  $(this).hide();
+
   return true;
 }
 
 function deleteFromShortlist() {
   var item = $(this).closest('.item');
+  var hnid = item.attr('hnid');
+
+  var orig = $('#stream [hnid="'+hnid+'"]');
+  if (orig) orig.slideDown();
+
   var shortlistIdx = $.inArray(item.attr('hnid'));
   shortlist.splice(shortlistIdx, 1);
   item.slideUp();
