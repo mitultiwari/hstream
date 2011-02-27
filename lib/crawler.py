@@ -47,9 +47,14 @@ def updateMostRecentStory(url):
 
 def saveItem(url, timestamp, author, parent, contents):
   log("  "+url)
-  dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
-             values (%s,%s,'%s',%s,'%s')"""
-      % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
+  try:
+    dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
+               values (%s,%s,'%s',%s,'%s')"""
+        % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
+  except sqlite3.IntegrityError:
+    log('  update')
+    dbWrite("""update items set contents = '%s'"""
+        % (contents.replace("'", '&apos;')))
 
 def id(url):
   if url is None: return 'NULL'
@@ -74,15 +79,12 @@ def getSoup(url):
 
 def readNewComments():
   global mostRecentComment
-  bound = mostRecentComment
   soup = getSoup('newcomments')
   updateMostRecentComment(url(soup, 'link'))
 
   comments = soup.findAll(attrs={'class': 'default'})
   for comment in comments:
     currUrl = url(comment, 'link')
-    if id(currUrl) == bound:
-      return
     saveComment(comment, currUrl)
 
 def saveComment(comment, link=None):
@@ -95,7 +97,6 @@ def saveComment(comment, link=None):
 
 def readNewStories():
   global mostRecentStory
-  bound = mostRecentStory
   soup = getSoup('newest')
   # assumption: newest story hasn't comments yet.
   updateMostRecentStory(url(soup, 'discuss'))
@@ -105,8 +106,6 @@ def readNewStories():
     if s.find('a') is not None:
       if s.parent.nextSibling is not None:
         currUrl = urlOfStoryTitle(s)
-        if id(currUrl) == bound:
-          return
         saveStory(s, currUrl)
 
 def saveStory(title, link=None):
