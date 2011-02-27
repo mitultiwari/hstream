@@ -95,7 +95,7 @@ function switchIntoShortlist() {
 
 function postProcess() {
   $('.item').remove(':nth-child(30)')
-  $('a').attr('target', 'blank');
+  $('a').attr('target', '_blank');
   $('#shortlist').find('a[href^="http://news.ycombinator.com/item"]').click(switchIntoShortlist);
 }
 
