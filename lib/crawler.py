@@ -63,8 +63,9 @@ def id(url):
 
 import json
 try:
-  root = json.load('config/app.json')['root']
-except:
+  with open('config/app.json') as fp:
+    root = json.load(fp)['root']
+except IOError:
   root = 'http://news.ycombinator.com'
 
 
