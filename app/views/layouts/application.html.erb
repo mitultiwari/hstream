@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hacker News in real-time</title>
+    <title><%= layout['title']%></title>
     <%= stylesheet_link_tag :all %>
     <%= javascript_include_tag :defaults %>
     <%= csrf_meta_tag %>
@@ -11,7 +11,7 @@
     <table cellspacing="0" cellpadding="0" border="0" id="pagetop">
       <tbody>
         <tr>
-          <td bgcolor="#ff6600">
+          <td bgcolor="<%= layout['topcolor']%>">
             <table cellspacing="0" cellpadding="0" border="0" width="100%" style="padding: 2px;">
               <tbody>
                 <tr>
@@ -20,13 +20,11 @@
                   </td>
                   <td style="line-height: 12pt; height: 10px;">
                     <span>
-                      <b><a target="_blank" href="http://news.ycombinator.com/">Hacker News in real-time</a></b>
+                      <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
                       <img height="1" width="10" src="/images/s.gif">
-                      <a target="_blank" href="http://news.ycombinator.com/newest">new</a> |
-                      <a target="_blank" href="http://news.ycombinator.com/newcomments">comments</a> |
-                      <a target="_blank" href="http://news.ycombinator.com/ask">ask</a> |
-                      <a target="_blank" href="http://news.ycombinator.com/jobs">jobs</a> |
-                      <a target="_blank" href="http://news.ycombinator.com/submit">submit</a>
+                      <a target="_blank" href="<%= layout['root']%>/newest">new</a> |
+                      <a target="_blank" href="<%= layout['root']%>/newcomments">comments</a> |
+                      <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
                     </span>
                   </td>
                 </tr>

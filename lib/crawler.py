@@ -61,10 +61,16 @@ def id(url):
 
 
 
+import json
+try:
+  root = json.load('config/app.json')['root']
+except:
+  root = 'http://news.ycombinator.com'
+
+
+
 import urllib2
 from BeautifulSoup import BeautifulSoup, Tag
-
-root = 'http://news.ycombinator.com'
 
 def getSoup(url):
   sleep(30)
