@@ -28,7 +28,6 @@ def dbRead(cmd):
 
 
 def loadState():
-  base = 'http://news.ycombinator.com/item?id='
   for [_, comment, story] in dbRead('select * from crawler_state'):
     return [comment, story]
 mostRecentComment, mostRecentStory = loadState()
