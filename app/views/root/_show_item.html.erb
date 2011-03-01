@@ -2,6 +2,8 @@
   <div class='contextbox'>
     <% if item.parent %>
       <div class='title'><%= raw item.story %></div>
+    <% end %>
+    <% if item.parent && item.parent.parent %>
       <div class='contextbutton'><%= pluralize item.ancestors.size, 'previous comment'%>..</div>
       <div class='context'>
         <% item.ancestors.reverse.each do |ancestor| %>

@@ -4,7 +4,7 @@ class Item < ActiveRecord::Base
   def ancestors
     ancestors = []
     x = parent
-    while x
+    while x.parent
       ancestors << x
       x = x.parent
     end
