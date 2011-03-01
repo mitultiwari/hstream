@@ -90,12 +90,11 @@ def readNewComments():
 
   comments = soup.findAll(attrs={'class': 'default'})
   for comment in comments:
-    currUrl = url(comment, 'link')
-    saveComment(comment, currUrl)
+    saveComment(comment)
 
-def saveComment(comment, link=None):
+def saveComment(comment):
   comhead = comment.find(attrs={'class': 'comhead'})
-  saveItem(link or url(comhead, 'link'),
+  saveItem(url(comhead, 'link'),
            computeTimestamp(comhead),
            computeAuthor(comhead),
            url(comhead, 'parent'),
@@ -109,21 +108,18 @@ def readNewStories():
 
   stories = soup.findAll(attrs={'class': 'title'})
   for s in stories:
-    if s.find('a') is not None:
-      if s.parent.nextSibling is not None:
-        currUrl = urlOfStoryTitle(s)
-        saveStory(s, currUrl)
+    if s.find('a') is not None and s.parent.nextSibling is not None:
+      saveStory(s)
 
-def saveStory(title, link=None):
+def saveStory(title):
   subtext = title.parent.nextSibling.contents[1]
-  saveItem(link or url(subtext, 'discuss'),
+  saveItem(computeStoryUrl(title, subtext),
            computeTimestamp(subtext),
            computeAuthor(subtext),
            parent=None,
            contents=unicode(title.find('a'))+"<div class=\"subtext\">"+unicode(subtext)+"</div>")
 
-def urlOfStoryTitle(title):
-  subtext = title.parent.nextSibling.contents[1]
+def computeStoryUrl(title, subtext):
   try: return subtext.contents[4]['href']
   except IndexError: return title.find('a')['href']
 
