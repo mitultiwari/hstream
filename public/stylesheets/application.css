@@ -9,7 +9,8 @@
 #stream .shortlistClose{ display:none; }
 #shortlist .shortlistClose{ display: block; }
 
-body{ font-family:Verdana; font-size:10pt; color:#828282; margin:2 auto; }
+body{ font-family:Verdana; font-size:10pt; color:#000000; margin:2 auto; }
+h3{ color:#828282; }
 .admin td{ font-family:Verdana; font-size:8.5pt; color:#000000; }
 input{ font-family:Courier; font-size:10pt; color:#000000; }
 input[type="submit"]{ font-family:Verdana; }
