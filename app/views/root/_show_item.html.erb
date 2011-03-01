@@ -1,5 +1,6 @@
 <div class='item' hnid='<%= item.hnid %>' style='display:none'>
   <div class='contextbox'>
+    <div class='shortlistClose'>x</div>
     <% if item.parent %>
       <div class='title'><%= raw item.story %></div>
     <% end %>
@@ -8,7 +9,7 @@
       <div class='context'>
         <% item.ancestors.reverse.each do |ancestor| %>
           <div class='ancestor' hnid='<%= ancestor.hnid %>'>
-            <%= raw ancestor.contents %>
+            <%= raw ancestor.show_contents %>
           </div>
         <% end %>
       </div>
@@ -16,7 +17,6 @@
   </div>
 
   <div class='<%= item.parent ? "itembox" : "title"%>'>
-    <div class='shortlistClose'>x</div>
     <%= raw item.show_contents %>
   </div>
 
