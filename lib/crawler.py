@@ -34,13 +34,13 @@ mostRecentComment, mostRecentStory = loadState()
 
 def updateMostRecentComment(url):
   global mostRecentComment
-  mostRecentComment = id(url)
+  mostRecentComment = hnid(url)
   dbWrite("update crawler_state set most_recent_comment = %s"
           % (mostRecentComment))
 
 def updateMostRecentStory(url):
   global mostRecentStory
-  mostRecentStory = id(url)
+  mostRecentStory = hnid(url)
   dbWrite("update crawler_state set most_recent_story = %s"
           % (mostRecentStory))
 
@@ -49,13 +49,13 @@ def saveItem(url, timestamp, author, parent, contents):
   try:
     dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
                values (%s,%s,'%s',%s,'%s')"""
-        % (id(url),timestamp,author,id(parent),contents.replace("'", '&apos;')))
+        % (hnid(url),timestamp,author,hnid(parent),contents.replace("'", '&apos;')))
   except sqlite3.IntegrityError:
     log('  update')
     dbWrite("""update items set contents = '%s' where hnid=%s"""
-        % (contents.replace("'", '&apos;'), id(url)))
+        % (contents.replace("'", '&apos;'), hnid(url)))
 
-def id(url):
+def hnid(url):
   if url is None: return 'NULL'
   return int(url.split('=')[1])
 
