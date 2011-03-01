@@ -3,75 +3,14 @@
 
 import os, sys, re, traceback
 
-
-
-from time import time, ctime, sleep
-
-def justTime(): return ctime()[11:-5]
-
-def log(*args):
-    print justTime(), ' '.join(map(str, args))
-    sys.stdout.flush()
-
-
-
-import sqlite3
-
-def dbWrite(cmd):
-  with sqlite3.connect('db/production.sqlite3') as conn:
-    conn.execute(cmd)
-
-def dbRead(cmd):
-  for item in sqlite3.connect('db/production.sqlite3').execute(cmd):
-    yield item
-
-
-
-def loadState():
-  for [_, comment, story] in dbRead('select * from crawler_state'):
-    return [comment, story]
-mostRecentComment, mostRecentStory = loadState()
-
-def updateMostRecentComment(url):
-  global mostRecentComment
-  mostRecentComment = hnid(url)
-  dbWrite("update crawler_state set most_recent_comment = %s"
-          % (mostRecentComment))
-
-def updateMostRecentStory(url):
-  global mostRecentStory
-  mostRecentStory = hnid(url)
-  dbWrite("update crawler_state set most_recent_story = %s"
-          % (mostRecentStory))
-
-def saveItem(url, timestamp, author, parent, contents):
-  log("  "+url)
-  try:
-    dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
-               values (%s,%s,'%s',%s,'%s')"""
-        % (hnid(url),timestamp,author,hnid(parent),contents.replace("'", '&apos;')))
-  except sqlite3.IntegrityError:
-    log('  update')
-    dbWrite("""update items set contents = '%s' where hnid=%s"""
-        % (contents.replace("'", '&apos;'), hnid(url)))
-
-
-
 def readNewComments():
-  global mostRecentComment
   soup = getSoup('newcomments')
-  updateMostRecentComment(url(soup, 'link'))
-
   comments = soup.findAll(attrs={'class': 'default'})
   for comment in comments:
     saveComment(comment)
 
 def readNewStories():
-  global mostRecentStory
   soup = getSoup('newest')
-  # assumption: newest story hasn't comments yet.
-  updateMostRecentStory(url(soup, 'discuss'))
-
   stories = soup.findAll(attrs={'class': 'title'})
   for s in stories:
     if s.find('a') is not None and s.parent.nextSibling is not None:
@@ -156,6 +95,39 @@ def absolutify(url):
   if len(url) > 4 and url[:4] == 'http': return url
   if url[0] == '/': return root+url
   else: return root+'/'+url # assumption: relative == absolute urls
+
+
+
+def saveItem(url, timestamp, author, parent, contents):
+  log("  "+url)
+  try:
+    dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
+               values (%s,%s,'%s',%s,'%s')"""
+        % (hnid(url),timestamp,author,hnid(parent),contents.replace("'", '&apos;')))
+  except sqlite3.IntegrityError:
+    log('  update')
+    dbWrite("""update items set contents = '%s' where hnid=%s"""
+        % (contents.replace("'", '&apos;'), hnid(url)))
+
+import sqlite3
+
+def dbWrite(cmd):
+  with sqlite3.connect('db/production.sqlite3') as conn:
+    conn.execute(cmd)
+
+def dbRead(cmd):
+  for item in sqlite3.connect('db/production.sqlite3').execute(cmd):
+    yield item
+
+
+
+from time import time, ctime, sleep
+
+def justTime(): return ctime()[11:-5]
+
+def log(*args):
+    print justTime(), ' '.join(map(str, args))
+    sys.stdout.flush()
 
 
 
