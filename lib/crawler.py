@@ -108,6 +108,7 @@ def saveItem(url, timestamp, author, parent, contents):
     log('  update')
     dbWrite("""update items set contents = '%s' where hnid=%s"""
         % (contents.replace("'", '&apos;'), hnid(url)))
+  sendNotifications(hnid(url), contents)
 
 import sqlite3
 
@@ -128,6 +129,32 @@ def justTime(): return ctime()[11:-5]
 def log(*args):
     print justTime(), ' '.join(map(str, args))
     sys.stdout.flush()
+
+
+
+notifications = [#['swombat.com', 'daniel.tenner@gmail.com'],
+                 ['swombat.com', 'akkartik@gmail.com'],
+                 ['mygengo.com', 'akkartik@gmail.com'],
+                ]
+
+def sendNotifications(hnid, contents):
+  for pattern, email in notifications:
+    if re.search('\W'+pattern+'\W', contents, re.I):
+      print 'match'
+      sendmail(kwdmatch_email(email, pattern, hnid))
+
+def kwdmatch_email(to, keyword, hnid):
+    return """To: %s
+Subject: New story on HN about %s
+
+http://news.ycombinator.com/item?id=%s""" %(to, keyword, hnid)
+
+def sendmail(msg):
+  try:
+    with os.popen("/usr/sbin/sendmail -t -f authsmtp@akkartik.com", "w") as sendmail:
+      sendmail.write(msg)
+  except:
+    traceback.print_exc(file=sys.stdout)
 
 
 
