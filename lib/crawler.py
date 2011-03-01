@@ -137,8 +137,8 @@ notifications = [
                  ['readwarp.com', 'akkartik@gmail.com', 'akkartik'],
                  ['hystry.com', 'akkartik@gmail.com', 'akkartik'],
                  ['hackerstream.com', 'akkartik@gmail.com', 'akkartik'],
-                 ['swombat.com', 'akkartik@gmail.com', 'akkartik'],
-                 #['swombat.com', 'daniel.tenner@gmail.com', 'swombat'],
+                 ['swombat.com', 'akkartik@gmail.com', ''],
+                 ['swombat.com', 'daniel.tenner@gmail.com', 'swombat'],
                 ]
 
 def sendNotifications(hnid, contents, author):
