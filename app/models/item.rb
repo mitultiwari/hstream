@@ -31,4 +31,16 @@ class Item < ActiveRecord::Base
     end
     ans
   end
+
+  def story
+    contents.gsub(/\n/, ' ').sub(/.*\| on: (<a[^>]*>[^<]*<[^>]*>).*/, '\1')
+  end
+
+  def show_contents
+    if parent
+      return contents.gsub(/\n/, ' ').sub(/\| on: <a[^>]*>[^<]*<[^>]*>/, '')
+    end
+
+    contents
+  end
 end

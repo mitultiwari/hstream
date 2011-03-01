@@ -1,7 +1,8 @@
 <div class='item' hnid='<%= item.hnid %>' style='display:none'>
   <div class='contextbox'>
     <% if item.parent %>
-      <div class='contextbutton'>all parents</div>
+      <div class='title'><%= raw item.story %></div>
+      <div class='contextbutton'><%= pluralize item.ancestors.size, 'previous comment'%>..</div>
       <div class='context'>
         <% item.ancestors.reverse.each do |ancestor| %>
           <div class='ancestor' hnid='<%= ancestor.hnid %>'>
@@ -12,9 +13,9 @@
     <% end %>
   </div>
 
-  <div class='itembox'>
+  <div class='<%= item.parent ? "itembox" : "title"%>'>
     <div class='shortlistClose'>x</div>
-    <%= raw item.contents %>
+    <%= raw item.show_contents %>
   </div>
 
   <div class='threadbox'>
