@@ -55,33 +55,7 @@ def saveItem(url, timestamp, author, parent, contents):
     dbWrite("""update items set contents = '%s' where hnid=%s"""
         % (contents.replace("'", '&apos;'), hnid(url)))
 
-def hnid(url):
-  if url is None: return 'NULL'
-  return int(url.split('=')[1])
-
 
-
-import json
-try:
-  with open('config/app.json') as fp:
-    root = json.load(fp)['root']
-except IOError:
-  root = 'http://news.ycombinator.com'
-
-
-
-import urllib2
-from BeautifulSoup import BeautifulSoup, Tag
-
-def getSoup(url):
-  sleep(30)
-  log(url)
-  soup = BeautifulSoup(urllib2.urlopen(absolutify(url)))
-  for p in soup.findAll('a'):
-    try: p['href'] = absolutify(p['href'])
-    except KeyError:
-      print 'a without href:', p
-  return soup
 
 def readNewComments():
   global mostRecentComment
@@ -91,14 +65,6 @@ def readNewComments():
   comments = soup.findAll(attrs={'class': 'default'})
   for comment in comments:
     saveComment(comment)
-
-def saveComment(comment):
-  comhead = comment.find(attrs={'class': 'comhead'})
-  saveItem(url(comhead, 'link'),
-           computeTimestamp(comhead),
-           computeAuthor(comhead),
-           url(comhead, 'parent'),
-           unicode(comment))
 
 def readNewStories():
   global mostRecentStory
@@ -111,6 +77,14 @@ def readNewStories():
     if s.find('a') is not None and s.parent.nextSibling is not None:
       saveStory(s)
 
+def saveComment(comment):
+  comhead = comment.find(attrs={'class': 'comhead'})
+  saveItem(url(comhead, 'link'),
+           computeTimestamp(comhead),
+           computeAuthor(comhead),
+           url(comhead, 'parent'),
+           unicode(comment))
+
 def saveStory(title):
   subtext = title.parent.nextSibling.contents[1]
   saveItem(computeStoryUrl(title, subtext),
@@ -122,16 +96,6 @@ def saveStory(title):
 def computeStoryUrl(title, subtext):
   try: return subtext.contents[4]['href']
   except IndexError: return title.find('a')['href']
-
-# First url in soup with the given linktext
-def url(soup, linktext):
-  try: return soup.find('a', text=linktext).parent['href']
-  except AttributeError: return ''
-
-def absolutify(url):
-  if len(url) > 4 and url[:4] == 'http': return url
-  if url[0] == '/': return root+url
-  else: return root+'/'+url # assumption: relative == absolute urls
 
 def computeTimestamp(subtext):
   try: s = subtext.contents[3]
@@ -156,6 +120,42 @@ def computeTimestamp(subtext):
 def computeAuthor(subtext):
   try: return str(subtext.contents[2].string)
   except IndexError: return ''
+
+
+
+import urllib2
+from BeautifulSoup import BeautifulSoup, Tag
+
+def getSoup(url):
+  sleep(30)
+  log(url)
+  soup = BeautifulSoup(urllib2.urlopen(absolutify(url)))
+  for p in soup.findAll('a'):
+    try: p['href'] = absolutify(p['href'])
+    except KeyError:
+      print 'a without href:', p
+  return soup
+
+# First url in soup with the given linktext
+def url(soup, linktext):
+  try: return soup.find('a', text=linktext).parent['href']
+  except AttributeError: return ''
+
+def hnid(url):
+  if url is None: return 'NULL'
+  return int(url.split('=')[1])
+
+import json
+try:
+  with open('config/app.json') as fp:
+    root = json.load(fp)['root']
+except IOError:
+  root = 'http://news.ycombinator.com'
+
+def absolutify(url):
+  if len(url) > 4 and url[:4] == 'http': return url
+  if url[0] == '/': return root+url
+  else: return root+'/'+url # assumption: relative == absolute urls
 
 
 
