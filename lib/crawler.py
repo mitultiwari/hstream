@@ -108,7 +108,7 @@ def saveItem(url, timestamp, author, parent, contents):
     log('  update')
     dbWrite("""update items set contents = '%s' where hnid=%s"""
         % (contents.replace("'", '&apos;'), hnid(url)))
-  sendNotifications(hnid(url), contents)
+  sendNotifications(hnid(url), contents, author)
 
 import sqlite3
 
@@ -132,15 +132,15 @@ def log(*args):
 
 
 
-notifications = [#['swombat.com', 'daniel.tenner@gmail.com'],
-                 ['swombat.com', 'akkartik@gmail.com'],
-                 ['mygengo.com', 'akkartik@gmail.com'],
+notifications = [#['swombat.com', 'daniel.tenner@gmail.com', 'swombat'],
+                 ['swombat.com', 'akkartik@gmail.com', 'akkartik'],
+                 ['mygengo.com', 'akkartik@gmail.com', 'icey'],
                 ]
 
-def sendNotifications(hnid, contents):
-  for pattern, email in notifications:
-    if re.search('\W'+pattern+'\W', contents, re.I):
-      print 'match'
+def sendNotifications(hnid, contents, author):
+  for pattern, email, hnuser in notifications:
+    if re.search('\W'+pattern+'\W', contents, re.I) and author != hnuser:
+      print 'notifying', email, 'of', hnid
       sendmail(kwdmatch_email(email, pattern, hnid))
 
 def kwdmatch_email(to, keyword, hnid):
