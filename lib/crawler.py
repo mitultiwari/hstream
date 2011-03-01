@@ -132,9 +132,13 @@ def log(*args):
 
 
 
-notifications = [#['swombat.com', 'daniel.tenner@gmail.com', 'swombat'],
+notifications = [
+                 ['akkartik.name', 'akkartik@gmail.com', 'akkartik'],
+                 ['readwarp.com', 'akkartik@gmail.com', 'akkartik'],
+                 ['hystry.com', 'akkartik@gmail.com', 'akkartik'],
+                 ['hackerstream.com', 'akkartik@gmail.com', 'akkartik'],
                  ['swombat.com', 'akkartik@gmail.com', 'akkartik'],
-                 ['mygengo.com', 'akkartik@gmail.com', 'icey'],
+                 #['swombat.com', 'daniel.tenner@gmail.com', 'swombat'],
                 ]
 
 def sendNotifications(hnid, contents, author):
