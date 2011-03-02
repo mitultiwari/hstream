@@ -11,7 +11,7 @@ body{ margin:2 auto; }
 #shortlist .shortlistClose{ display: block; }
 
 body{ font-family:Verdana; font-size:10pt; color:#000000; }
-h3{ color:#828282; margin-left:0.5em; }
+h3{ color:#828282; margin-left:0.5em; margin-top:-0.25em; margin-bottom:0.5em; }
 .admin td{ font-family:Verdana; font-size:8.5pt; color:#000000; }
 input{ font-family:Courier; font-size:10pt; color:#000000; }
 input[type="submit"]{ font-family:Verdana; }
