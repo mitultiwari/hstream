@@ -41,7 +41,7 @@ class Item < ActiveRecord::Base
       return contents.gsub(/\n/, ' ').
               gsub(/1 point/, '').
               gsub(/[0-9] (minutes?|hours?) ago/, '').
-              sub(/\| on: <a[^>]*>[^<]*<[^>]*>/, '')
+              sub(/ \| <[^>]*>parent<[^>]*> \| on: <a[^>]*>[^<]*<[^>]*>/, '')
     end
 
     contents
