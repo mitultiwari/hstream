@@ -8,36 +8,33 @@
   </head>
 
   <body>
-    <div id='page'>
-      <table cellspacing="0" cellpadding="0" border="0" id="pagetop">
-        <tbody>
-          <tr>
-            <td bgcolor="<%= layout['topcolor']%>">
-              <table cellspacing="0" cellpadding="0" border="0" width="100%" style="padding: 2px;">
-                <tbody>
-                  <tr>
-                    <td style="width: 18px; padding-right: 4px;">
-                      <img height="18" width="18" style="border: 1px solid rgb(255, 255, 255);" src="/images/s.gif">
-                    </td>
-                    <td style="line-height: 12pt; height: 10px;">
-                      <span>
-                        <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
-                        <img height="1" width="10" src="/images/s.gif">
-                        <a target="_blank" href="<%= layout['root']%>/newest">new</a> |
-                        <a target="_blank" href="<%= layout['root']%>/newcomments">comments</a> |
-                        <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <table cellspacing="0" cellpadding="0" border="0" id="pagetop">
+      <tbody>
+        <tr>
+          <td bgcolor="<%= layout['topcolor']%>">
+            <table cellspacing="0" cellpadding="0" border="0" width="100%" style="padding: 2px;">
+              <tbody>
+                <tr>
+                  <td style="width: 18px; padding-right: 4px;">
+                    <img height="18" width="18" style="border: 1px solid rgb(255, 255, 255);" src="/images/s.gif">
+                  </td>
+                  <td style="line-height: 12pt; height: 10px;">
+                    <span>
+                      <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
+                      <img height="1" width="10" src="/images/s.gif">
+                      <a target="_blank" href="<%= layout['root']%>/newest">new</a> |
+                      <a target="_blank" href="<%= layout['root']%>/newcomments">comments</a> |
+                      <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-      <%= yield %>
-      <div style="clear:both"></div>
-    </div>
+    <%= yield %>
   </body>
 </html>
