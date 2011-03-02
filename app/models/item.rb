@@ -25,4 +25,8 @@ class Item < ActiveRecord::Base
 
     contents
   end
+
+  def self.shortlist_children(new, old_shortlist_ids)
+    new.select{|x| old_shortlist_ids.index(x.parent_hnid)}
+  end
 end
