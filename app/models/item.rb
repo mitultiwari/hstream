@@ -17,7 +17,7 @@ class Item < ActiveRecord::Base
 
   def show_contents
     if parent
-      return contents.gsub(/\n/, ' ').
+      return contents.
               gsub(/1 point/, '').
               gsub(/[0-9] (minutes?|hours?) ago/, '').
               sub(/ \| <[^>]*>parent<[^>]*> \| on: <a[^>]*>[^<]*<[^>]*>/, '')
