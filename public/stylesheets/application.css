@@ -5,7 +5,7 @@
 .contextbutton{ font-size:8pt; color:#828282; cursor:pointer; margin-top:1em; margin-bottom:1em; }
 .ancestor{ padding-bottom:0.5em; }
 
-.shortlistClose{ float:right; cursor:pointer; margin-left:2em; }
+.shortlistClose{ color:#828282; cursor:pointer; float:right; margin-left:2em; margin-right:5px; }
 #stream .shortlistClose{ display:none; }
 #shortlist .shortlistClose{ display: block; }
 
