@@ -5,7 +5,7 @@
       <div class='title'><%= raw item.story %></div>
     <% end %>
     <% if item.parent && item.parent.parent %>
-      <div class='contextbutton'><%= pluralize item.ancestors.size, 'previous comment'%>..</div>
+      <div class='contextbutton'>..<%= pluralize item.ancestors.size, 'comment'%>..</div>
       <div class='context'>
         <% item.ancestors.reverse.each do |ancestor| %>
           <div class='ancestor' hnid='<%= ancestor.hnid %>'>

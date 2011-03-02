@@ -1,8 +1,8 @@
 .content{ background:#f6f6ef; padding-top:10px; font-size:9pt; float:left; width:49.5%; }
 .item{ background:#e6e6df; margin-bottom:5px; padding:5px; }
 #pagetop{ background:#f6f6ef; width:100%; }
-.context{ background:#e6e6df; display:none; }
-.contextbutton{ font-size:8pt; color:#828282; cursor:pointer; margin-bottom:1em; }
+.context{ background:#f6f6ef; display:none; padding:0.5em; }
+.contextbutton{ font-size:8pt; color:#828282; cursor:pointer; margin-top:1em; margin-bottom:1em; }
 .ancestor{ padding-bottom:0.5em; }
 
 .shortlistClose{ float:right; cursor:pointer; margin-left:2em; }
@@ -10,7 +10,7 @@
 #shortlist .shortlistClose{ display: block; }
 
 body{ font-family:Verdana; font-size:10pt; color:#000000; margin:2 auto; }
-h3{ color:#828282; }
+h3{ color:#828282; margin-left:0.5em; }
 .admin td{ font-family:Verdana; font-size:8.5pt; color:#000000; }
 input{ font-family:Courier; font-size:10pt; color:#000000; }
 input[type="submit"]{ font-family:Verdana; }
