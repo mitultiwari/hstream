@@ -5,7 +5,6 @@ $(function() {
 });
 
 var mostRecentItem = 0;
-var refreshShortlist = '';
 function perpetuallyRefreshPage() {
   refreshPage();
   setTimeout(perpetuallyRefreshPage, 30000);
@@ -19,10 +18,8 @@ function refreshPage() {
     data: {
       mostRecentItem: mostRecentItem,
       shortlist: shortlist.join(),
-      refreshShortlist: refreshShortlist,
     },
   });
-  refreshShortlist = '';
 }
 
 

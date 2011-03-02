@@ -11,27 +11,6 @@ class Item < ActiveRecord::Base
     ancestors
   end
 
-  def children
-    Item.find(:all, :conditions => ['hnid > ? and parent_hnid = ?', self.hnid, self.hnid])
-  end
-
-  def render_thread
-    render_children(20)
-  end
-
-  def render_children(max, curr=max-1)
-    ans = ''
-    return ans unless children
-    curr = 1 if curr <= 0
-    width = 100.0*curr/max
-    margin = 100.0-width
-    children.each do |child|
-      ans += "<div style='margin-left:#{margin}%; width:#{width}%'>#{child.contents}</div>"
-      ans += child.render_children(max, curr-1) if child
-    end
-    ans
-  end
-
   def story
     contents.gsub(/\n/, ' ').sub(/.*\| on: (<a[^>]*>[^<]*<[^>]*>).*/, '\1')
   end
