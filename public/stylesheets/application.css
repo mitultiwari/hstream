@@ -5,6 +5,10 @@ body{ margin:2 auto; }
 .context{ background:#f6f6ef; display:none; padding-left:5px; }
 .contextbutton{ font-size:8pt; color:#828282; cursor:pointer; margin-top:1em; margin-bottom:1em; }
 .ancestor{ padding-bottom:0.5em; }
+.subtext{ padding-top:1em; }
+.bold{ font-weight:bold; }
+.bold a:link{ color:#666; }
+.bold .subtext{ font-weight:normal; }
 
 .shortlistClose{ color:#828282; cursor:pointer; float:right; margin-left:2em; margin-right:5px; }
 #stream .shortlistClose{ display:none; }

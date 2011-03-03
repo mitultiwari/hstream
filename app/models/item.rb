@@ -20,7 +20,8 @@ class Item < ActiveRecord::Base
       return contents.
               gsub(/1 point/, '').
               gsub(/[0-9] (minutes?|hours?) ago/, '').
-              sub(/ \| <[^>]*>parent<[^>]*> \| on: <a[^>]*>[^<]*<[^>]*>/, '')
+              sub(/ \| <[^>]*>parent<[^>]*> \| on: <a[^>]*>[^<]*<[^>]*>/, '').
+              sub(/\|/, '&middot;')
     end
 
     contents
