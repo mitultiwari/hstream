@@ -9,7 +9,7 @@ body{ margin:2 auto; }
 .bold{ font-weight:bold; }
 .bold a:link{ color:#666; }
 .bold .subtext{ font-weight:normal; }
-.title:first-letter{ font-size: 150%; }
+.itembox{ margin-left: 1em; }
 
 .shortlistClose{ color:#828282; cursor:pointer; float:right; margin-left:2em; margin-right:5px; }
 #stream .shortlistClose{ display:none; }
