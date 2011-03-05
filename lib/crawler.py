@@ -106,7 +106,6 @@ def saveItem(url, timestamp, author, parent, contents):
         % (hnid(url),timestamp,author,hnid(parent),contents.replace("'", '&apos;')))
     sendNotifications(hnid(url), contents, author) # only on first write
   except sqlite3.IntegrityError:
-    log('  update')
     dbWrite("""update items set contents = '%s' where hnid=%s"""
         % (contents.replace("'", '&apos;'), hnid(url)))
 
