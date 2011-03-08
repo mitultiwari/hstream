@@ -55,7 +55,9 @@ function deleteFromShortlist() {
   var shortlistIdx = $.inArray(item.attr('hnid'));
   shortlist.splice(shortlistIdx, 1);
   item.slideUp();
-  item.remove();
+  setTimeout(function() {
+    item.remove();
+  }, 500);
   return false;
 }
 
