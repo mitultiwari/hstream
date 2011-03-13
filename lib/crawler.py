@@ -132,11 +132,13 @@ def log(*args):
 
 
 notifications = [
-                 ['akkartik.name', 'akkartik@gmail.com', 'akkartik'],
-                 ['readwarp.com', 'akkartik@gmail.com', 'akkartik'],
-                 ['hystry.com', 'akkartik@gmail.com', 'akkartik'],
-                 ['hackerstream.com', 'akkartik@gmail.com', 'akkartik'],
-                 ['swombat.com', 'akkartik@gmail.com', ''],
+                 ['hackerstream', 'akkartik@gmail.com', 'akkartik'],
+                 ['hackerstream', 'mitultiwari@gmail.com', 'mitultiwari'],
+                 ['akkartik', 'akkartik@gmail.com', 'akkartik'],
+                 ['mitultiwari', 'mitultiwari@gmail.com', 'mitultiwari'],
+                 ['readwarp', 'akkartik@gmail.com', 'akkartik'],
+                 ['hystry', 'akkartik@gmail.com', 'akkartik'],
+                 ['swombat', 'akkartik@gmail.com', ''],
                  ['swombat.com', 'daniel.tenner@gmail.com', 'swombat'],
                 ]
 
