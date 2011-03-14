@@ -138,6 +138,8 @@ notifications = [
                  ['mitultiwari', 'mitultiwari@gmail.com', 'mitultiwari'],
                  ['readwarp', 'akkartik@gmail.com', 'akkartik'],
                  ['hystry', 'akkartik@gmail.com', 'akkartik'],
+                 ['paulgraham', 'akkartik@gmail.com', 'akkartik'],
+                 ['iamelgringo', 'akkartik@gmail.com', 'akkartik'],
                  ['swombat', 'akkartik@gmail.com', ''],
                  ['swombat.com', 'daniel.tenner@gmail.com', 'swombat'],
                 ]
