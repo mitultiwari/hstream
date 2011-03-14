@@ -1,7 +1,6 @@
 class RootController < ApplicationController
   def index
-    @recentItems = params[:mostRecentItem].blank? ? [] :
-        Item.find(:all, :conditions => ['hnid > ?', params[:mostRecentItem]], :order => 'hnid desc', :limit => 10)
+    @recentItems = Item.since(params[:mostRecentItem])
     @mostRecentItem = @recentItems[0].hnid rescue params[:mostRecentItem]
 
     params[:shortlist] ||= ''

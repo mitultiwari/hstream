@@ -29,4 +29,9 @@ class Item < ActiveRecord::Base
   def self.shortlist_children(new, old_shortlist_ids)
     new.select{|x| old_shortlist_ids.index(x.parent_hnid)}
   end
+
+  def self.since(hnid)
+    return [] if hnid.blank?
+    Item.find(:all, :conditions => ['id > ?', Item.find_by_hnid(hnid).id], :order => 'hnid desc', :limit => 10)
+  end
 end

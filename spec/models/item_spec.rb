@@ -12,4 +12,16 @@ describe Item do
       Item.shortlist_children([one, two], [0]).should == [one]
     end
   end
+
+  describe 'since' do
+    it 'should return empty set given null arg' do
+      Item.since('').should be_empty
+    end
+
+    it 'should return items added since arg' do
+      one = Factory(:item, :hnid => 18)
+      two = Factory(:item, :hnid => 2)
+      Item.since(one.hnid).should == [two]
+    end
+  end
 end
