@@ -1,5 +1,6 @@
 class Item < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Item', :foreign_key => 'parent_hnid', :primary_key => 'hnid'
+  scope :since, lambda {|hnid| since_scope(hnid)}
 
   def ancestors
     ancestors = []
@@ -30,8 +31,9 @@ class Item < ActiveRecord::Base
     new.select{|x| old_shortlist_ids.index(x.parent_hnid)}
   end
 
-  def self.since(hnid)
-    return [] if hnid.blank?
-    Item.find(:all, :conditions => ['id > ?', Item.find_by_hnid(hnid).id], :order => 'hnid desc', :limit => 10)
+  def self.since_scope(hnid)
+    return where('id < 0') if hnid.blank?
+    return order('hnid desc').limit(20) if ['0', 0].index(hnid)
+    where('id > ?', Item.find_by_hnid(hnid).id).order('hnid desc').limit(10)
   end
 end

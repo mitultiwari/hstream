@@ -18,6 +18,12 @@ describe Item do
       Item.since('').should be_empty
     end
 
+    it 'should return recent items if given a zero arg' do
+      one = Factory(:item, :hnid => 18)
+      two = Factory(:item, :hnid => 2)
+      Item.since('0').should == [one, two]
+    end
+
     it 'should return items added since arg' do
       one = Factory(:item, :hnid => 18)
       two = Factory(:item, :hnid => 2)
