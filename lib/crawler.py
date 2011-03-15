@@ -7,34 +7,28 @@ def readNewComments():
   soup = getSoup('newcomments')
   comments = soup.findAll(attrs={'class': 'default'})
   for comment in comments:
-    saveComment(comment)
+    comhead = comment.find(attrs={'class': 'comhead'})
+    saveItem(url(comhead, 'link'),
+             computeTimestamp(comhead),
+             computeAuthor(comhead),
+             unicode(comment),
+             url(comhead, 'parent'))
 
 def readNewStories():
   soup = getSoup('newest')
   stories = soup.findAll(attrs={'class': 'title'})
-  for s in stories:
-    if s.find('a') is not None and s.parent.nextSibling is not None:
-      saveStory(s)
+  for title in stories:
+    if not title.find('a'): continue
+    if not title.parent.nextSibling: continue
+    subtext = title.parent.nextSibling.contents[1]
+    saveItem(computeStoryUrl(title, subtext),
+             computeTimestamp(subtext),
+             computeAuthor(subtext),
+             unicode(title.find('a')) +
+               "<div class='subtext'>"+unicode(subtext)+"</div>",
+             parent=None)
 
-def saveComment(comment):
-  comhead = comment.find(attrs={'class': 'comhead'})
-  saveItem(url(comhead, 'link'),
-           computeTimestamp(comhead),
-           computeAuthor(comhead),
-           url(comhead, 'parent'),
-           unicode(comment))
-
-def saveStory(title):
-  subtext = title.parent.nextSibling.contents[1]
-  saveItem(computeStoryUrl(title, subtext),
-           computeTimestamp(subtext),
-           computeAuthor(subtext),
-           parent=None,
-           contents=unicode(title.find('a'))+"<div class=\"subtext\">"+unicode(subtext)+"</div>")
-
-def computeStoryUrl(title, subtext):
-  try: return subtext.contents[4]['href']
-  except IndexError: return title.find('a')['href']
+
 
 def computeTimestamp(subtext):
   try: s = subtext.contents[3]
@@ -59,6 +53,10 @@ def computeTimestamp(subtext):
 def computeAuthor(subtext):
   try: return str(subtext.contents[2].string)
   except IndexError: return ''
+
+def computeStoryUrl(title, subtext):
+  try: return subtext.contents[4]['href']
+  except IndexError: return title.find('a')['href']
 
 
 
@@ -98,7 +96,7 @@ def absolutify(url):
 
 
 
-def saveItem(url, timestamp, author, parent, contents):
+def saveItem(url, timestamp, author, contents, parent):
   log("  "+url)
   try:
     dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
