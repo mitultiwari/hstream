@@ -25,7 +25,7 @@ def readNewStories():
              computeTimestamp(subtext),
              computeAuthor(subtext),
              unicode(title.find('a')) +
-               "<div class='subtext'>"+unicode(subtext)+"</div>",
+               "<div class=\"subtext\">"+unicode(subtext)+"</div>",
              parent=None)
 
 
