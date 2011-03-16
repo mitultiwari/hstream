@@ -3,7 +3,7 @@ body{ margin:2 auto; }
 .item{ background:#e6e6df; margin-top:5px; padding-left:5px; padding-top:5px; padding-bottom:5px; cursor:pointer; }
 #pagetop{ background:#f6f6ef; width:100%; }
 .context{ background:#f6f6ef; display:none; padding-left:5px; }
-.contextbutton{ font-size:8pt; color:#828282; cursor:pointer; margin-top:1em; margin-bottom:1em; }
+.contextbutton{ width:10em; font-size:8pt; color:#f6f6ef; background:#b2b2b2; cursor:pointer; margin-top:1em; margin-bottom:1em; padding-left:0.5em; }
 .ancestor{ padding-bottom:0.5em; }
 .subtext{ padding-top:1em; }
 .bold{ font-weight:bold; }
@@ -11,9 +11,11 @@ body{ margin:2 auto; }
 .bold .subtext{ font-weight:normal; }
 .itembox{ margin-left: 1em; margin-right:5px; }
 
-.shortlistClose{ color:#828282; cursor:pointer; float:right; margin-left:2em; margin-right:5px; }
+.shortlistClose{ color:#f6f6ef; background:#b2b2b2; cursor:pointer; float:right; margin-left:2em; margin-right:5px; padding:0.5em; }
 #stream .shortlistClose{ display:none; }
 #shortlist .shortlistClose{ display: block; }
+.follow{ color:#f6f6ef; background:#b2b2b2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; }
+a.follow:hover { text-decoration:none !important; }
 
 body{ font-family:Verdana; font-size:10pt; color:#000000; }
 h3{ color:#828282; margin-left:0.5em; margin-top:-0.25em; margin-bottom:0.5em; }
@@ -27,7 +29,7 @@ a:visited{ color:#828282; text-decoration:none; }
 .admin{ font-family:Verdana; font-size:8.5pt; color:#000000; }
 .title{ font-family:Verdana; font-size: 10pt; color:#828282; }
 .adtitle{ font-family:Verdana; font-size: 9pt; color:#828282; }
-.subtext{ font-family:Verdana; font-size: 7pt; color:#828282; }
+.subtext{ font-family:Verdana; font-size: 8pt; color:#828282; }
 #pagetop{ font-family:Verdana; font-size: 10pt; color:#222222; }
 .comhead{ font-family:Verdana; font-size: 8pt; color:#828282; }
 .comment{ font-family:Verdana; font-size: 9pt; }
