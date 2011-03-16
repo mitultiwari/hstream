@@ -27,8 +27,10 @@ class Item < ActiveRecord::Base
     contents
   end
 
-  def self.shortlist_children(new, old_shortlist_ids)
-    new.select{|x| old_shortlist_ids.index(x.parent_hnid)}
+  def self.shortlist_children(new, shortlist)
+    shortlist ||= ''
+    shortlist_ids = shortlist.split(',').map{|x| x.to_i}
+    new.select{|x| shortlist_ids.index(x.parent_hnid)}
   end
 
   def self.since_scope(hnid)
