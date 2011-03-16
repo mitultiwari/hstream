@@ -39,7 +39,7 @@ var shortlist = [];
 function copyIntoShortlist() {
   var hnid = $(this).attr('hnid');
   if ($.inArray(hnid, shortlist) >= 0) return true;
-  shortlist.splice(0, 0, hnid);
+  shortlist.push(hnid);
 
   var itemCopy = $(this).clone();
   itemCopy.hide();
@@ -75,7 +75,7 @@ function toggleFollow() {
   }
   else {
     $('.follow[author='+author+']').html('-');
-    shortlist.splice(0, 0, author);
+    shortlist.push(author);
   }
   return true;
 }
