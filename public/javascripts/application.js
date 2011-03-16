@@ -53,7 +53,7 @@ function deleteFromShortlist() {
   var item = $(this).closest('.item');
   var hnid = item.attr('hnid');
 
-  var shortlistIdx = $.inArray(item.attr('hnid'));
+  var shortlistIdx = $.inArray(item.attr('hnid'), shortlist);
   shortlist.splice(shortlistIdx, 1);
   item.slideUp();
   setTimeout(function() {
