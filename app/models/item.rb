@@ -36,8 +36,9 @@ class Item < ActiveRecord::Base
   end
 
   def self.since_scope(hnid)
-    return where('id < 0') if hnid.blank?
-    return order('hnid desc').limit(20) if ['0', 0].index(hnid)
-    where('id > ?', Item.find_by_hnid(hnid).id).order('hnid desc').limit(10)
+    return [] if hnid.blank?
+    scope = scoped.order('id desc')
+    return scope.limit(20) if ['0', 0].index(hnid)
+    return scope.where('id > ?', Item.find_by_hnid(hnid).id).limit(10)
   end
 end
