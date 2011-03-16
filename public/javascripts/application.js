@@ -1,6 +1,7 @@
 $(function() {
   $(document).ready(perpetuallyRefreshPage);
   $('.item .contextbutton').live('click', toggleContext);
+  $('.follow').live('click', followAuthor);
   shortlistHandlers();
 });
 
@@ -63,6 +64,13 @@ function deleteFromShortlist() {
 
 function hnid(url) {
   return url.replace('http://news.ycombinator.com/item?id=', '');
+}
+
+
+
+function followAuthor() {
+  shortlist.splice(0, 0, $(this).attr('author'));
+  return true;
 }
 
 
