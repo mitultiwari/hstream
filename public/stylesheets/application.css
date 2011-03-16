@@ -11,7 +11,7 @@ body{ margin:2 auto; }
 .bold .subtext{ font-weight:normal; }
 .itembox{ margin-left: 1em; margin-right:5px; }
 
-.shortlistClose{ color:#f6f6ef; background:#b2b2b2; cursor:pointer; float:right; margin-left:2em; margin-right:5px; padding:0.5em; }
+.shortlistClose{ color:#f6f6ef; background:#b2b2b2; cursor:pointer; float:right; margin-left:0.5em; margin-right:0.5em; padding-left:0.5em; padding-right:0.5em; }
 #stream .shortlistClose{ display:none; }
 #shortlist .shortlistClose{ display: block; }
 .follow{ color:#f6f6ef; background:#b2b2b2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; }
