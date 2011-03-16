@@ -17,16 +17,13 @@ class Item < ActiveRecord::Base
   end
 
   def show_contents
-    contents.sub!(/by <[^>]+>([^<]+)<\/[^>]+>/, '\& <a class="follow" author="\1">+</a>')
+    tmp = contents.sub(/by <[^>]+>([^<]+)<\/[^>]+>/, '\& <a class="follow" author="\1">+</a>')
 
-    if parent
-      return contents.
-              gsub(/\W[0-9]+ points?/, '').
-              gsub(/\W[0-9]+ (minutes?|hours?) ago/, '').
-              sub(/ \| <[^>]*>parent<[^>]*> \| on: <a[^>]*>[^<]*<[^>]*>/, '')
-    end
-
-    contents
+    parent.blank? ? tmp :
+      tmp.
+        gsub(/\W[0-9]+ points?/, '').
+        gsub(/\W[0-9]+ (minutes?|hours?) ago/, '').
+        sub(/ \| <[^>]*>parent<[^>]*> \| on: <a[^>]*>[^<]*<[^>]*>/, '')
   end
 
   def self.shortlist_children(new, shortlist)
