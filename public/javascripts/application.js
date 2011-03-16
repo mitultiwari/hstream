@@ -1,7 +1,7 @@
 $(function() {
   $(document).ready(perpetuallyRefreshPage);
   $('.item .contextbutton').live('click', toggleContext);
-  $('.follow').live('click', followAuthor);
+  $('.follow').live('click', toggleFollow);
   shortlistHandlers();
 });
 
@@ -53,8 +53,7 @@ function deleteFromShortlist() {
   var item = $(this).closest('.item');
   var hnid = item.attr('hnid');
 
-  var shortlistIdx = $.inArray(item.attr('hnid'), shortlist);
-  shortlist.splice(shortlistIdx, 1);
+  deleteFromArray(hnid, shortlist);
   item.slideUp();
   setTimeout(function() {
     item.remove();
@@ -68,8 +67,16 @@ function hnid(url) {
 
 
 
-function followAuthor() {
-  shortlist.splice(0, 0, $(this).attr('author'));
+function toggleFollow() {
+  var author = $(this).attr('author');
+  if ($.inArray(author, shortlist) != -1) {
+    $(this).html('+');
+    deleteFromArray(author, shortlist);
+  }
+  else {
+    $(this).html('-');
+    shortlist.splice(0, 0, author);
+  }
   return true;
 }
 
@@ -84,4 +91,9 @@ function ajax(args) {
   $.ajax($.extend(args, {
     complete: postProcess,
   }));
+}
+
+function deleteFromArray(elem, array) {
+  var idx = $.inArray(elem, array);
+  array.splice(idx, 1);
 }
