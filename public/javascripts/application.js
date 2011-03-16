@@ -70,11 +70,11 @@ function hnid(url) {
 function toggleFollow() {
   var author = $(this).attr('author');
   if ($.inArray(author, shortlist) != -1) {
-    $(this).html('+');
+    $('.follow[author='+author+']').html('+');
     deleteFromArray(author, shortlist);
   }
   else {
-    $(this).html('-');
+    $('.follow[author='+author+']').html('-');
     shortlist.splice(0, 0, author);
   }
   return true;
