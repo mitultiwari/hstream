@@ -72,12 +72,25 @@ function toggleFollow() {
   if ($.inArray(author, shortlist) != -1) {
     $('.follow[author='+author+']').html('+');
     deleteFromArray(author, shortlist);
+    removeFromHash(author);
   }
   else {
     $('.follow[author='+author+']').html('-');
     shortlist.push(author);
+    addToHash(author);
   }
   return true;
+}
+
+function addToHash(word) {
+  if (location.hash.match(new RegExp('\\b'+word+'\\b'))) return;
+  location.hash += location.hash.match('#') ? ',' : '#';
+  location.hash += word;
+}
+
+function removeFromHash(word) {
+  if (location.hash == '') return;
+  location.hash = '#' + deleteFromArray(word, location.hash.substring(1).split(',')).join(',');
 }
 
 
@@ -96,4 +109,5 @@ function ajax(args) {
 function deleteFromArray(elem, array) {
   var idx = $.inArray(elem, array);
   array.splice(idx, 1);
+  return array;
 }
