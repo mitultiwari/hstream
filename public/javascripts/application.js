@@ -1,8 +1,10 @@
 $(function() {
   $(document).ready(perpetuallyRefreshPage);
   $('.item .contextbutton').live('click', toggleContext);
-  $('.follow').live('click', toggleFollow);
   shortlistHandlers();
+
+  $(document).ready(getShortlistFromHash);
+  $('.follow').live('click', toggleFollow);
 });
 
 var mostRecentItem = 0;
@@ -90,7 +92,11 @@ function addToHash(word) {
 
 function removeFromHash(word) {
   if (location.hash == '') return;
-  location.hash = '#' + deleteFromArray(word, location.hash.substring(1).split(',')).join(',');
+  location.hash = '#' + deleteFromArray(word, hashArray()).join(',');
+}
+
+function getShortlistFromHash() {
+  shortlist = hashArray();
 }
 
 
@@ -110,4 +116,8 @@ function deleteFromArray(elem, array) {
   var idx = $.inArray(elem, array);
   array.splice(idx, 1);
   return array;
+}
+
+function hashArray() {
+  return location.hash.substring(1).split(',');
 }
