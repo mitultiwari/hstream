@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Item do
   describe 'shortlist_children' do
     before do
-      @one = Factory(:item, :hnid => 1, :parent_hnid => 0)
-      @two = Factory(:item, :hnid => 2, :parent_hnid => 1)
+      @one = Factory(:item, :hnid => 11, :parent_hnid => 10)
+      @two = Factory(:item, :hnid => 12, :parent_hnid => 11)
     end
 
     it 'should return [] by default' do
@@ -12,15 +12,15 @@ describe Item do
     end
 
     it 'should intersect ids against new item parents' do
-      Item.shortlist_children([@one, @two], '0').should == [@one]
+      Item.shortlist_children([@one, @two], '10').should == [@one]
     end
 
     it 'should handle a comma-separated list' do
-      Item.shortlist_children([@one, @two], '0,1').should == [@one, @two]
+      Item.shortlist_children([@one, @two], '10,11').should == [@one, @two]
     end
 
     it 'should handle non-digits in the shortlist' do
-      Item.shortlist_children([@one, @two], '1,abc,def').should == [@two]
+      Item.shortlist_children([@one, @two], '11,abc,def').should == [@two]
     end
   end
 
