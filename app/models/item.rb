@@ -31,8 +31,8 @@ class Item < ActiveRecord::Base
 
   def self.shortlist_children(new, shortlist)
     shortlist ||= ''
-    shortlist_ids = shortlist.split(',').map{|x| x=~/^[0-9]+$/ ? x.to_i : x}
-    new.select{|x| shortlist_ids.index(x.parent_hnid) || shortlist_ids.index(x.author)}
+    shortlist = shortlist.split(',').map{|x| x=~/^[0-9]+$/ ? x.to_i : x}
+    new.select{|x| shortlist.index(x.parent_hnid) || shortlist.index(x.author)}
   end
 
   def self.since_scope(hnid)
