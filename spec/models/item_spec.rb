@@ -18,6 +18,10 @@ describe Item do
     it 'should handle a comma-separated list' do
       Item.shortlist_children([@one, @two], '0,1').should == [@one, @two]
     end
+
+    it 'should handle non-digits in the shortlist' do
+      Item.shortlist_children([@one, @two], '1,abc,def').should == [@two]
+    end
   end
 
   describe 'since' do
