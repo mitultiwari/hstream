@@ -6,3 +6,7 @@ $('#stream').prepend("<%= escape_javascript(render2 :partial => 'show_items', :i
 $('#shortlist').prepend("<%= escape_javascript(render2 :partial => 'show_items', :items => @shortlist)%>");
 
 $('.item').slideDown();
+
+for (var i = 0; i < shortlist.length; ++i) {
+  $('.follow[author='+shortlist[i]+']').html('-');
+}
