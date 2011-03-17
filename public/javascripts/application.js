@@ -1,9 +1,8 @@
 $(function() {
+  $(document).ready(getShortlistFromHash);
   $(document).ready(perpetuallyRefreshPage);
   $('.item .contextbutton').live('click', toggleContext);
   shortlistHandlers();
-
-  $(document).ready(getShortlistFromHash);
   $('.follow').live('click', toggleFollow);
 });
 
