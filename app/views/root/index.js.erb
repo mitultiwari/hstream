@@ -1,12 +1,4 @@
-mostRecentItem = <%= @mostRecentItem %>;
+<%= jsrender(:stream, :show_items, :items => @recentItems) %>
+<%= jsrender(:shortlist, :show_items, :items => @shortlist) %>
 
-shortlist.push.apply(shortlist, <%= raw @shortlist.collect{|x| x.hnid.to_s}.inspect %>);
-
-$('#stream').prepend("<%= escape_javascript(render 'show_items', :items => @recentItems)%>");
-$('#shortlist').prepend("<%= escape_javascript(render 'show_items', :items => @shortlist)%>");
-
-$('.item').slideDown();
-
-for (var i = 0; i < shortlist.length; ++i) {
-  $('.follow[author='+shortlist[i]+']').html('-');
-}
+<%= render :file => 'root/_index.js.erb' %>
