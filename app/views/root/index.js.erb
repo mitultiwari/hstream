@@ -1,4 +1,3 @@
-<%= jsrender(:stream, :show_items, :items => @stream) %>
-<%= jsrender(:shortlist, :show_items, :items => @shortlist) %>
-
+<%= jsstream :stream %>
+<%= jsstream :shortlist %>
 <%= render :file => 'root/_index.js.erb' %>

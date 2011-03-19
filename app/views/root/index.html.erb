@@ -1,6 +1,6 @@
 <div class="content" style="margin-right:1%">
   <h3>Stream</h3>
-  <%= raw(htmlrender :stream, :show_items, :items => @stream) %>
+  <%= htmlstream :stream %>
 </div>
 <div class="content">
   <h3>Watchlist
@@ -8,7 +8,7 @@
     (click on a post to add it here)&nbsp;
     </div>
   </h3>
-  <%= raw(htmlrender :shortlist, :show_items, :items => @shortlist) %>
+  <%= htmlstream :shortlist %>
 </div>
 
 <script>

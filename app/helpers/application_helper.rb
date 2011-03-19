@@ -1,9 +1,9 @@
 module ApplicationHelper
-  def htmlrender(id, partial, options)
-    "<div id=\"#{id.to_s}\">#{render partial.to_s, options}</div>"
+  def htmlstream(id)
+    raw "<div id=\"#{id.to_s}\">#{render 'show_items', :items => @items[id]}</div>"
   end
-  def jsrender(id, partial, options)
-    "$('##{id.to_s}').prepend(\"#{escape_javascript(render partial.to_s, options)}\");"
+  def jsstream(id)
+    raw "$('##{id.to_s}').prepend(\"#{escape_javascript(render 'show_items', :items => @items[id])}\");"
   end
 
   def layout
