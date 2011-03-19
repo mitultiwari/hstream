@@ -1,6 +1,7 @@
 <div class="content" style="margin-right:1%">
   <h3>Stream</h3>
   <div id="stream">
+    <%= render2 :partial => 'show_items', :items => @recentItems %>
   </div>
 </div>
 <div class="content">
@@ -10,9 +11,20 @@
     </div>
   </h3>
   <div id="shortlist">
+    <%= render2 :partial => 'show_items', :items => @shortlist %>
   </div>
 </div>
 
 <script>
-  <%= render :file => 'root/index.js.erb' %>
+  mostRecentItem = <%= @mostRecentItem %>;
+
+  shortlist.push.apply(shortlist, <%= raw @shortlist.collect{|x| x.hnid.to_s}.inspect %>);
+
+  setTimeout(function() {
+    $('.item').slideDown();
+  }, 100);
+
+  for (var i = 0; i < shortlist.length; ++i) {
+    $('.follow[author='+shortlist[i]+']').html('-');
+  }
 </script>
