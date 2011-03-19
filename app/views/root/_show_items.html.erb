@@ -1,5 +1,5 @@
 <% items.each do |item| %>
-  <%= render2 :partial => 'show_item', :item => item %>
+  <%= render 'show_item', :item => item %>
 <% end %>
 
 <% unless items.empty? %>

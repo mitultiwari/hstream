@@ -2,8 +2,8 @@ mostRecentItem = <%= @mostRecentItem %>;
 
 shortlist.push.apply(shortlist, <%= raw @shortlist.collect{|x| x.hnid.to_s}.inspect %>);
 
-$('#stream').prepend("<%= escape_javascript(render2 :partial => 'show_items', :items => @recentItems)%>");
-$('#shortlist').prepend("<%= escape_javascript(render2 :partial => 'show_items', :items => @shortlist)%>");
+$('#stream').prepend("<%= escape_javascript(render 'show_items', :items => @recentItems)%>");
+$('#shortlist').prepend("<%= escape_javascript(render 'show_items', :items => @shortlist)%>");
 
 $('.item').slideDown();
 

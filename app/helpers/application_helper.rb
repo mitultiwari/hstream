@@ -1,8 +1,4 @@
 module ApplicationHelper
-  def render2(options)
-    render(options.merge({:locals => options}))
-  end
-
   def layout
     @@layout ||= ActiveSupport::JSON.decode File.open("#{RAILS_ROOT}/config/app.json")
   rescue
