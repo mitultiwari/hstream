@@ -28,6 +28,7 @@ function refreshPage() {
 
 
 function toggleContext() {
+  metric('context');
   $(this).siblings('.context').slideToggle();
   return false;
 }
@@ -39,6 +40,7 @@ function shortlistHandlers() {
 
 var shortlist = [];
 function copyIntoShortlist() {
+  metric('shortlist');
   var hnid = $(this).attr('hnid');
   if ($.inArray(hnid, shortlist) >= 0) return true;
   shortlist.push(hnid);
@@ -52,6 +54,7 @@ function copyIntoShortlist() {
 }
 
 function deleteFromShortlist() {
+  metric('delete');
   var item = $(this).closest('.item');
   var hnid = item.attr('hnid');
 
@@ -70,6 +73,7 @@ function hnid(url) {
 
 
 function toggleFollow() {
+  metric('follow');
   var author = $(this).attr('author');
   if ($.inArray(author, shortlist) != -1) {
     $('.follow[author='+author+']').html('+');
@@ -120,4 +124,11 @@ function deleteFromArray(elem, array) {
 
 function hashArray() {
   return location.hash.substring(1).split(',');
+}
+
+function metric(url) {
+  $.ajax({
+    url: '/'+url,
+    method: 'get',
+  });
 }
