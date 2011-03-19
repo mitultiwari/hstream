@@ -30,20 +30,21 @@ describe Item do
   end
 
   describe 'since' do
-    it 'should return empty set given null arg' do
-      Item.since('').should be_empty
+    before do
+      @one = Factory(:item, :hnid => 18)
+      @two = Factory(:item, :hnid => 2)
     end
 
-    it 'should return recent items if given a zero arg' do
-      one = Factory(:item, :hnid => 18)
-      two = Factory(:item, :hnid => 2)
-      Item.since('0').should == [one, two]
+    it 'should return recent items given null, empty, or zero arg' do
+      Item.since(nil).should == [@two, @one]
+      Item.since('').should == [@two, @one]
+      Item.since(0).should == [@two, @one]
+      Item.since('0').should == [@two, @one]
     end
 
     it 'should return items added since arg' do
-      one = Factory(:item, :hnid => 18)
-      two = Factory(:item, :hnid => 2)
-      Item.since(one.hnid).should == [two]
+      Item.since(@one.hnid).should == [@two]
+      Item.since(@one.hnid.to_s).should == [@two]
     end
   end
 end

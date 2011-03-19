@@ -1,12 +1,13 @@
 $(function() {
   $(document).ready(getShortlistFromHash);
-  $(document).ready(perpetuallyRefreshPage);
+  $(document).ready(function() {
+    setTimeout(perpetuallyRefreshPage, 30000);
+  });
   $('.item .contextbutton').live('click', toggleContext);
   shortlistHandlers();
   $('.follow').live('click', toggleFollow);
 });
 
-var mostRecentItem = 0;
 function perpetuallyRefreshPage() {
   refreshPage();
   setTimeout(perpetuallyRefreshPage, 30000);
