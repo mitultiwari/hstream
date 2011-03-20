@@ -28,7 +28,7 @@ function refreshPage() {
 
 
 function toggleContext() {
-  metric('context');
+  metric('context?'+$(this).parents('.item').attr('hnid'));
   $(this).siblings('.context').slideToggle();
   return false;
 }
@@ -40,8 +40,8 @@ function shortlistHandlers() {
 
 var shortlist = [];
 function copyIntoShortlist() {
-  metric('shortlist');
   var hnid = $(this).attr('hnid');
+  metric('shortlist?'+hnid+',' + ($(this).find('.contextbutton').length > 0 ? 'comment' : 'story'));
   if ($.inArray(hnid, shortlist) >= 0) return true;
   shortlist.push(hnid);
 
