@@ -25,7 +25,8 @@ def readNewStories():
              computeTimestamp(subtext),
              computeAuthor(subtext),
              unicode(title.find('a')) +
-               "<div class=\"subtext\">"+unicode(subtext)+"</div>",
+               "<div class=\"subtext\">"+unicode(subtext)+"</div>" +
+               computeStoryDesc(title),
              parent=None)
 
 
@@ -57,6 +58,16 @@ def computeAuthor(subtext):
 def computeStoryUrl(title, subtext):
   try: return subtext.contents[4]['href']
   except IndexError: return title.find('a')['href']
+
+def computeStoryDesc(title):
+  url = title.find('a')['href']
+  try: url.index(root)
+  except ValueError: return ''
+
+  soup = getSoup(url)
+  return ("<div class=\"comment\">"+
+    unicode(soup.find(attrs={'class': 'subtext'}).parent.nextSibling.nextSibling.contents[1])+
+    "</div>")
 
 
 

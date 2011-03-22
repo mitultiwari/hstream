@@ -5,10 +5,11 @@ body{ margin:2 auto; }
 .context{ background:#f6f6ef; display:none; padding-left:5px; }
 .contextbutton{ width:10em; font-size:8pt; color:#f6f6ef; background:#c2c2c2; cursor:pointer; margin-top:1em; margin-bottom:1em; padding-left:0.5em; }
 .ancestor{ padding-bottom:0.5em; }
-.subtext{ padding-top:1em; }
+.subtext,.comment{ padding-top:1em; }
 .bold{ font-weight:bold; }
 .bold a:link{ color:#666; }
 .bold .subtext{ font-weight:normal; }
+.bold .comment{ font-weight:normal; }
 .itembox{ margin-left: 1em; margin-right:5px; }
 
 #stream .item{ cursor:pointer; }
