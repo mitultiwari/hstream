@@ -1,6 +1,6 @@
 body{ margin:2 auto; }
 .content{ background:#f6f6ef; padding-top:10px; font-size:9pt; float:left; width:49.5%; margin-bottom:1em; }
-.item{ background:#e6e6df; margin-top:5px; padding-left:5px; padding-top:5px; padding-bottom:5px; cursor:pointer; }
+.item{ background:#e6e6df; margin-top:5px; padding-left:5px; padding-top:5px; padding-bottom:5px; }
 #pagetop{ background:#f6f6ef; width:100%; }
 .context{ background:#f6f6ef; display:none; padding-left:5px; }
 .contextbutton{ width:10em; font-size:8pt; color:#f6f6ef; background:#c2c2c2; cursor:pointer; margin-top:1em; margin-bottom:1em; padding-left:0.5em; }
@@ -11,6 +11,7 @@ body{ margin:2 auto; }
 .bold .subtext{ font-weight:normal; }
 .itembox{ margin-left: 1em; margin-right:5px; }
 
+#stream .item{ cursor:pointer; }
 .shortlistClose{ color:#f6f6ef; background:#c2c2c2; cursor:pointer; float:right; margin-left:0.5em; margin-right:0.5em; padding-left:0.5em; padding-right:0.5em; }
 #stream .shortlistClose{ display:none; }
 #shortlist .shortlistClose{ display: block; }
