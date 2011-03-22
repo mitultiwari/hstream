@@ -1,14 +1,16 @@
 <div class="content" style="margin-right:1%">
   <h3>Stream</h3>
-  <div id="stream">
-  </div>
+  <%= htmlstream :stream %>
 </div>
 <div class="content">
-  <h3>Watchlist
+  <h3>My Watchlist
     <div style="float:right; font-weight:normal; font-size:10px">
     (click on a post to add it here)&nbsp;
     </div>
   </h3>
-  <div id="shortlist">
-  </div>
+  <%= htmlstream :shortlist %>
 </div>
+
+<script>
+  <%= render :file => 'root/_index.js.erb' %>
+</script>
