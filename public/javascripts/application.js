@@ -106,7 +106,7 @@ function getShortlistFromHash() {
 
 
 function postProcess() {
-  $('.item').remove(':nth-child(30)')
+  $('#stream .item:gt(30)').remove();
   $('a').attr('target', '_blank');
 }
 
