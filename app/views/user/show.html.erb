@@ -1,0 +1,8 @@
+<div class="content" style="margin-right:1%">
+  <h3>By <%= link_to params[:id], 'http://news.ycombinator.com/user?id='+params[:id], :target => '_blank'%></h3>
+  <%= render 'root/show_items', :items => @items %>
+</div>
+
+<script>
+  $('.item').slideDown();
+</script>
