@@ -163,7 +163,7 @@ def kwdmatch_email(to, keyword, hnid):
     return """To: %s
 Subject: New story on HN about %s
 
-http://news.ycombinator.com/item?id=%s""" %(to, keyword, hnid)
+http://hackerstream.com/item/%s""" %(to, keyword, hnid)
 
 def sendmail(msg):
   try:
