@@ -1,5 +1,6 @@
 $(function() {
   $(document).ready(getShortlistFromHash);
+  $(document).ready(postProcess);
   $(document).ready(function() {
     setTimeout(perpetuallyRefreshPage, 30000);
   });
