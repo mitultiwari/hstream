@@ -74,8 +74,8 @@ function hnid(url) {
 
 
 function toggleFollow() {
-  metric('follow');
   var author = $(this).attr('author');
+  metric('follow?'+author);
   if ($.inArray(author, shortlist) != -1) {
     $('.follow[author='+author+']').html('+');
     deleteFromArray(author, shortlist);
