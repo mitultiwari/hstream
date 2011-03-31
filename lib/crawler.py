@@ -155,7 +155,7 @@ notifications = [
 
 def sendNotifications(hnid, contents, author):
   for pattern, email, hnuser in notifications:
-    if re.search('\b'+pattern+'\b', contents, re.I) and author != hnuser:
+    if re.search(r'\b'+pattern+r'\b', contents, re.I) and author != hnuser:
       print 'notifying', email, 'of', hnid
       sendmail(kwdmatch_email(email, pattern, hnid))
 
