@@ -14,7 +14,7 @@ body{ margin:2 auto; }
 
 .button{ color:#f6f6ef; background:#c2c2c2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; }
 
-#stream .item{ cursor:pointer; }
+#stream .item{ cursor:move; }
 .shortlistClose{ float:right; margin-left:0.5em; margin-right:0.5em; }
 #stream .shortlistClose{ display:none; }
 #shortlist .shortlistClose{ display: block; }
