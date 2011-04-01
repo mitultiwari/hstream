@@ -3,6 +3,8 @@
   <head>
     <title><%= layout['title']%></title>
     <%= stylesheet_link_tag :all %>
+    <link rel="stylesheet" media="handheld" href="/stylesheets/handheld/application.css"/>
+    <link rel="stylesheet" media="screen and (max-device-width: 801px)" href="/stylesheets/handheld/application.css"/>
     <%= javascript_include_tag :defaults %>
     <%= csrf_meta_tag %>
   </head>
