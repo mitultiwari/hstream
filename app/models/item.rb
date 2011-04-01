@@ -18,7 +18,7 @@ class Item < ActiveRecord::Base
 
   def show_contents
     contents.
-      sub(/by <[^>]+>([^<]+)<\/[^>]+>/, '\& <a class="follow" author="\1">+</a>').
+      sub(/by <[^>]+>([^<]+)<\/[^>]+>/, '\& <a class="follow button" author="\1">+</a>').
       sub(/\W[0-9]+ (minutes?|hours?) ago/, '').
       sub(/\W[0-9]+ points?/, '').
       sub(/ \| <[^>]*>parent<[^>]*> \| on: <a[^>]*>[^<]*<[^>]*>/, '')

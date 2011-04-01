@@ -4,7 +4,7 @@ $(function() {
   $(document).ready(function() {
     setTimeout(perpetuallyRefreshPage, 30000);
   });
-  $('.item .contextbutton').live('click', toggleContext);
+  $('.item .moreComments').live('click', toggleContext);
   shortlistHandlers();
   $('.follow').live('click', toggleFollow);
 });
@@ -42,7 +42,7 @@ function shortlistHandlers() {
 var shortlist = [];
 function copyIntoShortlist() {
   var hnid = $(this).attr('hnid');
-  metric('shortlist?'+hnid+',' + ($(this).find('.contextbutton').length > 0 ? 'comment' : 'story'));
+  metric('shortlist?'+hnid+',' + ($(this).find('.moreComments').length > 0 ? 'comment' : 'story'));
   if ($.inArray(hnid, shortlist) >= 0) return true;
   shortlist.push(hnid);
 
