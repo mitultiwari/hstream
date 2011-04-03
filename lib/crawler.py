@@ -11,8 +11,9 @@ def readNewComments():
     saveItem(url(comhead, 'link'),
              computeTimestamp(comhead),
              computeAuthor(comhead),
-             unicode(comment),
-             url(comhead, 'parent'))
+             contents=unicode(comment),
+             parent=url(comhead, 'parent'),
+             story=computeOn(comment))
 
 def readNewStories():
   soup = getSoup('newest')
@@ -26,8 +27,7 @@ def readNewStories():
              computeAuthor(subtext),
              unicode(title.find('a')) +
                "<div class=\"subtext\">"+unicode(subtext)+"</div>" +
-               computeStoryDesc(title),
-             parent=None)
+               computeStoryDesc(title))
 
 
 
@@ -69,6 +69,9 @@ def computeStoryDesc(title):
     unicode(soup.find(attrs={'class': 'subtext'}).parent.nextSibling.nextSibling.contents[1])+
     "</div>")
 
+def computeOn(comment):
+  return comment.find(text=re.compile('on: ')).nextSibling['href']
+
 
 
 import urllib2
@@ -107,12 +110,12 @@ def absolutify(url):
 
 
 
-def saveItem(url, timestamp, author, contents, parent):
+def saveItem(url, timestamp, author, contents, parent=None, story=None):
   log("  "+url)
   try:
-    dbWrite("""insert into items (hnid,timestamp,author,parent_hnid,contents)
-               values (%s,%s,'%s',%s,'%s')"""
-        % (hnid(url),timestamp,author,hnid(parent),contents.replace("'", '&apos;')))
+    dbWrite("""insert into items (hnid,timestamp,author,contents,parent_hnid,story_hnid)
+               values (%s,%s,'%s','%s',%s,%s)"""
+        % (hnid(url),timestamp,author,contents.replace("'", '&apos;'),hnid(parent),hnid(story)))
     sendNotifications(hnid(url), contents, author) # only on first write
   except sqlite3.IntegrityError:
     dbWrite("""update items set contents = '%s' where hnid=%s"""
