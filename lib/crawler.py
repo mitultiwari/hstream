@@ -121,11 +121,11 @@ def saveItem(url, timestamp, author, contents, parent):
 import sqlite3
 
 def dbWrite(cmd):
-  with sqlite3.connect('db/production.sqlite3') as conn:
+  with sqlite3.connect('db/development.sqlite3') as conn:
     conn.execute(cmd)
 
 def dbRead(cmd):
-  for item in sqlite3.connect('db/production.sqlite3').execute(cmd):
+  for item in sqlite3.connect('db/development.sqlite3').execute(cmd):
     yield item
 
 
