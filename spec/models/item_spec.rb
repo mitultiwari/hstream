@@ -42,6 +42,10 @@ describe Item do
       Item.since('0').should == [@two, @one]
     end
 
+    it 'should return recent items given non-existent hnid' do
+      Item.since(13).should == [@two, @one]
+    end
+
     it 'should return items added since arg' do
       Item.since(@one.hnid).should == [@two]
       Item.since(@one.hnid.to_s).should == [@two]

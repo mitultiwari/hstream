@@ -25,8 +25,11 @@ class Item < ActiveRecord::Base
 
   def self.since(hnid, bound=nil)
     return limit(20) if [nil, '', '0', 0].index(hnid)
-    return bound ?
-      where('id > ? and id <= ?', Item.find_by_hnid(hnid).id, bound).limit(10) :
-      where('id > ?', Item.find_by_hnid(hnid).id).limit(10)
+
+    mostRecent = Item.find_by_hnid(hnid)
+    return limit(20) unless mostRecent
+
+    ans = limit(10).where('id > ?', mostRecent.id)
+    return bound ? ans.where('id <= ?', bound) : ans
   end
 end
