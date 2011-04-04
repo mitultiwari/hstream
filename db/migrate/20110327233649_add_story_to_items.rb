@@ -1,7 +1,7 @@
 class AddStoryToItems < ActiveRecord::Migration
   def self.up
     add_column :items, :story_hnid, :integer
-    add_index :items, :story_hnid, :unique => true
+    add_index :items, :story_hnid
   end
 
   def self.down
