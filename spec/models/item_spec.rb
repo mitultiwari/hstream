@@ -55,4 +55,23 @@ describe Item do
       Item.since(@one.hnid, @one.id).should == []
     end
   end
+
+  describe 'ancestors' do
+    before do
+      @story = Factory(:item, :hnid => 2)
+      @grandparent = Factory(:item, :hnid => 4, :parent_hnid => 2, :story_hnid => 2)
+      @parent = Factory(:item, :hnid => 6, :parent_hnid => 4, :story_hnid => 2)
+      @unrelated = Factory(:item, :hnid => 7, :parent_hnid => 5, :story_hnid => 2) # missing
+      @curr = Factory(:item, :hnid => 8, :parent_hnid => 6, :story_hnid => 2)
+      @curr2 = Factory(:item, :hnid => 9, :parent_hnid => 7, :story_hnid => 2)
+    end
+
+    it 'should return all parents except the top-level story' do
+      @curr.ancestors.should == [@parent, @grandparent]
+    end
+
+    it 'should return parents upto missing item' do
+      @curr2.ancestors.should == [@unrelated]
+    end
+  end
 end

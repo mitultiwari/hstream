@@ -6,8 +6,8 @@ class Item < ActiveRecord::Base
   def ancestors
     ancestors = []
     x = parent
-    while x.parent
-      ancestors << x
+    while x
+      ancestors << x if x.parent_hnid
       x = x.parent
     end
     ancestors
