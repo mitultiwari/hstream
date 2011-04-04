@@ -13,21 +13,8 @@ class Item < ActiveRecord::Base
     ancestors
   end
 
-  def show_story
-    return story.show_title if story
-    contents.gsub(/\n/, ' ').sub(/.*\| on: (<a[^>]*>[^<]*<[^>]*>).*/, '\1')
-  end
-
   def show_title
     contents.sub(/\n/, ' ').sub(/(<a [^>]*>[^<]*<[^>]*>).*/, '\1')
-  end
-
-  def show_contents
-    contents.
-      sub(/by <[^>]+>([^<]+)<\/[^>]+>/, '\& <a class="follow button" author="\1">+</a>').
-      sub(/\W[0-9]+ (minutes?|hours?) ago/, '').
-      sub(/\W[0-9]+ points?/, '').
-      sub(/ \| <[^>]*>parent<[^>]*> \| on: <a[^>]*>[^<]*<[^>]*>/, '')
   end
 
   def self.shortlist_children(new, shortlist)

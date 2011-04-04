@@ -8,5 +8,3 @@ gem 'rspec-rails', '>= 2.0.0.beta'
 gem 'factory_girl_rails'
 
 gem 'jquery-rails'
-
-gem 'nokogiri'

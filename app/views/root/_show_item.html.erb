@@ -2,7 +2,7 @@
   <div class='contextbox'>
     <div class='shortlistClose button'>x</div>
     <% if item.parent %>
-      <div class='title'><%= raw item.show_story %></div>
+      <div class='title'><%= raw item.story.show_title %></div>
     <% end %>
     <% if item.parent && item.parent.parent %>
       <div class='moreComments button'><%= pluralize item.ancestors.size, 'more comment'%></div>
