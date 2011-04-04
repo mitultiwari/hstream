@@ -9,8 +9,7 @@ body{ margin:2 auto; }
 #pagetop{ background:#f6f6ef; width:100%; }
 .moreComments{ width:10em; font-size:8pt; margin-top:1em; }
 .ancestor{ padding-bottom:0.5em; }
-.subtext{ padding-top:1em; }
-.comhead{ padding-top:1em; padding-bottom:5px; }
+.subtext,.comhead{ padding-top:1em; padding-bottom:5px; }
 .bold{ font-weight:bold; }
 .bold a:link{ color:#666; }
 .bold .subtext{ font-weight:normal; }
