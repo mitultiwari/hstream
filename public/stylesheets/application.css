@@ -5,7 +5,8 @@ body{ margin:2 auto; }
 .context{ background:#f6f6ef; display:none; padding-left:5px; }
 .moreComments{ width:10em; font-size:8pt; margin-top:1em; margin-bottom:1em; }
 .ancestor{ padding-bottom:0.5em; }
-.subtext,.comment{ padding-top:1em; }
+.subtext{ padding-top:1em; }
+.comhead{ margin-bottom:5px; }
 .bold{ font-weight:bold; }
 .bold a:link{ color:#666; }
 .bold .subtext{ font-weight:normal; }

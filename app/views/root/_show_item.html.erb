@@ -2,14 +2,14 @@
   <div class='contextbox'>
     <div class='shortlistClose button'>x</div>
     <% if item.parent %>
-      <div class='title'><%= raw item.story %></div>
+      <div class='title'><%= raw item.story.show_title %></div>
     <% end %>
     <% if item.parent && item.parent.parent %>
       <div class='moreComments button'><%= pluralize item.ancestors.size, 'more comment'%></div>
       <div class='context'>
         <% item.ancestors.reverse.each do |ancestor| %>
           <div class='ancestor' hnid='<%= ancestor.hnid %>'>
-            <%= raw ancestor.show_contents %>
+            <%= raw ancestor.contents %>
           </div>
         <% end %>
       </div>
@@ -17,6 +17,10 @@
   </div>
 
   <div class='<%= item.parent_hnid ? "itembox" : "title bold"%>'>
-    <%= raw item.show_contents %>
+    <div class='comhead'>
+      by <a href='http://news.ycombinator.com/user?id=<%= item.author%>'><%= item.author%></a>
+      | <a href='http://news.ycombinator.com/item?id=<%= item.hnid%>'>link</a>
+    </div>
+    <%= raw item.contents %>
   </div>
 </div>

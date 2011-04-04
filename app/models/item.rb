@@ -1,5 +1,6 @@
 class Item < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Item', :foreign_key => 'parent_hnid', :primary_key => 'hnid'
+  belongs_to :story, :class_name => 'Item', :foreign_key => 'story_hnid', :primary_key => 'hnid'
   scope :since, lambda {|hnid| since_scope(hnid)}
 
   def ancestors
@@ -12,8 +13,8 @@ class Item < ActiveRecord::Base
     ancestors
   end
 
-  def story
-    contents.gsub(/\n/, ' ').sub(/.*\| on: (<a[^>]*>[^<]*<[^>]*>).*/, '\1')
+  def show_title
+    contents.sub(/\n/, ' ').sub(/(<a [^>]*>[^<]*<[^>]*>).*/, '\1')
   end
 
   def show_contents

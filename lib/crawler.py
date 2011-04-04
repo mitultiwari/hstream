@@ -11,7 +11,7 @@ def readNewComments():
     saveItem(url(comhead, 'link'),
              computeTimestamp(comhead),
              computeAuthor(comhead),
-             contents=unicode(comment),
+             contents=unicode(comment.find(attrs={'class': 'comment'})),
              parent=url(comhead, 'parent'),
              story=computeOn(comment))
 
