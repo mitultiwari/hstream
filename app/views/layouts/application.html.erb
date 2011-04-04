@@ -10,29 +10,19 @@
   </head>
 
   <body>
-    <table cellspacing="0" cellpadding="0" border="0" id="pagetop">
+    <table id="pagetop" bgcolor="<%= layout['topcolor']%>" cellspacing="0" cellpadding="0">
       <tbody>
         <tr>
-          <td bgcolor="<%= layout['topcolor']%>">
-            <table cellspacing="0" cellpadding="0" border="0" width="100%" style="padding: 2px;">
-              <tbody>
-                <tr>
-                  <td style="width: 18px; padding-right: 4px;">
-                    <img height="18" width="18" style="border: 1px solid rgb(255, 255, 255);" src="/images/s.gif">
-                  </td>
-                  <td style="line-height: 12pt; height: 10px;">
-                    <span>
-                      <div style='float:right'><a href='mailto:feedback@readwarp.com'>feedback</a></div>
-                      <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
-                      <img height="1" width="10" src="/images/s.gif">
-                      <a target="_blank" href="<%= layout['root']%>/newest">new</a> |
-                      <a target="_blank" href="<%= layout['root']%>/newcomments">comments</a> |
-                      <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <td style="width: 18px; padding-right: 4px;">
+            <img height="18" width="18" style="border: 1px solid rgb(255, 255, 255);" src="/images/s.gif">
+          </td>
+          <td style="line-height: 12pt; height: 10px;">
+            <div style='float:right; margin-right:5px'><a href='mailto:feedback@readwarp.com'>feedback</a></div>
+            <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
+            <img height="1" width="10" src="/images/s.gif">
+            <a target="_blank" href="<%= layout['root']%>/newest">new</a> |
+            <a target="_blank" href="<%= layout['root']%>/newcomments">comments</a> |
+            <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
           </td>
         </tr>
       </tbody>
