@@ -46,5 +46,9 @@ describe Item do
       Item.since(@one.hnid).should == [@two]
       Item.since(@one.hnid.to_s).should == [@two]
     end
+
+    it 'should accept an optional bound id (*not* hnid)' do
+      Item.since(@one.hnid, @one.id).should == []
+    end
   end
 end

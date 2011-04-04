@@ -1,7 +1,8 @@
 class RootController < ApplicationController
   def index
-    @items = {:stream => Item.since(params[:mostRecentItem])}
+    bound = Item.first
+    @mostRecentItem = bound.hnid
+    @items = {:stream => Item.since(params[:mostRecentItem], bound.id)}
     @items[:shortlist] = Item.shortlist_children @items[:stream], params[:shortlist]
-    @mostRecentItem = @items[:stream][0].hnid rescue params[:mostRecentItem]
   end
 end

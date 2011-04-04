@@ -23,8 +23,10 @@ class Item < ActiveRecord::Base
     new.select{|x| shortlist.index(x.parent_hnid) || shortlist.index(x.author)}
   end
 
-  def self.since(hnid)
+  def self.since(hnid, bound=nil)
     return limit(20) if [nil, '', '0', 0].index(hnid)
-    return where('id > ?', Item.find_by_hnid(hnid).id).limit(10)
+    return bound ?
+      where('id > ? and id <= ?', Item.find_by_hnid(hnid).id, bound).limit(10) :
+      where('id > ?', Item.find_by_hnid(hnid).id).limit(10)
   end
 end
