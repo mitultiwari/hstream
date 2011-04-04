@@ -1,8 +1,10 @@
 body{ margin:2 auto; }
 .context{ background:#f6f6ef; display:none; padding-left:5px; }
 
-.content{ background:#f6f6ef; padding-top:10px; font-size:9pt; float:left; width:49.5%; margin-bottom:1em; }
-.item{ background:#e6e6df; margin-top:5px; padding-left:5px; padding-top:5px; padding-bottom:5px; }
+.content{ background:#f6f6ef; font-size:9pt; float:left; width:49.5%; }
+.item{ background:#e6e6df; }
+.content{ padding-top:10px; margin-bottom:1em; }
+.item{ margin-top:5px; padding-left:5px; padding-top:5px; padding-bottom:5px; }
 
 #pagetop{ background:#f6f6ef; width:100%; }
 .moreComments{ width:10em; font-size:8pt; margin-top:1em; margin-bottom:1em; }
