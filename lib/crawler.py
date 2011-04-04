@@ -8,10 +8,12 @@ def readNewComments():
   comments = soup.findAll(attrs={'class': 'default'})
   for comment in comments:
     comhead = comment.find(attrs={'class': 'comhead'})
+    contents = comment.find(attrs={'class': 'comment'})
+    contents.name = 'div'
     saveItem(url(comhead, 'link'),
              computeTimestamp(comhead),
              computeAuthor(comhead),
-             contents=unicode(comment.find(attrs={'class': 'comment'})),
+             contents=unicode(contents),
              parent=url(comhead, 'parent'),
              story=computeOn(comment))
 
