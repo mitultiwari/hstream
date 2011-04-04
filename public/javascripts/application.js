@@ -17,7 +17,7 @@ function perpetuallyRefreshPage() {
 
 function refreshPage() {
   ajax({
-    url: location.href+'.js',
+    url: location.pathname+'.js',
     method: 'get',
     data: {
       mostRecentItem: mostRecentItem,
