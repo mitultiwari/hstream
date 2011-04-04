@@ -14,7 +14,7 @@ class Item < ActiveRecord::Base
   end
 
   def show_title
-    contents.sub(/\n/, ' ').sub(/(<a [^>]*>[^<]*<[^>]*>).*/, '\1')
+    contents.sub(/\n/, ' ').sub(/<a [^>]*>([^<]*)<[^>]*>.*/, "<a href='http://news.ycombinator.com/item?id=#{hnid}'>\\1</a>")
   end
 
   def self.shortlist_children(new, shortlist)
