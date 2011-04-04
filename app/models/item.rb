@@ -13,6 +13,11 @@ class Item < ActiveRecord::Base
     ancestors
   end
 
+  def show_story
+    return story.show_title if story
+    contents.gsub(/\n/, ' ').sub(/.*\| on: (<a[^>]*>[^<]*<[^>]*>).*/, '\1')
+  end
+
   def show_title
     contents.sub(/\n/, ' ').sub(/(<a [^>]*>[^<]*<[^>]*>).*/, '\1')
   end

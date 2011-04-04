@@ -6,7 +6,6 @@ class MoveContextOutOfCommentContents < ActiveRecord::Migration
       puts "#{item.id} #{item.hnid} #{item.story_hnid}"
       item.contents = Nokogiri::HTML(item.contents).search('.comment').to_html
       item.save
-      break if item.story
     end
   end
 
