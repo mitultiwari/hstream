@@ -1,8 +1,8 @@
 class StoryController < ApplicationController
   def show
-    @items = {:stream => Item.where('story_hnid = ?', params[:id]).since(params[:mostRecentItem])}
-    @mostRecentItem = @items[:stream][0].hnid rescue params[:mostRecentItem]
-    @items[:stream] = @items[:stream].select{|x| x.story_hnid == params[:id].to_i}
+    bound = Item.first
+    @mostRecentItem = bound.hnid
+    @items = {:stream => Item.where('story_hnid = ?', params[:id]).since(params[:mostRecentItem], bound.id)}
     @items[:shortlist] = []
   end
 end
