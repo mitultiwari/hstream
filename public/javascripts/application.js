@@ -2,7 +2,7 @@ $(function() {
   $(document).ready(getShortlistFromHash);
   $(document).ready(postProcess);
   $(document).ready(function() {
-    setTimeout(perpetuallyRefreshPage, 30000);
+    setTimeout(perpetuallyRefreshPage, 6000);
   });
   $('.item .moreComments').live('click', toggleContext);
   shortlistHandlers();
@@ -11,7 +11,7 @@ $(function() {
 
 function perpetuallyRefreshPage() {
   refreshPage();
-  setTimeout(perpetuallyRefreshPage, 30000);
+  setTimeout(perpetuallyRefreshPage, 6000);
   return false;
 }
 

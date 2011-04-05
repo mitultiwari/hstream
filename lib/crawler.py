@@ -88,7 +88,7 @@ import urllib2
 from BeautifulSoup import BeautifulSoup, Tag
 
 def getSoup(url):
-  sleep(30)
+  sleep(2)
   log(url)
   soup = BeautifulSoup(urllib2.urlopen(absolutify(url)))
   for p in soup.findAll('a'):
