@@ -8,14 +8,21 @@ def readNewComments():
   comments = soup.findAll(attrs={'class': 'default'})
   for comment in comments:
     comhead = comment.find(attrs={'class': 'comhead'})
-    contents = comment.find(attrs={'class': 'comment'})
-    contents.name = 'div'
     saveItem(url(comhead, 'link'),
              computeTimestamp(comhead),
              computeAuthor(comhead),
-             contents=unicode(contents),
+             computeContents(comment),
              parent=url(comhead, 'parent'),
-             story=computeOn(comment))
+             story=computeOn(comhead))
+
+def computeContents(comment):
+  # Bug in BeautifulSoup; should be simply:
+#?   contents = comment.find(attrs={'class': 'comment'})
+#?   contents.name = 'div'
+#?   return unicode(contents)
+  comment.contents[0].extract() # HACK: mutating comment in place
+  comment.find(attrs={'class': 'comment'}).name = 'div'
+  return unicode(comment)
 
 def readNewStories():
   soup = getSoup('newest')
@@ -71,8 +78,8 @@ def computeStoryDesc(title):
     unicode(soup.find(attrs={'class': 'subtext'}).parent.nextSibling.nextSibling.contents[1])+
     "</div>")
 
-def computeOn(comment):
-  return comment.find(text=re.compile('on: ')).nextSibling['href']
+def computeOn(comhead):
+  return comhead.find(text=re.compile('on: ')).nextSibling['href']
 
 
 
