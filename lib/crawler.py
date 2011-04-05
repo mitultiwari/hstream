@@ -21,6 +21,7 @@ def computeContents(comment):
 #?   contents.name = 'div'
 #?   return unicode(contents)
   comment.contents[0].extract() # HACK: mutating comment in place
+  comment.find('br').extract()
   comment.find(attrs={'class': 'comment'}).name = 'div'
   return unicode(comment)
 
