@@ -1,5 +1,8 @@
 class UserController < ApplicationController
   def show
-    @items = Item.order('id desc').where('author = ?', params[:id]).limit(20)
+    @mostRecentItem, @items = initialize_item_scopes(params)
+    @items[:stream] = @items[:stream].where('author = ?', params[:id])
+    @items[:shortlist] = []
+    render 'root/index'
   end
 end
