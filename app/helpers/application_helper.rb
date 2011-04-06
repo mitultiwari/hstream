@@ -1,9 +1,10 @@
 module ApplicationHelper
   def htmlstream(id)
-    raw "<div id=\"#{id.to_s}\">#{render 'root/show_items', :items => @items[id]}</div>"
+    raw "<div id=\"#{id}\">#{render 'root/show_items', :items => @items[id]}</div>"
   end
   def jsstream(id)
-    raw "$('##{id.to_s}').prepend(\"#{escape_javascript(render 'root/show_items', :items => @items[id])}\");"
+    return '' if @items[id].blank?
+    raw "$('##{id}').prepend(\"#{escape_javascript(render 'root/show_items', :items => @items[id])}\");"
   end
 
   def layout

@@ -2,14 +2,17 @@
   <h3>Stream</h3>
   <%= htmlstream :stream %>
 </div>
-<div class="content">
-  <h3>My Watchlist
-    <div style="float:right; font-weight:normal; font-size:10px">
-    (click on a post to add it here)&nbsp;
-    </div>
-  </h3>
-  <%= htmlstream :shortlist %>
-</div>
+
+<% if @items[:shortlist] %>
+  <div class="content">
+    <h3>My Watchlist
+      <div style="float:right; font-weight:normal; font-size:10px">
+      (click on a post to add it here)&nbsp;
+      </div>
+    </h3>
+    <%= htmlstream :shortlist %>
+  </div>
+<% end %>
 
 <script>
   <%= render :file => 'root/_index.js.erb' %>
