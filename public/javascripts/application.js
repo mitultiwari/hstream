@@ -1,18 +1,13 @@
 $(function() {
   $(document).ready(getShortlistFromHash);
   $(document).ready(postProcess);
-  $(document).ready(function() {
-    setTimeout(perpetuallyRefreshPage, 6000);
-  });
   $('.item .moreComments').live('click', toggleContext);
   shortlistHandlers();
   $('.follow').live('click', toggleFollow);
 });
 
-function perpetuallyRefreshPage() {
-  refreshPage();
-  setTimeout(perpetuallyRefreshPage, 6000);
-  return false;
+function schedulePageRefresh() {
+  setTimeout(refreshPage, 6000);
 }
 
 function refreshPage() {
@@ -109,6 +104,7 @@ function getShortlistFromHash() {
 function postProcess() {
   $('#stream .item:gt(30)').remove();
   $('a').attr('target', '_blank');
+  schedulePageRefresh();
 }
 
 function ajax(args) {
