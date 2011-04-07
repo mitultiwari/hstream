@@ -2,7 +2,7 @@
 <%= jsstream :shortlist %>
 <%= render :file => 'root/_index.js.erb' %>
 
-var pollInterval = 10000;
+var pollInterval = 30000;
 function schedulePageRefresh() {
   setTimeout(refreshPage, pollInterval);
 }
