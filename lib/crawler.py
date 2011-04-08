@@ -88,7 +88,7 @@ import urllib2
 from BeautifulSoup import BeautifulSoup, Tag
 
 def getSoup(url):
-  sleep(1)
+  sleep(30) # Crawl-delay in http://news.ycombinator.com/robots.txt
   log(url)
   soup = BeautifulSoup(urllib2.urlopen(absolutify(url)))
   for p in soup.findAll('a'):

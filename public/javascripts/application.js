@@ -6,7 +6,7 @@ $(function() {
   $('.follow').live('click', toggleFollow);
 });
 
-var pollInterval = 10000;
+var pollInterval = 29000;
 function schedulePageRefresh() {
   setTimeout(refreshPage, pollInterval);
 }
