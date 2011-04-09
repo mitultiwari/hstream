@@ -3,6 +3,8 @@
     <div class='shortlistClose button'>x</div>
     <% if item.story %>
       <div class='title'><%= raw item.story.show_title %></div>
+    <% elsif item.title %>
+      <div class='title bold'><%= raw item.title %></div>
     <% end %>
     <% if item.parent && item.parent_hnid != item.story_hnid %>
       <div class='moreComments button'><%= pluralize item.ancestors.size, 'more comment'%></div>
@@ -16,7 +18,7 @@
     <% end %>
   </div>
 
-  <div class='<%= item.parent_hnid ? "itembox" : "title bold"%>'>
+  <div class='itembox'%>
     <%= render 'root/show_contents', :item => item %>
   </div>
 </div>

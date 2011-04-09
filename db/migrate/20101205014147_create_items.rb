@@ -2,6 +2,7 @@ class CreateItems < ActiveRecord::Migration
   def self.up
     create_table :items do |t|
       t.integer :hnid
+      t.text :title
       t.text :contents
       t.string :author
       t.datetime :timestamp

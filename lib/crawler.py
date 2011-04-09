@@ -35,9 +35,8 @@ def readNewStories():
     saveItem(computeStoryUrl(title, subtext),
              computeTimestamp(subtext),
              computeAuthor(subtext),
-             unicode(title.find('a')) +
-               "<div class=\"subtext\">"+unicode(subtext)+"</div>" +
-               computeStoryDesc(title))
+             title=unicode(title.find('a')),
+             contents=computeStoryDesc(title))
 
 
 
@@ -120,16 +119,21 @@ def absolutify(url):
 
 
 
-def saveItem(url, timestamp, author, contents, parent=None, story=None):
+def saveItem(url, timestamp, author, contents, title=None, parent=None, story=None):
   log("  "+url)
   try:
-    dbWrite("""insert into items (hnid,timestamp,author,contents,parent_hnid,story_hnid)
-               values (%s,%s,'%s','%s',%s,%s)"""
-        % (hnid(url),timestamp,author,contents.replace("'", '&apos;'),hnid(parent),hnid(story)))
+    dbWrite("""insert into items (hnid,parent_hnid,story_hnid,timestamp,author,title,contents)
+               values (%s,%s,%s,%s,%s,%s,%s)"""
+        % (hnid(url), hnid(parent), hnid(story), timestamp, sqlForJs(author),
+          sqlForJs(title), sqlForJs(contents)))
     sendNotifications(hnid(url), contents, author) # only on first write
   except sqlite3.IntegrityError:
-    dbWrite("""update items set contents = '%s' where hnid=%s"""
-        % (contents.replace("'", '&apos;'), hnid(url)))
+    dbWrite("""update items set title = %s, contents = %s where hnid=%s"""
+        % (sqlForJs(title), sqlForJs(contents), hnid(url)))
+
+def sqlForJs(s):
+  if s: return "'"+s.replace("'", '&apos;')+"'"
+  return 'null'
 
 import sqlite3
 
