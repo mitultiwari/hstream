@@ -13,7 +13,7 @@ class CreateItems < ActiveRecord::Migration
     end
 
     add_index :items, :hnid, :unique => true
-    add_index :items, :story_hnid, :unique => true
+    add_index :items, :story_hnid
   end
 
   def self.down
