@@ -12,8 +12,9 @@ def readNewComments():
              computeTimestamp(comhead),
              computeAuthor(comhead),
              computeContents(comment),
+             title=computeCommentTitle(comhead),
              parent=url(comhead, 'parent'),
-             story=computeOn(comhead))
+             story=computeCommentStory(comhead))
 
 def computeContents(comment):
   # Bug in BeautifulSoup; should be simply:
@@ -78,8 +79,11 @@ def computeStoryDesc(title):
     unicode(soup.find(attrs={'class': 'subtext'}).parent.nextSibling.nextSibling.contents[1])+
     "</div>")
 
-def computeOn(comhead):
+def computeCommentStory(comhead):
   return comhead.find(text=re.compile('on: ')).nextSibling['href']
+
+def computeCommentTitle(comhead):
+  return unicode(comhead.find(text=re.compile('on: ')).nextSibling)
 
 
 

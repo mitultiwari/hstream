@@ -3,6 +3,10 @@ class Item < ActiveRecord::Base
   belongs_to :story, :class_name => 'Item', :foreign_key => 'story_hnid', :primary_key => 'hnid'
   default_scope order('id desc')
 
+  def is_story?
+    parent_hnid.nil?
+  end
+
   def ancestors
     ancestors = []
     x = parent
@@ -11,10 +15,6 @@ class Item < ActiveRecord::Base
       x = x.parent
     end
     ancestors
-  end
-
-  def show_title
-    title.sub(/\n/, ' ').sub(/<a [^>]*>([^<]*)<[^>]*>.*/, "<a href='http://news.ycombinator.com/item?id=#{hnid}'>\\1</a>")
   end
 
   def self.shortlist_children(new, shortlist)
