@@ -3,6 +3,8 @@ $(function() {
   $(document).ready(postProcess);
   $('.item .moreComments').live('click', toggleContext);
   $('.follow').live('click', toggleFollow);
+  $('.author').live('mouseover', addRarr);
+  $('.author').live('mouseout', rmRarr);
 });
 
 var pollInterval = 29000;
@@ -34,6 +36,14 @@ function hnid(url) {
 }
 
 
+
+function addRarr() {
+  $(this).html($(this).html()+' &rarr;');
+}
+function rmRarr() {
+  var old = $(this).html();
+  $(this).html(old.substring(0, old.length-2));
+}
 
 function toggleFollow() {
   var author = $(this).attr('author');
