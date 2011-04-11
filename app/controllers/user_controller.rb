@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   def show
     @mostRecentItem, @items = initialize_item_scopes(params)
-    @items[:stream] = @items[:stream].where('author = ?', params[:id])
-    render 'root/index'
+    @items[:user] = @items[:stream].where('author = ?', params[:id])
+    @user = params[:id]
   end
 end

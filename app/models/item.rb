@@ -32,4 +32,12 @@ class Item < ActiveRecord::Base
     ans = limit(10).where('id > ?', mostRecent.id)
     return bound ? ans.where('id <= ?', bound) : ans
   end
+
+  def self.title(hnid)
+    story = Item.find_by_hnid(hnid)
+    return story.title if story
+    aComment = Item.where('story_hnid = ?', hnid).first
+    return aComment.title if aComment
+    return ''
+  end
 end
