@@ -2,7 +2,6 @@ $(function() {
   $(document).ready(getShortlistFromHash);
   $(document).ready(postProcess);
   $('.item .moreComments').live('click', toggleContext);
-  shortlistHandlers();
   $('.follow').live('click', toggleFollow);
 });
 
@@ -27,39 +26,6 @@ function refreshPage() {
 function toggleContext() {
   metric('context?'+$(this).parents('.item').attr('hnid'));
   $(this).siblings('.context').slideToggle();
-  return false;
-}
-
-function shortlistHandlers() {
-  $('#stream .item').live('click', copyIntoShortlist);
-  $('#shortlist .shortlistClose').live('click', deleteFromShortlist);
-}
-
-var shortlist = [];
-function copyIntoShortlist() {
-  var hnid = $(this).attr('hnid');
-  metric('shortlist?'+hnid+',' + ($(this).find('.moreComments').length > 0 ? 'comment' : 'story'));
-  if ($.inArray(hnid, shortlist) >= 0) return true;
-  shortlist.push(hnid);
-
-  var itemCopy = $(this).clone();
-  itemCopy.hide();
-  $('#shortlist').prepend(itemCopy);
-  itemCopy.slideDown();
-
-  return true;
-}
-
-function deleteFromShortlist() {
-  metric('delete');
-  var item = $(this).closest('.item');
-  var hnid = item.attr('hnid');
-
-  deleteFromArray(hnid, shortlist);
-  item.slideUp();
-  setTimeout(function() {
-    item.remove();
-  }, 500);
   return false;
 }
 
@@ -93,11 +59,12 @@ function addToHash(word) {
 
 function removeFromHash(word) {
   if (location.hash == '') return;
-  location.hash = '#' + deleteFromArray(word, hashArray()).join(',');
+  location.hash = '#' + deleteFromArray(word, locationHashArray()).join(',');
 }
 
+var shortlist = [];
 function getShortlistFromHash() {
-  shortlist = hashArray();
+  shortlist = locationHashArray();
 }
 
 
@@ -120,7 +87,7 @@ function deleteFromArray(elem, array) {
   return array;
 }
 
-function hashArray() {
+function locationHashArray() {
   return location.hash.substring(1).split(',');
 }
 

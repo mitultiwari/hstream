@@ -14,8 +14,6 @@ table#pagetop{ width:100%; padding: 2px; }
 .button{ color:#f6f6ef; background:#c2c2c2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; }
 .moreComments{ width:10em; margin-top:1em; }
 a.follow:hover { text-decoration:none !important; }
-.shortlistClose{ float:right; margin-left:0.5em; margin-right:0.5em; }
-#stream .shortlistClose{ display:none; }
 
 .content{ font-size:9pt; }
 .moreComments{ font-size:8pt; }
