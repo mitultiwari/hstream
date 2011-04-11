@@ -3,8 +3,9 @@ $(function() {
   $(document).ready(postProcess);
   $('.item .moreComments').live('click', toggleContext);
   $('.follow').live('click', toggleFollow);
-  $('.author').live('mouseover', addRarr);
-  $('.author').live('mouseout', rmRarr);
+  $('[href*="news.ycombinator.com"]').live('mouseover', addRarr);
+  $('[href*="news.ycombinator.com"]').live('mouseout', rmRarr);
+  $('[href*="news.ycombinator.com"]').live('click', newColumn);
 });
 
 var pollInterval = 29000;
@@ -42,7 +43,20 @@ function addRarr() {
 }
 function rmRarr() {
   var old = $(this).html();
-  $(this).html(old.substring(0, old.length-2));
+  if(old.charAt(old.length-2) == ' ')
+    $(this).html(old.substring(0, old.length-2));
+}
+
+function newColumn() {
+  ajax({url: convertUrl($(this))});
+  return false;
+}
+
+function convertUrl(elem) {
+  return elem.attr('href').
+      replace('http://news.ycombinator.com', '').
+      replace(/^\/item\?id=/, '/story/').
+      replace('?id=', '/') + '.js';
 }
 
 function toggleFollow() {
