@@ -15,12 +15,14 @@ function setupColumns() {
 //  alert($('#pagetop').innerWidth()+' '+$('#pagetop').width()+' '+$('#pagetop').outerWidth());
   columnWidth = $('#stream').outerWidth(false);
   var intercolumnGutter = 20; // sync with .content .view margin-left
-  var availableSpace = $('#pagetop').outerWidth()-15; // because of table
+  var availableSpace = $('#pagetop').outerWidth()-15;
+  alert(availableSpace+' '+$('#pagetop').width());
 
   maxColumns = intDiv(availableSpace, columnWidth);
   if (maxColumns < 1) maxColumns = 1;
 
   columnWidth = (availableSpace - (maxColumns-1)*intercolumnGutter) / maxColumns;
+  alert(columnWidth+' '+maxColumns);
   $('.content').width(columnWidth);
 }
 

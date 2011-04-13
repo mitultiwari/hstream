@@ -1,5 +1,5 @@
 body{ margin:2 auto; }
-table#pagetop{ width:100%; padding: 2px; }
+#pagetop{ width:100%; padding: 2px; }
 .content{ background:#f6f6ef; float:left; width:40em; padding-top:10px; margin-bottom:1em; }
 #stream{ }
 .view{ margin-left:20px; }

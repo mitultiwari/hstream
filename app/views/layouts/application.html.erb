@@ -10,23 +10,16 @@
   </head>
 
   <body>
-    <table id="pagetop" bgcolor="<%= layout['topcolor']%>" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td style="width: 18px; padding-right: 4px;">
-            <img height="18" width="18" style="border: 1px solid rgb(255, 255, 255);" src="/images/s.gif">
-          </td>
-          <td style="line-height: 12pt; height: 10px;">
-            <div style='float:right; margin-right:5px'><a href='mailto:feedback@readwarp.com'>feedback</a></div>
-            <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
-            <img height="1" width="10" src="/images/s.gif">
-            <a target="_blank" href="<%= layout['root']%>/newest">new</a> |
-            <a target="_blank" href="<%= layout['root']%>/newcomments">comments</a> |
-            <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="pagetop" style="background: <%= layout['topcolor']%>">
+      <div style='height:18px'>
+        <div style='float:right; margin-right:5px'><a href='mailto:feedback@readwarp.com'>feedback</a></div>
+        <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
+        <img height="1" width="10" src="/images/s.gif">
+        <a target="_blank" href="<%= layout['root']%>/newest">new</a> |
+        <a target="_blank" href="<%= layout['root']%>/newcomments">comments</a> |
+        <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
+      </div>
+    </div>
 
     <%= yield %>
   </body>
