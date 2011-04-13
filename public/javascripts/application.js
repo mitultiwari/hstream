@@ -12,18 +12,17 @@ $(function() {
 var maxColumns = 0;
 var columnWidth = 0;
 function setupColumns() {
-//  alert($('#pagetop').innerWidth()+' '+$('#pagetop').width()+' '+$('#pagetop').outerWidth());
+setTimeout(function() { // wait for initial slideDown; it messes with pagetop.width
   columnWidth = $('#stream').outerWidth(false);
   var intercolumnGutter = 20; // sync with .content .view margin-left
-  var availableSpace = $('#pagetop').outerWidth()-15;
-  alert(availableSpace+' '+$('#pagetop').width());
+  var availableSpace = $('#pagetop').outerWidth()-4;
 
   maxColumns = intDiv(availableSpace, columnWidth);
   if (maxColumns < 1) maxColumns = 1;
 
   columnWidth = (availableSpace - (maxColumns-1)*intercolumnGutter) / maxColumns;
-  alert(columnWidth+' '+maxColumns);
   $('.content').width(columnWidth);
+}, 100);
 }
 
 var pollInterval = 29000;
@@ -114,7 +113,8 @@ function getShortlistFromHash() {
 function postProcess() {
   $('#stream .item:gt(30)').remove();
   $('a').attr('target', '_blank');
-  $('.content').width(columnWidth);
+  if (columnWidth > 0)
+    $('.content').width(columnWidth);
   schedulePageRefresh();
 }
 
