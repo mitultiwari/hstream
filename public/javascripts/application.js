@@ -1,5 +1,6 @@
 $(function() {
   $(document).ready(getShortlistFromHash);
+  $(document).ready(setupColumns);
   $(document).ready(postProcess);
   $('.item .moreComments').live('click', toggleContext);
   $('.follow').live('click', toggleFollow);
@@ -7,6 +8,21 @@ $(function() {
   $('[href*="news.ycombinator.com"]').live('mouseout', rmRarr);
   $('[href*="news.ycombinator.com"]').live('click', newColumn);
 });
+
+var maxColumns = 0;
+var columnWidth = 0;
+function setupColumns() {
+//  alert($('#pagetop').innerWidth()+' '+$('#pagetop').width()+' '+$('#pagetop').outerWidth());
+  columnWidth = $('#stream').outerWidth(false);
+  var intercolumnGutter = 20; // sync with .content .view margin-left
+  var availableSpace = $('#pagetop').outerWidth()-15; // because of table
+
+  maxColumns = intDiv(availableSpace, columnWidth);
+  if (maxColumns < 1) maxColumns = 1;
+
+  columnWidth = (availableSpace - (maxColumns-1)*intercolumnGutter) / maxColumns;
+  $('.content').width(columnWidth);
+}
 
 var pollInterval = 29000;
 function schedulePageRefresh() {
@@ -96,6 +112,7 @@ function getShortlistFromHash() {
 function postProcess() {
   $('#stream .item:gt(30)').remove();
   $('a').attr('target', '_blank');
+  $('.content').width(columnWidth);
   schedulePageRefresh();
 }
 
@@ -120,4 +137,8 @@ function metric(url) {
     url: '/'+url,
     method: 'get',
   });
+}
+
+function intDiv(a, b) {
+  return (a - a%b) / b;
 }
