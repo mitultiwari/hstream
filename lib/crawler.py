@@ -61,9 +61,12 @@ def computeTimestamp(subtext):
 
   return 0
 
+import string
 def computeAuthor(subtext):
-  try: return str(subtext.contents[2].string)
-  except IndexError: return ''
+  for link in subtext.findAll('a'):
+    if string.find(link['href'], 'http://news.ycombinator.com/user?id=') == 0:
+      return link.contents[0]
+  return ''
 
 def computeStoryUrl(title, subtext):
   try: return subtext.contents[4]['href']
