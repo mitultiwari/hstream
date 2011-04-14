@@ -1,3 +1,3 @@
-$('#stream').after("<%= escape_javascript(render 'root/new_column', :items => @items[:user],
+$('#stream_column').after("<%= escape_javascript(render 'root/new_column', :items => @items[:user],
                                           :title => "by <a href='http://news.ycombinator.com/user?id=#{@user}'>#{@user}</a> <a class='follow button' author='#{@user}'>+</a>") %>");
 <%= render :file => 'root/_index.js.erb' %>
