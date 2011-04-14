@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
 
   def initialize_item_scopes(params)
     bound = Item.first
-    return [bound.hnid, {:stream => Item.since(params[:mostRecentItem], bound.id)}]
+    return [bound.hnid, {'stream' => Item.since(params[:mostRecentItem], bound.id)}]
   end
 end

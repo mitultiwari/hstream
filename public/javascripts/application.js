@@ -22,6 +22,7 @@ function refreshPage() {
     data: {
       mostRecentItem: mostRecentItem,
       shortlist: shortlist.join(),
+      columns: columnIds().join(),
     },
   });
 }
@@ -92,6 +93,10 @@ function setupNewColumnHandlers(selector) {
   $(selector).live('mouseover', addRarr);
   $(selector).live('mouseout', rmRarr);
   $(selector).live('click', newColumn);
+}
+
+function columnIds() {
+  return $.map($('.column').children('div'), function(elem) { return elem.id; });
 }
 
 function addRarr() {

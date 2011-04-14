@@ -1,2 +1,4 @@
-<%= jsstream :stream %>
+<% @columns.each do |col| %>
+  <%= jsstream col %>
+<% end %>
 <%= render :file => 'root/_index.js.erb' %>
