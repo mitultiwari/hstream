@@ -93,9 +93,9 @@ function insertColumnLeft(newColumnId) {
 function slideColumnLeft(newColumnId) {
   $('#'+newColumnId+' .item').slideUp();
   setTimeout(function() {
-    var column = $('#'+newColumnId);
-    $('#'+newColumnId).remove();
-    $('#stream').after(column);
+    var column = $('#'+newColumnId).parent('.column');
+    column.remove();
+    $('#stream_column').after(column);
     setTimeout(function() {
       $('#'+newColumnId+' .item').slideDown();
     }, 200);
