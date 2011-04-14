@@ -21,7 +21,7 @@ function setupColumns() {
 setTimeout(function() { // wait for initial slideDown; it messes with pagetop.width
   columnWidth = $('#stream').outerWidth(false);
   var intercolumnGutter = 20; // sync with .column .view margin-left
-  var availableSpace = $('#pagetop').outerWidth();
+  var availableSpace = $('#pagetop').outerWidth()-1;
 
   maxColumns = intDiv(availableSpace, columnWidth);
   if (maxColumns < 1) maxColumns = 1;
