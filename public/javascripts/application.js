@@ -71,6 +71,7 @@ function rmRarr() {
 }
 
 function newColumn() {
+  $(this).trigger('mouseout');
   var newColumnId = convertId($(this));
   if ($('#'+newColumnId).length)
     slideColumnLeft(newColumnId);
