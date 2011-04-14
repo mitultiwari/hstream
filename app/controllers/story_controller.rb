@@ -5,5 +5,6 @@ class StoryController < ApplicationController
     @id = 'story_'+@followee
     @items[@id] = @items[:stream].where('story_hnid = ?', @followee)
     @title = Item.title(@followee)
+    render 'root/show'
   end
 end

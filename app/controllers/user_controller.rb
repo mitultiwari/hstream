@@ -5,5 +5,6 @@ class UserController < ApplicationController
     @id = 'user_'+@followee
     @items[@id] = @items[:stream].where('author = ?', @followee)
     @title = "by <a href='http://news.ycombinator.com/user?id=#{@followee}'>#{@followee}</a>"
+    render 'root/show'
   end
 end
