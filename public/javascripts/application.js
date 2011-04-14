@@ -114,17 +114,17 @@ function convertUrl(id) {
 }
 
 function toggleFollow() {
-  var author = $(this).attr('author');
-  metric('follow?'+author);
-  if ($.inArray(author, shortlist) != -1) {
-    $('.follow[author='+author+']').html('+');
-    deleteFromArray(author, shortlist);
-    removeFromHash(author);
+  var followee = $(this).attr('followee');
+  metric('follow?'+followee);
+  if ($.inArray(followee, shortlist) != -1) {
+    $('.follow[followee='+followee+']').html('+');
+    deleteFromArray(followee, shortlist);
+    removeFromHash(followee);
   }
   else {
-    $('.follow[author='+author+']').html('-');
-    shortlist.push(author);
-    addToHash(author);
+    $('.follow[followee='+followee+']').html('-');
+    shortlist.push(followee);
+    addToHash(followee);
   }
   return true;
 }

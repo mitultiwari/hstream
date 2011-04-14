@@ -1,2 +1,2 @@
-$('#stream_column').after("<%= escape_javascript(render 'root/new_column', :items => @items[:story], :title => strip_tags(@title)) %>");
+$('#stream_column').after("<%= escape_javascript(render 'root/new_column') %>");
 <%= render :file => 'root/_index.js.erb' %>
