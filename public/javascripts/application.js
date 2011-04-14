@@ -7,6 +7,7 @@ $(function() {
   setupNewColumnHandlers('.story a');
   setupNewColumnHandlers('a.story');
   setupNewColumnHandlers('a.author');
+  $('#more-items').click(showNewItems);
 });
 
 var pollInterval = 29000;
@@ -23,6 +24,43 @@ function refreshPage() {
       shortlist: shortlist.join(),
     },
   });
+}
+
+function ajax(args) {
+  $.ajax($.extend(args, {
+    complete: postProcess,
+  }));
+}
+
+var title = $('title').html();
+function postProcess() {
+  $('#more-items').html(moreItemMessage());
+  $('title').html(titlePrefix()+' '+title);
+  $('a').attr('target', '_blank');
+  if (columnWidth > 0)
+    $('.column').width(columnWidth);
+  schedulePageRefresh();
+}
+
+function moreItemMessage() {
+  var numNewItems = Math.min($('#stream .holding').children('.item').length, 30);
+  if (numNewItems == 0) return '';
+  if (numNewItems == 1) return '1 new post';
+  return numNewItems+' new posts';
+}
+
+function titlePrefix() {
+  var numNewItems = Math.min($('#stream .holding').children('.item').length, 30);
+  if (numNewItems == 0) return '';
+  return '('+numNewItems+')';
+}
+
+function showNewItems() {
+  $('title').html(title);
+  $('#more-items').html('');
+  $('#stream').prepend($('#stream .holding').children());
+  $('.item').slideDown();
+  $('#stream .item:gt(30)').remove();
 }
 
 function toggleContext() {
@@ -142,20 +180,6 @@ function removeFromHash(word) {
 }
 
 
-
-function ajax(args) {
-  $.ajax($.extend(args, {
-    complete: postProcess,
-  }));
-}
-
-function postProcess() {
-  $('#stream .item:gt(30)').remove();
-  $('a').attr('target', '_blank');
-  if (columnWidth > 0)
-    $('.column').width(columnWidth);
-  schedulePageRefresh();
-}
 
 function hnid(url) {
   return url.replace('http://news.ycombinator.com/item?id=', '');

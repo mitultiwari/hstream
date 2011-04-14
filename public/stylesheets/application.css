@@ -23,6 +23,7 @@ a.follow:hover { text-decoration:none !important; }
 .bold a:link{ color:#666; }
 .bold .subtext{ font-weight:normal; }
 .bold .comment{ font-weight:normal; }
+#more-items{ margin-left:3em; font-weight:normal; font-size:10pt; cursor:pointer; }
 
 body{ font-family:Verdana; font-size:10pt; color:#000000; }
 h3{ color:#828282; margin-left:0.5em; margin-top:-0.25em; margin-bottom:0.5em; }

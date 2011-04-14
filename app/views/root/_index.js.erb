@@ -5,8 +5,6 @@ shortlist.push.apply(shortlist,
     <%= raw @items[:shortlist].collect{|x| x.hnid.to_s}.inspect%>);
 <% end %>
 
-$('.item').slideDown();
-
 for (var i = 0; i < shortlist.length; ++i) {
   $('.follow[author='+shortlist[i]+']').html('-');
 }
