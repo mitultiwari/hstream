@@ -20,14 +20,14 @@ var columnWidth = 0;
 function setupColumns() {
 setTimeout(function() { // wait for initial slideDown; it messes with pagetop.width
   columnWidth = $('#stream').outerWidth(false);
-  var intercolumnGutter = 20; // sync with .content .view margin-left
+  var intercolumnGutter = 20; // sync with .column .view margin-left
   var availableSpace = $('#pagetop').outerWidth();
 
   maxColumns = intDiv(availableSpace, columnWidth);
   if (maxColumns < 1) maxColumns = 1;
 
   columnWidth = (availableSpace - (maxColumns-1)*intercolumnGutter) / maxColumns;
-  $('.content').width(columnWidth);
+  $('.column').width(columnWidth);
 }, 100);
 }
 
@@ -80,10 +80,10 @@ function newColumn() {
 }
 
 function insertColumnLeft(newColumnId) {
-  if ($('.content').length == maxColumns) {
-    $('.content:last .item').slideUp();
+  if ($('.column').length == maxColumns) {
+    $('.column:last .item').slideUp();
     setTimeout(function() {
-      $('.content:last').remove();
+      $('.column:last').remove();
     }, 200);
   }
   ajax({url: convertUrl(newColumnId)});
@@ -150,7 +150,7 @@ function postProcess() {
   $('#stream .item:gt(30)').remove();
   $('a').attr('target', '_blank');
   if (columnWidth > 0)
-    $('.content').width(columnWidth);
+    $('.column').width(columnWidth);
   schedulePageRefresh();
 }
 

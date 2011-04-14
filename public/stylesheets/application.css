@@ -1,6 +1,6 @@
 body{ margin:2 auto; }
 #pagetop{ padding:2px; }
-.content{ background:#f6f6ef; float:left; width:40em; padding-top:10px; margin-bottom:1em; }
+.column{ background:#f6f6ef; float:left; width:40em; padding-top:10px; margin-bottom:1em; }
 #stream{ }
 .view{ margin-left:20px; }
 .item{ background:#e6e6df; margin-top:5px; }
@@ -17,7 +17,7 @@ body{ margin:2 auto; }
 .moreComments{ width:10em; margin-top:1em; }
 a.follow:hover { text-decoration:none !important; }
 
-.content{ font-size:9pt; }
+.column{ font-size:9pt; }
 .moreComments{ font-size:8pt; }
 .bold{ font-weight:bold; }
 .bold a:link{ color:#666; }
