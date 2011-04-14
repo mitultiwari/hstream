@@ -35,6 +35,7 @@ function ajax(args) {
 var title = $('title').html();
 function postProcess() {
   $('#more-items').html(moreItemMessage());
+  $('.column').children().children('.item').slideDown();
   $('title').html(titlePrefix()+' '+title);
   $('a').attr('target', '_blank');
   if (columnWidth > 0)
