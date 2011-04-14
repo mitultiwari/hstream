@@ -9,11 +9,29 @@ $(function() {
   setupNewColumnHandlers('a.author');
 });
 
-function setupNewColumnHandlers(selector) {
-  $(selector).live('mouseover', addRarr);
-  $(selector).live('mouseout', rmRarr);
-  $(selector).live('click', newColumn);
+var pollInterval = 29000;
+function schedulePageRefresh() {
+  setTimeout(refreshPage, pollInterval);
 }
+
+function refreshPage() {
+  ajax({
+    url: location.pathname+'.js',
+    method: 'get',
+    data: {
+      mostRecentItem: mostRecentItem,
+      shortlist: shortlist.join(),
+    },
+  });
+}
+
+function toggleContext() {
+  metric('context?'+$(this).parents('.item').attr('hnid'));
+  $(this).siblings('.context').slideToggle();
+  return false;
+}
+
+
 
 var maxColumns = 0;
 var columnWidth = 0;
@@ -31,35 +49,11 @@ setTimeout(function() { // wait for initial slideDown; it messes with pagetop.wi
 }, 100);
 }
 
-var pollInterval = 29000;
-function schedulePageRefresh() {
-  setTimeout(refreshPage, pollInterval);
+function setupNewColumnHandlers(selector) {
+  $(selector).live('mouseover', addRarr);
+  $(selector).live('mouseout', rmRarr);
+  $(selector).live('click', newColumn);
 }
-
-function refreshPage() {
-  ajax({
-    url: location.pathname+'.js',
-    method: 'get',
-    data: {
-      mostRecentItem: mostRecentItem,
-      shortlist: shortlist.join(),
-    },
-  });
-}
-
-
-
-function toggleContext() {
-  metric('context?'+$(this).parents('.item').attr('hnid'));
-  $(this).siblings('.context').slideToggle();
-  return false;
-}
-
-function hnid(url) {
-  return url.replace('http://news.ycombinator.com/item?id=', '');
-}
-
-
 
 function addRarr() {
   $(this).html($(this).html()+' &rarr;');
@@ -113,6 +107,13 @@ function convertUrl(id) {
   return '/'+id.replace('_', '/')+'.js';
 }
 
+
+
+var shortlist = [];
+function getShortlistFromHash() {
+  shortlist = locationHashArray();
+}
+
 function toggleFollow() {
   var followee = $(this).attr('followee');
   metric('follow?'+followee);
@@ -140,12 +141,13 @@ function removeFromHash(word) {
   location.hash = '#' + deleteFromArray(word, locationHashArray()).join(',');
 }
 
-var shortlist = [];
-function getShortlistFromHash() {
-  shortlist = locationHashArray();
-}
-
 
+
+function ajax(args) {
+  $.ajax($.extend(args, {
+    complete: postProcess,
+  }));
+}
 
 function postProcess() {
   $('#stream .item:gt(30)').remove();
@@ -155,10 +157,8 @@ function postProcess() {
   schedulePageRefresh();
 }
 
-function ajax(args) {
-  $.ajax($.extend(args, {
-    complete: postProcess,
-  }));
+function hnid(url) {
+  return url.replace('http://news.ycombinator.com/item?id=', '');
 }
 
 function deleteFromArray(elem, array) {
