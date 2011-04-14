@@ -75,8 +75,18 @@ function newColumn() {
   if ($('#'+newColumnId).length)
     slideColumnLeft(newColumnId);
   else
-    ajax({url: convertUrl(newColumnId)});
+    insertColumnLeft(newColumnId);
   return false;
+}
+
+function insertColumnLeft(newColumnId) {
+  if ($('.content').length == maxColumns) {
+    $('.content:last .item').slideUp();
+    setTimeout(function() {
+      $('.content:last').remove();
+    }, 200);
+  }
+  ajax({url: convertUrl(newColumnId)});
 }
 
 function slideColumnLeft(newColumnId) {
