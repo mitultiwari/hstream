@@ -4,10 +4,16 @@ $(function() {
   $(document).ready(postProcess);
   $('.item .moreComments').live('click', toggleContext);
   $('.follow').live('click', toggleFollow);
-  $('[href*="news.ycombinator.com"]').live('mouseover', addRarr);
-  $('[href*="news.ycombinator.com"]').live('mouseout', rmRarr);
-  $('[href*="news.ycombinator.com"]').live('click', newColumn);
+  setupNewColumnHandlers('.story a');
+  setupNewColumnHandlers('a.story');
+  setupNewColumnHandlers('a.author');
 });
+
+function setupNewColumnHandlers(selector) {
+  $(selector).live('mouseover', addRarr);
+  $(selector).live('mouseout', rmRarr);
+  $(selector).live('click', newColumn);
+}
 
 var maxColumns = 0;
 var columnWidth = 0;
@@ -65,15 +71,35 @@ function rmRarr() {
 }
 
 function newColumn() {
-  ajax({url: convertUrl($(this))});
+  var newColumnId = convertId($(this));
+  if ($('#'+newColumnId).length)
+    slideColumnLeft(newColumnId);
+  else
+    ajax({url: convertUrl(newColumnId)});
   return false;
 }
 
-function convertUrl(elem) {
+function slideColumnLeft(newColumnId) {
+  $('#'+newColumnId+' .item').slideUp();
+  setTimeout(function() {
+    var column = $('#'+newColumnId);
+    $('#'+newColumnId).remove();
+    $('#stream').after(column);
+    setTimeout(function() {
+      $('#'+newColumnId+' .item').slideDown();
+    }, 200);
+  }, 200);
+}
+
+function convertId(elem) {
   return elem.attr('href').
-      replace('http://news.ycombinator.com', '').
-      replace(/^\/item\?id=/, '/story/').
-      replace('?id=', '/') + '.js';
+      replace('http://news.ycombinator.com/', '').
+      replace(/^item\?id=/, 'story_').
+      replace('?id=', '_');
+}
+
+function convertUrl(id) {
+  return '/'+id.replace('_', '/')+'.js';
 }
 
 function toggleFollow() {
