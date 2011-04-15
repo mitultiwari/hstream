@@ -71,7 +71,7 @@ function showNewItems() {
   }
 
   $('.item').slideDown();
-  $('#stream .item:gt(30)').remove();
+  $('#stream .item:gt('+maxColumnCapacity+')').remove();
 }
 
 function toggleContext() {
