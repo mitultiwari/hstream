@@ -1,7 +1,9 @@
+var pollInterval = 29000;
 $(function() {
   $(document).ready(getShortlistFromHash);
   $(document).ready(setupColumns);
   $(document).ready(postProcess);
+  setTimeout(refreshPage, pollInterval);
   $('.item .moreComments').live('click', toggleContext);
   $('.follow').live('click', toggleFollow);
   setupNewColumnHandlers('.story a');
@@ -20,6 +22,7 @@ function refreshPage() {
       columns: columnIds().join(),
     },
   });
+  setTimeout(refreshPage, pollInterval);
 }
 
 function ajax(args) {
@@ -29,7 +32,6 @@ function ajax(args) {
 }
 
 var title = $('title').html();
-var pollInterval = 29000;
 function postProcess() {
   $('#more-items').html(moreItemMessage());
   $('.column').children().children('.item').slideDown();
@@ -37,7 +39,6 @@ function postProcess() {
   $('a').attr('target', '_blank');
   if (columnWidth > 0)
     $('.column').width(columnWidth);
-  setTimeout(refreshPage, pollInterval);
 }
 
 var maxColumnCapacity = 30;
