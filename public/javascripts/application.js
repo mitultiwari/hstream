@@ -92,7 +92,7 @@ setTimeout(function() { // wait for initial slideDown; it messes with pagetop.wi
 
   columnWidth = (availableSpace - (maxColumns-1)*intercolumnGutter) / maxColumns;
   $('.column').width(columnWidth);
-}, 100);
+}, 300);
 }
 
 function setupNewColumnHandlers(selector) {
