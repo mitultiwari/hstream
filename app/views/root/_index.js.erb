@@ -1,2 +1,2 @@
 mostRecentItem = <%= @mostRecentItem %>;
-$('.item[hnid='+<%= params[:item]%>+']').addClass('shortlist');
+$('.item[hnid='+<%= params[:item] || 0%>+']').addClass('shortlist');
