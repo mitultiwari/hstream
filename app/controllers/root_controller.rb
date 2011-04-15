@@ -5,7 +5,7 @@ class RootController < ApplicationController
     @shortlist = (params[:shortlist] || '').split(',')
     if params[:item]
       currItem = Item.find_by_hnid(params[:item])
-      @items['stream'] = [currItem]+@items['stream']-[currItem]
+      @items['stream'] = [currItem]+(@items['stream']-[currItem])
       @shortlist = [currItem.hnid.to_s]+@shortlist
     end
     @columns = (params[:columns] || '').split(',')
