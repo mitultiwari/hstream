@@ -181,6 +181,7 @@ function toggleFollow() {
     $('.item[story_hnid='+followee+']').removeClass('shortlist');
     deleteFromArray(followee, shortlist);
     removeFromHash(followee);
+    postProcess(); // refollow items with other reasons to be followed
   }
   else {
     $('.follow[followee='+followee+']').html('-');
