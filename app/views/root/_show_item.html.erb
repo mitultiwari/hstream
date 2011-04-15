@@ -1,4 +1,4 @@
-<div class='item' hnid='<%= item.hnid %>' style='display:none'>
+<div class='item<%= " shortlist" if @shortlist.include?(item.hnid.to_s) || @shortlist.include?(item.author)%>' hnid='<%= item.hnid%>' style='display:none'>
   <div class='contextbox'>
     <div class='title <%= 'bold' if item.is_story?%><%= 'story' unless item.is_story?%>'>
       <%= raw item.title %>

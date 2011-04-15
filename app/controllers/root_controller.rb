@@ -1,6 +1,7 @@
 class RootController < ApplicationController
   def index
     @mostRecentItem, @items = initialize_item_scopes(params)
+    @shortlist = (params[:shortlist] || '').split(',')
     @columns = (params[:columns] || '').split(',')
     @columns.each do |column|
       next if column == 'stream'
