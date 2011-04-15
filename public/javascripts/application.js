@@ -42,6 +42,7 @@ function postProcess() {
   for (var i = 0; i < shortlist.length; ++i) {
     $('.item[author='+shortlist[i]+']').addClass('shortlist');
     $('.item[story_hnid='+shortlist[i]+']').addClass('shortlist');
+    $('.follow[followee='+shortlist[i]+']').html('-');
   }
 }
 

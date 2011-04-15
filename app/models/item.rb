@@ -17,12 +17,6 @@ class Item < ActiveRecord::Base
     ancestors
   end
 
-  def self.shortlist_children(new, shortlist)
-    shortlist ||= ''
-    shortlist = shortlist.split(',').map{|x| x=~/^[0-9]+$/ ? x.to_i : x}
-    new.select{|x| shortlist.index(x.parent_hnid) || shortlist.index(x.author)}
-  end
-
   def self.since(hnid, bound=nil)
     return limit(20) if [nil, '', '0', 0].index(hnid)
 

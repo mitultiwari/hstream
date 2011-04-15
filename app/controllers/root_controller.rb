@@ -1,12 +1,10 @@
 class RootController < ApplicationController
-  # params to test: :columns, :shortlist, :item
+  # params to test: :columns, :item
   def index
     @mostRecentItem, @items = initialize_item_scopes(params)
-    @shortlist = (params[:shortlist] || '').split(',')
     if params[:item]
       currItem = Item.find_by_hnid(params[:item])
       @items['stream'] = [currItem]+(@items['stream']-[currItem])
-      @shortlist = [currItem.hnid.to_s]+@shortlist
     end
     @columns = (params[:columns] || '').split(',')
     @columns.each do |column|
