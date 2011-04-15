@@ -60,7 +60,13 @@ function titlePrefix() {
 function showNewItems() {
   $('title').html(title);
   $('#more-items').html('');
-  $('#stream').prepend($('#stream .holding').children());
+
+  var cols = columnIds();
+  for (var i = 0; i < cols.length; ++i) {
+    var selector = '#'+cols[i];
+    $(selector).prepend($(selector+' .holding').children());
+  }
+
   $('.item').slideDown();
   $('#stream .item:gt(30)').remove();
 }
