@@ -39,6 +39,10 @@ function postProcess() {
   $('a').attr('target', '_blank');
   if (columnWidth > 0)
     $('.column').width(columnWidth);
+  for (var i = 0; i < shortlist.length; ++i) {
+    $('.item[author='+shortlist[i]+']').addClass('shortlist');
+    $('.item[story_hnid='+shortlist[i]+']').addClass('shortlist');
+  }
 }
 
 var maxColumnCapacity = 30;
@@ -172,11 +176,15 @@ function toggleFollow() {
   metric('follow?'+followee);
   if ($.inArray(followee, shortlist) != -1) {
     $('.follow[followee='+followee+']').html('+');
+    $('.item[author='+followee+']').removeClass('shortlist');
+    $('.item[story_hnid='+followee+']').removeClass('shortlist');
     deleteFromArray(followee, shortlist);
     removeFromHash(followee);
   }
   else {
     $('.follow[followee='+followee+']').html('-');
+    $('.item[author='+followee+']').addClass('shortlist');
+    $('.item[story_hnid='+followee+']').addClass('shortlist');
     shortlist.push(followee);
     addToHash(followee);
   }
