@@ -149,12 +149,12 @@ function slideColumnLeft(newColumnId) {
 function convertId(elem) {
   return elem.attr('href').
       replace('http://news.ycombinator.com/', '').
-      replace(/^item\?id=/, 'story_').
-      replace('?id=', '_');
+      replace(/^item\?id=/, 'story:').
+      replace('?id=', ':');
 }
 
 function convertUrl(id) {
-  return '/'+id.replace('_', '/')+'.js';
+  return '/'+id.replace(':', '/')+'.js';
 }
 
 
