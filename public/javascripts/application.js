@@ -44,15 +44,16 @@ function postProcess() {
   schedulePageRefresh();
 }
 
+var maxColumnCapacity = 30;
 function moreItemMessage() {
-  var numNewItems = Math.min($('#stream .holding').children('.item').length, 30);
+  var numNewItems = Math.min($('#stream .holding').children('.item').length, maxColumnCapacity);
   if (numNewItems == 0) return '';
   if (numNewItems == 1) return '1 new post';
   return numNewItems+' new posts';
 }
 
 function titlePrefix() {
-  var numNewItems = Math.min($('#stream .holding').children('.item').length, 30);
+  var numNewItems = Math.min($('#stream .holding').children('.item').length, maxColumnCapacity);
   if (numNewItems == 0) return '';
   return '('+numNewItems+')';
 }
