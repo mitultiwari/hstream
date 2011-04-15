@@ -10,11 +10,6 @@ $(function() {
   $('#more-items').click(showNewItems);
 });
 
-var pollInterval = 29000;
-function schedulePageRefresh() {
-  setTimeout(refreshPage, pollInterval);
-}
-
 function refreshPage() {
   ajax({
     url: location.pathname+'.js',
@@ -34,6 +29,7 @@ function ajax(args) {
 }
 
 var title = $('title').html();
+var pollInterval = 29000;
 function postProcess() {
   $('#more-items').html(moreItemMessage());
   $('.column').children().children('.item').slideDown();
@@ -41,7 +37,7 @@ function postProcess() {
   $('a').attr('target', '_blank');
   if (columnWidth > 0)
     $('.column').width(columnWidth);
-  schedulePageRefresh();
+  setTimeout(refreshPage, pollInterval);
 }
 
 var maxColumnCapacity = 30;
