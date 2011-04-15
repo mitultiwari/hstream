@@ -6,7 +6,7 @@ module ApplicationHelper
   end
   def jsstream(id)
     return '' if @items[id].blank?
-    raw "$('##{id} .holding').prepend(\"#{escape_javascript(render 'root/show_items', :items => @items[id])}\");"
+    raw "$('#'+jqEsc('#{id}')+' .holding').prepend(\"#{escape_javascript(render 'root/show_items', :items => @items[id])}\");"
   end
 
   def layout

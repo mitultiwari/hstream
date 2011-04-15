@@ -64,7 +64,7 @@ function showNewItems() {
   var cols = columnIds();
   for (var i = 0; i < cols.length; ++i) {
     var selector = '#'+cols[i];
-    $(selector).prepend($(selector+' .holding').children());
+    $(jqEsc(selector)).prepend($(jqEsc(selector)+' .holding').children());
   }
 
   $('.item').slideDown();
@@ -117,7 +117,7 @@ function rmRarr() {
 function newColumn() {
   $(this).trigger('mouseout');
   var newColumnId = convertId($(this));
-  if ($('#'+newColumnId).length)
+  if ($('#'+jqEsc(newColumnId)).length)
     slideColumnLeft(newColumnId);
   else
     insertColumnLeft(newColumnId);
@@ -135,13 +135,13 @@ function insertColumnLeft(newColumnId) {
 }
 
 function slideColumnLeft(newColumnId) {
-  $('#'+newColumnId+' .item').slideUp();
+  $('#'+jqEsc(newColumnId)+' .item').slideUp();
   setTimeout(function() {
-    var column = $('#'+newColumnId).parent('.column');
+    var column = $('#'+jqEsc(newColumnId)).parent('.column');
     column.remove();
     $('#stream_column').after(column);
     setTimeout(function() {
-      $('#'+newColumnId+' .item').slideDown();
+      $('#'+jqEsc(newColumnId)+' .item').slideDown();
     }, 200);
   }, 200);
 }
@@ -216,4 +216,8 @@ function metric(url) {
 
 function intDiv(a, b) {
   return (a - a%b) / b;
+}
+
+function jqEsc(s) {
+  return s.replace(':', '\\:');
 }
