@@ -129,7 +129,12 @@ function insertColumnLeft(newColumnId) {
       $('.column:last').remove();
     }, 200);
   }
-  ajax({url: convertUrl(newColumnId)});
+  ajax({
+    url: convertUrl(newColumnId),
+    data: {
+      shortlist: shortlist.join(),
+    }
+  });
 }
 
 function slideColumnLeft(newColumnId) {
