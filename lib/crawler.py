@@ -77,6 +77,11 @@ def computeStoryDesc(title):
   try: url.index(root)
   except ValueError: return ''
 
+  for _ in dbRead('select hnid from items where hnid = %s' %(hnid(url))):
+    print ("%s already saved; not bothering updating description" % (hnid(url)))
+    return
+
+  print "saving description"
   soup = getSoup(url)
   return ("<div class=\"comment\">"+
     unicode(soup.find(attrs={'class': 'subtext'}).parent.nextSibling.nextSibling.contents[1])+
@@ -135,8 +140,9 @@ def saveItem(url, timestamp, author, contents, title=None, parent=None, story=No
           sqlForJs(title), sqlForJs(contents)))
     sendNotifications(hnid(url), contents, author) # only on first write
   except sqlite3.IntegrityError:
-    dbWrite("""update items set title = %s, contents = %s where hnid=%s"""
-        % (sqlForJs(title), sqlForJs(contents), hnid(url)))
+    if contents: # Ask HN stories won't refresh
+      dbWrite("""update items set title = %s, contents = %s where hnid=%s"""
+          % (sqlForJs(title), sqlForJs(contents), hnid(url)))
 
 def sqlForJs(s):
   if s: return "'"+s.replace("'", '&apos;')+"'"
