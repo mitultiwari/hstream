@@ -42,8 +42,7 @@ class Item < ActiveRecord::Base
   end
 
   def self.title_with_hn_link(hnid)
-    aComment = Item.where('story_hnid = ?', hnid).first
-    return aComment.title if aComment
-    return ''
+    title = Item.find_by_hnid(hnid).title.gsub(/<[^>]*>/, '')
+    return "<a href='http://news.ycombinator.com/item?id=#{hnid}'>#{title}</a>"
   end
 end
