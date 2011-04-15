@@ -138,7 +138,8 @@ def saveItem(url, timestamp, author, contents, title=None, parent=None, story=No
                values (%s,%s,%s,%s,%s,%s,%s)"""
         % (hnid(url), hnid(parent), hnid(story), timestamp, sqlForJs(author),
           sqlForJs(title), sqlForJs(contents)))
-    sendNotifications(hnid(url), contents, author) # only on first write
+    # to test: called only on first write; search title only for stories
+    sendNotifications(hnid(url), contents+' '+(title if not parent else ''), author)
   except sqlite3.IntegrityError:
     if contents: # Ask HN stories won't refresh
       dbWrite("""update items set title = %s, contents = %s where hnid=%s"""
