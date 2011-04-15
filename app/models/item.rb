@@ -40,4 +40,10 @@ class Item < ActiveRecord::Base
     return aComment.title if aComment
     return ''
   end
+
+  def self.title_with_hn_link(hnid)
+    aComment = Item.where('story_hnid = ?', hnid).first
+    return aComment.title if aComment
+    return ''
+  end
 end
