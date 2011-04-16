@@ -46,7 +46,7 @@ class Item < ActiveRecord::Base
     Item.find_all_by_hnid(Item.where('parent_hnid is not NULL').limit(200).group('story_hnid').count('story_hnid').top_keys)
   end
   def self.active_users
-    Item.limit(200).group('author').count('author').top_keys.collect do |user|
+    Item.limit(200).group('author').count('author').top_keys(20).collect do |user|
       Item.where('author = ?', user).last
     end
   end
