@@ -1,6 +1,7 @@
 class UserController < ApplicationController
   def show
-    @mostRecentItem, @items = initialize_item_scopes(params)
+    dummy, @items = initialize_item_scopes(params)
+    @mostRecentItem = nil
     @followee = params[:id]
     @id = 'user:'+@followee
     @items[@id] = @items['stream'].where('author = ?', @followee)

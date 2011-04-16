@@ -1,6 +1,7 @@
 class StoryController < ApplicationController
   def show
-    @mostRecentItem, @items = initialize_item_scopes(params)
+    dummy, @items = initialize_item_scopes(params)
+    @mostRecentItem = nil
     @followee = params[:id]
     @id = 'story:'+@followee
     @items[@id] = @items['stream'].where('story_hnid = ?', @followee)
