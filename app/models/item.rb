@@ -35,8 +35,14 @@ class Item < ActiveRecord::Base
     return ''
   end
 
+  def title_with_hn_link
+    "<a href='http://news.ycombinator.com/item?id=#{hnid}'>#{title.gsub(/<[^>]*>/, '')}</a>"
+  end
   def self.title_with_hn_link(hnid)
-    title = Item.find_by_hnid(hnid).title.gsub(/<[^>]*>/, '')
-    return "<a href='http://news.ycombinator.com/item?id=#{hnid}'>#{title}</a>"
+    Item.find_by_hnid(hnid).title_with_hn_link
+  end
+
+  def self.active_stories
+    Item.find_all_by_hnid(Item.where('parent_hnid is not NULL').limit(200).group('story_hnid').count('story_hnid').top_keys)
   end
 end
