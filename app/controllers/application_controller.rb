@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   }
 
   def initialize_item_scopes(params)
-    bound = Item.first
+    bound = params[:until] ? Item.find_by_hnid(params[:until]) : Item.first
     return [bound.hnid, {'stream' => Item.since(params[:mostRecentItem], bound.id)}]
   end
 end

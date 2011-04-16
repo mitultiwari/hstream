@@ -140,6 +140,9 @@ function insertColumnLeft(newColumnId) {
 
   ajax({
     url: convertUrl(newColumnId),
+    data: {
+      until: mostRecentItem,
+    }
   });
 }
 
