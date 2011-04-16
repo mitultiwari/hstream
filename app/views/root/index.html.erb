@@ -5,9 +5,7 @@
   <%= htmlstream 'stream' %>
 </div>
 
-<div class='column view'>
-  <%= render 'root/active_'+(rand(2).zero? ? 'users' : 'stories')%>
-</div>
+<%= render 'root/active_'+(rand(2).zero? ? 'users' : 'stories')%>
 
 <script>
   <%= render :file => 'root/_index.js.erb' %>
