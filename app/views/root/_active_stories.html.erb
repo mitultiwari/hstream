@@ -1,6 +1,6 @@
 <h3>Active stories</h3>
 <% Item.active_stories.each do |story| %>
-  <div class='item' story_hnid='<%= story.hnid%>' author='<%= story.author%>'>
+  <div class='item' story_hnid='<%= story.hnid%>'>
     <div class='story'>
       <%= raw story.title_with_hn_link %>
     </div>
