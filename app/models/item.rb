@@ -47,7 +47,7 @@ class Item < ActiveRecord::Base
   end
   def self.active_users
     Item.limit(200).group('author').count('author').top_keys(20).collect do |user|
-      Item.where('author = ?', user).last
+      Item.where('author = ?', user).first
     end
   end
 end
