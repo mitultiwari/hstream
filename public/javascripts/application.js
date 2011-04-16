@@ -11,7 +11,7 @@ $(function() {
   $('#active_stories_link').click(newColumn);
 
   $(document).ready(postProcess);
-  //setTimeout(refreshPage, pollInterval);
+  setTimeout(refreshPage, pollInterval);
   $('#more-items').click(showNewItems);
   $('.item .moreComments').live('click', toggleContext);
 });
