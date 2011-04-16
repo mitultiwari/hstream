@@ -1,4 +1,4 @@
-<div class="column view">
+<div class="column view" id='active_stories'>
   <h3>Active stories</h3>
   <% Item.active_stories.each do |story| %>
     <div class='item' story_hnid='<%= story.hnid%>'>

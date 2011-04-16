@@ -1,15 +1,19 @@
 var pollInterval = 29000;
 $(function() {
   $(document).ready(getShortlistFromHash);
-  $(document).ready(setupColumns);
-  $(document).ready(postProcess);
-  setTimeout(refreshPage, pollInterval);
-  $('.item .moreComments').live('click', toggleContext);
   $('.follow').live('click', toggleFollow);
+
+  $(document).ready(setupColumns);
   setupNewColumnHandlers('.story a');
   setupNewColumnHandlers('a.story');
   setupNewColumnHandlers('a.author');
+  $('#active_users_link').click(newColumn);
+  $('#active_stories_link').click(newColumn);
+
+  $(document).ready(postProcess);
+  //setTimeout(refreshPage, pollInterval);
   $('#more-items').click(showNewItems);
+  $('.item .moreComments').live('click', toggleContext);
 });
 
 function refreshPage() {
@@ -18,7 +22,6 @@ function refreshPage() {
     method: 'get',
     data: {
       mostRecentItem: mostRecentItem,
-      shortlist: shortlist.join(),
       columns: columnIds().join(),
     },
   });
@@ -35,7 +38,7 @@ var title = $('title').html();
 function postProcess() {
   $('#more-items').html(moreItemMessage());
   $('.column').children().children('.item').slideDown();
-  $('title').html(titlePrefix()+' '+title);
+  $('title').html(titlePrefix()+title);
   $('a').attr('target', '_blank');
   if (columnWidth > 0)
     $('.column').width(columnWidth);
@@ -57,7 +60,7 @@ function moreItemMessage() {
 function titlePrefix() {
   var numNewItems = Math.min($('#stream .holding').children('.item').length, maxColumnCapacity);
   if (numNewItems == 0) return '';
-  return '('+numNewItems+')';
+  return '('+numNewItems+') ';
 }
 
 function showNewItems() {
@@ -134,11 +137,9 @@ function insertColumnLeft(newColumnId) {
       $('.column:last').remove();
     }, 200);
   }
+
   ajax({
     url: convertUrl(newColumnId),
-    data: {
-      shortlist: shortlist.join(),
-    }
   });
 }
 

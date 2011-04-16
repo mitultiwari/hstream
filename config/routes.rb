@@ -3,4 +3,6 @@ Hnrt::Application.routes.draw do
   resources :item
   resources :user
   resources :story
+  resource :active_users
+  resource :active_stories
 end
