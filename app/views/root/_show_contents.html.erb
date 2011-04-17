@@ -1,5 +1,8 @@
 <div class='comhead'>
   by <a class='author' href='http://news.ycombinator.com/user?id=<%= item.author%>'><%= item.author%></a>
+  <% if item.timestamp > 0 %>
+  | <%= distance_of_time_in_words(Time.now.to_i - item.timestamp)%> ago
+  <% end %>
   | <a class='<%= "story" unless item.parent_hnid %>' href='http://news.ycombinator.com/item?id=<%= item.hnid%>'>link</a>
 </div>
 
