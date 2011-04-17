@@ -121,6 +121,7 @@ function rmRarr() {
 }
 
 function newColumn() {
+  if (maxColumns < 2) return true;
   $(this).trigger('mouseout');
   var newColumnId = convertId($(this));
   if ($('#'+jqEsc(newColumnId)).length)
