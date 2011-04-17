@@ -5,7 +5,7 @@
   <%= htmlstream 'stream' %>
 </div>
 
-<%= render 'root/active_'+(rand(2).zero? ? 'users' : 'stories')%>
+<%= render 'root/active_stories'%>
 
 <script>
   <%= render :file => 'root/_index.js.erb' %>
