@@ -42,7 +42,7 @@ def readNewStories():
 
 
 def computeTimestamp(subtext):
-  try: s = subtext.contents[3]
+  try: s = subtext.find(text=re.compile(r'\bago\b'))
   except IndexError: return 0
 
   now = time()
@@ -142,8 +142,8 @@ def saveItem(url, timestamp, author, contents, title=None, parent=None, story=No
     sendNotifications(hnid(url), contents+' '+(title if not parent else ''), author)
   except sqlite3.IntegrityError:
     if contents: # Ask HN stories won't refresh
-      dbWrite("""update items set title = %s, contents = %s where hnid=%s"""
-          % (sqlForJs(title), sqlForJs(contents), hnid(url)))
+      dbWrite("""update items set title=%s, contents=%s, timestamp=%s where hnid=%s"""
+          % (sqlForJs(title), sqlForJs(contents), timestamp, hnid(url)))
 
 def sqlForJs(s):
   if s: return "'"+s.replace("'", '&apos;')+"'"
