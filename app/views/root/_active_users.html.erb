@@ -1,14 +1,16 @@
 <div class="column view" id='active_users'>
   <h3>Active users</h3>
-  <% Item.active_users.each do |item| %>
-    <div class='item' author='<%= item.author%>'>
-      <div>
-        <a class='follow button' followee='<%= item.author%>'>+</a>
-        <a class='author bold' href='http://news.ycombinator.com/user?id=<%= item.author%>'><%= item.author%></a>
+  <div id='active_users_sub'>
+    <% Item.active_users.each do |item| %>
+      <div class='item' author='<%= item.author%>'>
+        <div>
+          <a class='follow button' followee='<%= item.author%>'>+</a>
+          <a class='author bold' href='http://news.ycombinator.com/user?id=<%= item.author%>'><%= item.author%></a>
+        </div>
+        <div class='story'>
+          on <em><%= raw item.story ? item.story.title_with_hn_link : item.title_with_hn_link %></em>
+        </div>
       </div>
-      <div class='story'>
-        on <em><%= raw item.story ? item.story.title_with_hn_link : item.title_with_hn_link %></em>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

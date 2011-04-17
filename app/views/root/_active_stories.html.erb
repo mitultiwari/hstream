@@ -1,14 +1,16 @@
 <div class="column view" id='active_stories'>
   <h3>Active stories</h3>
-  <% Item.active_stories.each do |story| %>
-    <div class='item' story_hnid='<%= story.hnid%>'>
-      <a class='follow button' followee='<%= story.hnid%>'>+</a>
-      <span class='story'>
-        <%= raw story.title_with_hn_link %>
-      </span>
-      <div class='comhead'>
-        by <a class='author' href='http://news.ycombinator.com/user?id=<%= story.author%>'><%= story.author%></a>
+  <div id='active_stories_sub'>
+    <% Item.active_stories.each do |story| %>
+      <div class='item' story_hnid='<%= story.hnid%>'>
+        <a class='follow button' followee='<%= story.hnid%>'>+</a>
+        <span class='story'>
+          <%= raw story.title_with_hn_link %>
+        </span>
+        <div class='comhead'>
+          by <a class='author' href='http://news.ycombinator.com/user?id=<%= story.author%>'><%= story.author%></a>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
