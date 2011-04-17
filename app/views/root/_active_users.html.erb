@@ -7,7 +7,7 @@
         <a class='author bold' href='http://news.ycombinator.com/user?id=<%= item.author%>'><%= item.author%></a>
       </div>
       <div class='story'>
-        on <em><%= raw item.title_with_hn_link %></em>
+        on <em><%= raw item.story ? item.story.title_with_hn_link : item.title_with_hn_link %></em>
       </div>
     </div>
   <% end %>
