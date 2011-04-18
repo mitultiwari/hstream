@@ -222,6 +222,8 @@ function deleteFromArray(elem, array) {
 }
 
 function locationHashArray() {
+  if (location.hash == '' || location.hash == '#')
+    return [];
   return location.hash.substring(1).split(',');
 }
 
