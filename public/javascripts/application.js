@@ -132,7 +132,7 @@ function newColumn() {
 }
 
 function insertColumnLeft(newColumnId) {
-  if ($('.column').length == maxColumns) {
+  if ($('.column').length >= maxColumns) {
     $('.column:last .item').slideUp();
     setTimeout(function() {
       $('.column:last').remove();

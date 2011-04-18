@@ -3,7 +3,6 @@
   <div id='active_stories_sub'>
     <% Item.active_stories.each do |story| %>
       <div class='item' story_hnid='<%= story.hnid%>'>
-        <a class='follow button' followee='<%= story.hnid%>'>+</a>
         <span class='story'>
           <%= raw story.title_with_hn_link %>
         </span>

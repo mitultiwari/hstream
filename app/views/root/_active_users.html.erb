@@ -4,7 +4,6 @@
     <% Item.active_users.each do |item| %>
       <div class='item' author='<%= item.author%>'>
         <div>
-          <a class='follow button' followee='<%= item.author%>'>+</a>
           <a class='author bold' href='http://news.ycombinator.com/user?id=<%= item.author%>'><%= item.author%></a>
         </div>
         <div class='story'>
