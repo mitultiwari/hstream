@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter lambda {
-    logger.debug "STAT: #{request.remote_ip} requested #{request.path}?#{request.query_string} via #{request.referer}"
+    logger.debug "STAT: #{request.ip} #{request.remote_ip} requested #{request.path}?#{request.query_string} via #{request.referer}"
   }
 
   def initialize_item_scopes(params)
