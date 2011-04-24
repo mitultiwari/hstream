@@ -25,6 +25,7 @@ describe Item do
 
     it 'should accept an optional bound id (*not* hnid)' do
       Item.since(@one.hnid, @one.id).should == []
+      Item.since(nil, @one.id).should == [@one]
     end
   end
 
@@ -40,6 +41,12 @@ describe Item do
 
     it 'should return all parents except the top-level story' do
       @curr.ancestors.should == [@parent, @grandparent]
+    end
+
+    it 'should include the top-level story if it has a description' do
+      @story.contents = 'contents'
+      @story.save
+      @curr.ancestors.should == [@parent, @grandparent, @story]
     end
 
     it 'should return parents upto missing item' do

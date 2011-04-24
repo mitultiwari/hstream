@@ -11,20 +11,20 @@ class Item < ActiveRecord::Base
     ancestors = []
     x = parent
     while x
-      ancestors << x if x.parent_hnid
+      ancestors << x if x.parent_hnid or !x.contents.blank?
       x = x.parent
     end
     ancestors
   end
 
   def self.since(hnid, bound=nil)
-    return Item.limit(20) if [nil, '', '0', 0].index(hnid)
+    ans = scoped.limit(20)
+    ans = ans.where('id <= ?', bound) if bound
+    return ans if [nil, '', '0', 0].index(hnid)
 
     mostRecent = Item.find_by_hnid(hnid)
-    return Item.limit(20) unless mostRecent
-
-    ans = Item.limit(10).where('id > ?', mostRecent.id)
-    return bound ? ans.where('id <= ?', bound) : ans
+    return ans unless mostRecent
+    return ans.where('id > ?', mostRecent.id)
   end
 
   def self.title(hnid)

@@ -206,7 +206,7 @@ http://hackerstream.com/?item=%s""" %(to, keyword, hnid)
 
 def sendmail(msg):
   try:
-    with os.popen("/usr/sbin/sendmail -t -f authsmtp@akkartik.com", "w") as sendmail:
+    with os.popen("/usr/sbin/sendmail -t -f feedback@readwarp.com", "w") as sendmail:
       sendmail.write(msg)
   except:
     traceback.print_exc(file=sys.stdout)
