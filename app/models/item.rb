@@ -11,7 +11,7 @@ class Item < ActiveRecord::Base
     ancestors = []
     x = parent
     while x
-      ancestors << x if x.parent_hnid
+      ancestors << x if x.parent_hnid or !x.contents.blank?
       x = x.parent
     end
     ancestors

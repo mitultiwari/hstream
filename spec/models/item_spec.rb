@@ -43,6 +43,12 @@ describe Item do
       @curr.ancestors.should == [@parent, @grandparent]
     end
 
+    it 'should include the top-level story if it has a description' do
+      @story.contents = 'contents'
+      @story.save
+      @curr.ancestors.should == [@parent, @grandparent, @story]
+    end
+
     it 'should return parents upto missing item' do
       @curr2.ancestors.should == [@unrelated]
     end
