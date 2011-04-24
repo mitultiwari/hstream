@@ -140,6 +140,7 @@ def saveItem(url, timestamp, author, contents, title=None, parent=None, story=No
           sqlForJs(title), sqlForJs(contents)))
     # to test: called only on first write; search title only for stories
     sendNotifications(hnid(url), contents+' '+(title if not parent else ''), author)
+    notifySubscribersFromDatabase(hnid(url), contents+' '+(title if not parent else ''), author)
   except sqlite3.IntegrityError:
     if contents: # Ask HN stories won't refresh
       dbWrite("""update items set title=%s, contents=%s, timestamp=%s where hnid=%s"""
@@ -189,6 +190,12 @@ def sendNotifications(hnid, contents, author):
     if re.search(r'\b'+pattern+r'\b', contents, re.I) and author != hnuser:
       print 'notifying', email, 'of', hnid
       sendmail(kwdmatch_email(email, pattern, hnid))
+
+def notifySubscribersFromDatabase(hnid, contents, author):
+  for user, email in dbRead('select user,email from subscriptions'):
+    if re.search(r'\b'+user+r'\b', contents, re.I) or author == user:
+      print 'notifying', email, 'of', hnid
+      sendmail(kwdmatch_email(email, user, hnid))
 
 def kwdmatch_email(to, keyword, hnid):
     return """To: %s
