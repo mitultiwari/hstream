@@ -25,6 +25,7 @@ describe Item do
 
     it 'should accept an optional bound id (*not* hnid)' do
       Item.since(@one.hnid, @one.id).should == []
+      Item.since(nil, @one.id).should == [@one]
     end
   end
 
