@@ -1,5 +1,4 @@
 class RootController < ApplicationController
-  # params to test: :columns, :item
   def index
     @mostRecentItem, @items = initialize_item_scopes(params)
     if params[:item]
