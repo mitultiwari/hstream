@@ -1,8 +1,9 @@
 class CreateSubscriptions < ActiveRecord::Migration
   def self.up
     create_table :subscriptions do |t|
-      t.string :user
-      t.string :email
+      t.integer :email_id
+      t.string :pattern
+      t.string :author_to_ignore
 
       t.timestamps
     end
