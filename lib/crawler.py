@@ -139,7 +139,6 @@ def saveItem(url, timestamp, author, contents, title=None, parent=None, story=No
         % (hnid(url), hnid(parent), hnid(story), timestamp, sqlForJs(author),
           sqlForJs(title), sqlForJs(contents)))
     # to test: called only on first write; search title only for stories
-    sendNotifications(hnid(url), contents+' '+(title if not parent else ''), author)
     notifySubscribersFromDatabase(hnid(url), contents+' '+(title if not parent else ''), author)
   except sqlite3.IntegrityError:
     if contents: # Ask HN stories won't refresh
@@ -172,29 +171,9 @@ def log(*args):
 
 
 
-notifications = [
-                 ['hackerstream', 'akkartik@gmail.com', 'akkartik'],
-                 ['hackerstream', 'mitultiwari@gmail.com', 'mitultiwari'],
-                 ['akkartik', 'akkartik@gmail.com', 'akkartik'],
-                 ['mitultiwari', 'mitultiwari@gmail.com', 'mitultiwari'],
-                 ['readwarp', 'akkartik@gmail.com', 'akkartik'],
-                 ['hystry', 'akkartik@gmail.com', 'akkartik'],
-                 ['paulgraham', 'akkartik@gmail.com', 'akkartik'],
-                 ['paulgraham', 'mitultiwari@gmail.com', 'mitultiwari'],
-                 ['iamelgringo', 'akkartik@gmail.com', 'akkartik'],
-                 ['swombat', 'akkartik@gmail.com', ''],
-                 ['swombat.com', 'daniel.tenner@gmail.com', 'swombat'],
-                ]
-
-def sendNotifications(hnid, contents, author):
-  for pattern, email, hnuser in notifications:
-    if re.search(r'\b'+pattern+r'\b', contents, re.I) and author != hnuser:
-      print 'notifying', email, 'of', hnid
-      sendmail(kwdmatch_email(email, pattern, hnid))
-
 def notifySubscribersFromDatabase(hnid, contents, author):
-  for user, email in dbRead('select user,email from subscriptions'):
-    if re.search(r'\b'+user+r'\b', contents, re.I) or author == user:
+  for pattern, email, author_to_ignore in dbRead('select subs.pattern,emails.email,subs.author_to_ignore from subscriptions as subs, emails where emails.id = subs.email_id'):
+    if re.search(r'\b'+pattern+r'\b', contents, re.I) or author != author_to_ignore:
       print 'notifying', email, 'of', hnid
       sendmail(kwdmatch_email(email, user, hnid))
 
