@@ -173,15 +173,15 @@ def log(*args):
 
 def notifySubscribersFromDatabase(hnid, contents, author):
   for pattern, email, author_to_ignore in dbRead('select subs.pattern,emails.email,subs.author_to_ignore from subscriptions as subs, emails where emails.id = subs.email_id'):
-    if re.search(r'\b'+pattern+r'\b', contents, re.I) or author != author_to_ignore:
+    if re.search(r'\b'+pattern+r'\b', contents, re.I) and author != author_to_ignore:
       print 'notifying', email, 'of', hnid
-      sendmail(kwdmatch_email(email, user, hnid))
+      sendmail(kwdmatch_email(email, pattern, hnid))
 
-def kwdmatch_email(to, keyword, hnid):
+def kwdmatch_email(email, pattern, hnid):
     return """To: %s
 Subject: New story on HN about %s
 
-http://hackerstream.com/?item=%s""" %(to, keyword, hnid)
+http://hackerstream.com/?item=%s""" %(email, pattern, hnid)
 
 def sendmail(msg):
   try:
