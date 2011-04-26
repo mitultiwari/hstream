@@ -138,11 +138,6 @@ def saveItem(url, timestamp, author, contents, title=None, parent=None, story=No
                values (%s,%s,%s,%s,%s,%s,%s)"""
         % (hnid(url), hnid(parent), hnid(story), timestamp, sqlForJs(author),
           sqlForJs(title), sqlForJs(contents)))
-    # to test: called only on first write; search title only for stories
-    if parent:
-      notifySubscribersFromDatabase(hnid(url), contents, author)
-    else:
-      notifySubscribersFromDatabase(hnid(url), contents, author, title)
   except sqlite3.IntegrityError:
     if contents: # Ask HN stories won't refresh
       dbWrite("""update items set title=%s, contents=%s, timestamp=%s where hnid=%s"""
@@ -171,48 +166,6 @@ def justTime(): return ctime()[11:-5]
 def log(*args):
   print justTime(), ' '.join(map(str, args))
   sys.stdout.flush()
-
-def blank(s):
-  return [None, ''].count() > 0
-
-
-
-def notifySubscribersFromDatabase(hnid, contents, author, title=''):
-  for pattern, followee, email, author_to_ignore in dbRead('select subs.pattern,subs.author,emails.email,subs.author_to_ignore from subscriptions as subs, emails where emails.id = subs.email_id'):
-    if author_to_ignore != '' and author == author_to_ignore:
-      return
-
-    if not blank(pattern):
-      regex = r'\b'+pattern+r'\b'
-      if re.search(regex, contents, re.I) or re.search(regex, title, re.I):
-        sendmail(pattern_notification(email, pattern, hnid))
-        return
-
-    if not blank(author):
-      if author == followee:
-        sendmail(author_notification(email, author, hnid))
-        return
-
-def pattern_notification(email, pattern, hnid):
-    print 'notifying', email, 'of', hnid
-    return """To: %s
-Subject: New story on HN about %s
-
-http://hackerstream.com/?item=%s""" %(email, pattern, hnid)
-
-def author_notification(email, author, hnid):
-    print 'notifying', email, 'of', hnid
-    return """To: %s
-Subject: New story on HN by %s
-
-http://hackerstream.com/?item=%s""" %(email, author, hnid)
-
-def sendmail(msg):
-  try:
-    with os.popen("/usr/sbin/sendmail -t -f feedback@readwarp.com", "w") as sendmail:
-      sendmail.write(msg)
-  except:
-    traceback.print_exc(file=sys.stdout)
 
 
 
