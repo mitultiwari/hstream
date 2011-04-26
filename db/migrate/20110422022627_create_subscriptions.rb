@@ -3,6 +3,7 @@ class CreateSubscriptions < ActiveRecord::Migration
     create_table :subscriptions do |t|
       t.integer :email_id
       t.string :pattern
+      t.string :author
       t.string :author_to_ignore
 
       t.timestamps
