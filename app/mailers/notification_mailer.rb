@@ -1,13 +1,9 @@
 class NotificationMailer < ActionMailer::Base
   default :from => "HackerStream <feedback@readwarp.com>"
 
-  def author_email(email, author, hnid)
+  def email(email, hnid, subject)
+    puts "notifying #{email} of #{hnid}" unless ENV['RAILS_ENV'] == 'test'
     @hnid = hnid
-    mail :to => email, :subject => "New story on HN by #{author}"
-  end
-
-  def pattern_email(email, pattern, hnid)
-    @hnid = hnid
-    mail :to => email, :subject => "New story on HN about #{pattern}"
+    mail :to => email, :subject => subject
   end
 end
