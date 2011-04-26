@@ -27,7 +27,7 @@ def computeContents(comment):
   return unicode(comment)
 
 def readNewStories():
-  soup = getSoup('ask')
+  soup = getSoup('newest')
   stories = soup.findAll(attrs={'class': 'title'})
   for title in stories:
     if not title.find('a'): continue
@@ -77,9 +77,9 @@ def computeStoryDesc(title):
   try: url.index(root)
   except ValueError: return ''
 
-#?   for _ in dbRead('select hnid from items where hnid = %s' %(hnid(url))):
-#?     print ("%s already saved; not bothering updating description" % (hnid(url)))
-#?     return
+  for _ in dbRead('select hnid from items where hnid = %s' %(hnid(url))):
+    print ("%s already saved; not bothering updating description" % (hnid(url)))
+    return
 
   print "saving description"
   soup = getSoup(url)
@@ -105,7 +105,7 @@ import urllib2
 from BeautifulSoup import BeautifulSoup, Tag
 
 def getSoup(url):
-  sleep(3) # Crawl-delay in http://news.ycombinator.com/robots.txt
+  sleep(30) # Crawl-delay in http://news.ycombinator.com/robots.txt
   log(url)
   soup = BeautifulSoup(urllib2.urlopen(absolutify(url)))
   for p in soup.findAll('a'):
@@ -178,9 +178,8 @@ def log(*args):
 import httplib
 while 1:
   try:
-#?     readNewComments()
+    readNewComments()
     readNewStories()
-    break
   except KeyboardInterrupt:
     traceback.print_exc(file=sys.stdout)
     break
