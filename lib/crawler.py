@@ -32,7 +32,7 @@ def readNewStories():
   for title in stories:
     if not title.find('a'): continue
     if not title.parent.nextSibling: continue
-    subtext = title.parent.nextSibling.contents[1]
+    subtext = title.parent.nextSibling.find(attrs={'class': 'subtext'}) # crappy layout
     saveItem(computeStoryUrl(title, subtext),
              computeTimestamp(subtext),
              computeAuthor(subtext),
