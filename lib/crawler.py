@@ -139,7 +139,10 @@ def saveItem(url, timestamp, author, contents, title=None, parent=None, story=No
         % (hnid(url), hnid(parent), hnid(story), timestamp, sqlForJs(author),
           sqlForJs(title), sqlForJs(contents)))
     # to test: called only on first write; search title only for stories
-    notifySubscribersFromDatabase(hnid(url), contents+' '+(title if not parent else ''), author)
+    if parent:
+      notifySubscribersFromDatabase(hnid(url), contents, author)
+    else:
+      notifySubscribersFromDatabase(hnid(url), contents, author, title)
   except sqlite3.IntegrityError:
     if contents: # Ask HN stories won't refresh
       dbWrite("""update items set title=%s, contents=%s, timestamp=%s where hnid=%s"""
@@ -166,22 +169,43 @@ from time import time, ctime, sleep
 def justTime(): return ctime()[11:-5]
 
 def log(*args):
-    print justTime(), ' '.join(map(str, args))
-    sys.stdout.flush()
+  print justTime(), ' '.join(map(str, args))
+  sys.stdout.flush()
+
+def blank(s):
+  return [None, ''].count() > 0
 
 
 
-def notifySubscribersFromDatabase(hnid, contents, author):
-  for pattern, email, author_to_ignore in dbRead('select subs.pattern,emails.email,subs.author_to_ignore from subscriptions as subs, emails where emails.id = subs.email_id'):
-    if re.search(r'\b'+pattern+r'\b', contents, re.I) and author != author_to_ignore:
-      print 'notifying', email, 'of', hnid
-      sendmail(kwdmatch_email(email, pattern, hnid))
+def notifySubscribersFromDatabase(hnid, contents, author, title=''):
+  for pattern, followee, email, author_to_ignore in dbRead('select subs.pattern,subs.author,emails.email,subs.author_to_ignore from subscriptions as subs, emails where emails.id = subs.email_id'):
+    if author_to_ignore != '' and author == author_to_ignore:
+      return
 
-def kwdmatch_email(email, pattern, hnid):
+    if not blank(pattern):
+      regex = r'\b'+pattern+r'\b'
+      if re.search(regex, contents, re.I) or re.search(regex, title, re.I):
+        sendmail(pattern_notification(email, pattern, hnid))
+        return
+
+    if not blank(author):
+      if author == followee:
+        sendmail(author_notification(email, author, hnid))
+        return
+
+def pattern_notification(email, pattern, hnid):
+    print 'notifying', email, 'of', hnid
     return """To: %s
 Subject: New story on HN about %s
 
 http://hackerstream.com/?item=%s""" %(email, pattern, hnid)
+
+def author_notification(email, author, hnid):
+    print 'notifying', email, 'of', hnid
+    return """To: %s
+Subject: New story on HN by %s
+
+http://hackerstream.com/?item=%s""" %(email, author, hnid)
 
 def sendmail(msg):
   try:
