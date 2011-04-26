@@ -1,9 +1,9 @@
-module Notifier
-  def sendEmailsFor(item)
+class Notifier
+  def self.sendEmailsFor(item)
     NotificationMailer.pattern_email('akkartik@gmail.com', 'akkartik', '64').deliver
   end
 
-  def run
+  def self.run
     mostRecentId = Item.first.id
     while true
       sleep 30
