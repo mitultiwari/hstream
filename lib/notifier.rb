@@ -1,1 +1,1 @@
-p Item.count
+NotificationMailer.author_email.deliver
