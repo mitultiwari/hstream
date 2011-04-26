@@ -17,8 +17,6 @@ append_dot_mydomain = no
 
 readme_directory = no
 
-smtpd_use_tls = no
-
 # authsmtp
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
