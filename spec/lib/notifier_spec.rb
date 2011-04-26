@@ -49,7 +49,8 @@ describe Notifier do
   end
 
   it 'notify each email no more than once of any item' do
-    Factory(:subscription, :email_id => @email.id, :pattern => 'abc', :author => 'foo')
+    Factory(:subscription, :email_id => @email.id, :pattern => 'abc')
+    Factory(:subscription, :email_id => @email.id, :author => 'foo')
     Notifier.sendEmailsFor(Item.find_by_hnid 1)
     ActionMailer::Base.deliveries.length.should == 1
   end

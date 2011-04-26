@@ -1,14 +1,19 @@
 class Notifier
   def self.sendEmailsFor(item)
+    emailsNotified = Set.new
     Subscription.all.each do |sub|
+      next if emailsNotified.include?(sub.email.email)
+
       next if !sub.author_to_ignore.blank? && sub.author_to_ignore == item.author
 
       if !sub.pattern.blank? &&
          ((item.contents && item.contents.gsub(/\n/, ' ') =~ /\b#{sub.pattern}\b/) ||
            (item.is_story? && item.title =~ /\b#{sub.pattern}\b/))
         NotificationMailer.pattern_email(sub.email.email, sub.pattern, item.hnid).deliver
+        emailsNotified << sub.email.email
       elsif !sub.author.blank? && sub.author == item.author
         NotificationMailer.author_email(sub.email.email, sub.author, item.hnid).deliver
+        emailsNotified << sub.email.email
       end
     end
   end
