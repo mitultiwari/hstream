@@ -20,6 +20,20 @@ describe Notifier do
     ActionMailer::Base.deliveries[0].to.should == ["foo@example.com"]
   end
 
+  it 'should match patterns in contents across newlines' do
+    Factory(:item, :hnid => 2, :contents => "abc\ndef")
+    Factory(:subscription, :email_id => @email.id, :pattern => 'abc def')
+    Notifier.sendEmailsFor(Item.find_by_hnid 2)
+    ActionMailer::Base.deliveries.length.should == 1
+  end
+
+  it 'should match whole words only' do
+    Factory(:item, :hnid => 2, :contents => "dabc def")
+    Factory(:subscription, :email_id => @email.id, :pattern => 'abc')
+    Notifier.sendEmailsFor(Item.find_by_hnid 2)
+    ActionMailer::Base.deliveries.length.should == 0
+  end
+
   it 'should match patterns in title' do
     Factory(:subscription, :email_id => @email.id, :pattern => 'title1')
     Notifier.sendEmailsFor(Item.find_by_hnid 1)
