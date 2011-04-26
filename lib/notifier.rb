@@ -1,1 +1,1 @@
-NotificationMailer.author_email.deliver
+NotificationMailer.pattern_email('akkartik@gmail.com', 'akkartik', '64').deliver
