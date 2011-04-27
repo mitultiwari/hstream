@@ -3,7 +3,11 @@
   <% if item.timestamp.to_f > 0 %>
   | <%= distance_of_time_in_words(Time.now.to_i - item.timestamp.to_i)%> ago
   <% end %>
-  | <a class='<%= "story" unless item.parent_hnid %>' followee='story:<%= item.hnid%>' href='http://news.ycombinator.com/item?id=<%= item.hnid%>'>link</a>
+  <% if item.is_story? %>
+  | <a class='story' followee='story:<%= item.hnid%>' href='http://news.ycombinator.com/item?id=<%= item.hnid%>'>link</a>
+  <% else %>
+  | <a href='http://news.ycombinator.com/item?id=<%= item.hnid%>'>reply</a>
+  <% end %>
 </div>
 
 <%= raw item.contents if item.contents %>
