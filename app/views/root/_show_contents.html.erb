@@ -4,9 +4,9 @@
   | <%= distance_of_time_in_words(Time.now.to_i - item.timestamp.to_i)%> ago
   <% end %>
   <% if item.is_story? %>
-  | <a class='story' followee='story:<%= item.hnid%>' href='http://news.ycombinator.com/item?id=<%= item.hnid%>'>link</a>
+  | <a class='story' followee='story:<%= item.hnid%>' href='/?item=<%= item.hnid%>'>link</a>
   <% else %>
-  | <a href='http://news.ycombinator.com/item?id=<%= item.hnid%>'>reply</a>
+  | <a class='item' followee='http://news.ycombinator.com/item?id=<%= item.hnid%>' href='/?item=<%= item.hnid%>'>reply</a>
   <% end %>
 </div>
 

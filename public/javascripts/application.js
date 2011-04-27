@@ -7,6 +7,7 @@ $(function() {
   setupNewColumnHandlers('.story a');
   setupNewColumnHandlers('a.story');
   setupNewColumnHandlers('a.author');
+  $('a.item').live('click', newColumn);
   $('#active_users_link').click(newColumn);
   $('#active_stories_link').click(newColumn);
 
@@ -124,6 +125,11 @@ function newColumn() {
   if (maxColumns < 2) return true;
   $(this).trigger('mouseout');
   var newColumnId = $(this).attr('followee') || convertId($(this));
+  if (newColumnId.match(/^http:/)) {
+    $(this).attr('href', newColumnId);
+    return true;
+  }
+
   if ($('#'+jqEsc(newColumnId)).length)
     slideColumnLeft(newColumnId);
   else
