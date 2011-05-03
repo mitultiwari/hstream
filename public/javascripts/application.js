@@ -7,7 +7,7 @@ $(function() {
   setupNewColumnHandlers('.story a');
   setupNewColumnHandlers('a.story');
   setupNewColumnHandlers('a.author');
-  $('a.item').live('click', newColumn);
+  $('a.comment').live('click', newColumn);
   $('#active_users_link').click(newColumn);
   $('#active_stories_link').click(newColumn);
 

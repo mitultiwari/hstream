@@ -6,7 +6,7 @@
   <% if item.is_story? %>
   | <a class='story' followee='story:<%= item.hnid%>' href='/?item=<%= item.hnid%>'>link</a>
   <% else %>
-  | <a class='item' followee='http://news.ycombinator.com/item?id=<%= item.hnid%>' href='/?item=<%= item.hnid%>'>reply</a>
+  | <a class='comment' followee='http://news.ycombinator.com/item?id=<%= item.hnid%>' href='/?item=<%= item.hnid%>'>reply</a>
   <% end %>
 </div>
 
