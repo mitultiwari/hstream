@@ -61,6 +61,7 @@ function moreItemMessage() {
 function titlePrefix() {
   var numNewItems = Math.min($('#stream .holding').children('.item').length, maxColumnCapacity);
   if (numNewItems == 0) return '';
+  if (numNewItems == maxColumnCapacity) return '';
   return '('+numNewItems+') ';
 }
 
