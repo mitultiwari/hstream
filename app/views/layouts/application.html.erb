@@ -13,8 +13,7 @@
   <body>
     <div id="pagetop" style="background: <%= layout['topcolor']%>">
       <div class='right'>
-        <% unless session[:user]%>
-          <div id='login-links'>
+          <div id='login-links' style='display:<%= session[:user] ? 'none' : 'block'%>'>
             <a id='login-link' href='#'>login</a> |
             <a id='signup-link' href='#'>signup</a>
           </div>
@@ -23,6 +22,21 @@
             email: <input id='login-input'/>
             <input id='login-submit' type='submit' value='login'/>
           </form>
+
+          <div id='logout-links' style='display:none'>
+            <input id='logout-button' type='submit' value='logout'/>
+            <input id='dontlogout-button' type='submit' value='cancel'/>
+          </div>
+
+        <% if session[:user] %>
+          <script>
+            location.hash = '#<%= session[:user].shortlist%>';
+          </script>
+        <% end %>
+
+        <a id='login-user' style='display:<%= session[:user] ? 'inline' : 'none'%>' href='#'>
+          <%= session[:user].email rescue ''%>
+        </a>
 
           <script>
             $('#login-link').click(function() {
@@ -42,6 +56,7 @@
             });
 
             $('#login-form').submit(function() {
+              $('#login-form').hide();
               $.ajax({
                 url: '/login',
                 type: 'post',
@@ -50,8 +65,8 @@
                   shortlist: shortlist.join(','),
                 },
                 success: function() {
-                  $('#login-form').hide();
                   $('#login-user').html($('#login-input').val());
+                  $('#login-user').fadeIn();
                   userLoggedIn();
                 },
                 error: function() {
@@ -61,19 +76,31 @@
               });
               return false;
             });
-          </script>
-        <% end %>
 
-        <% if session[:user] %>
-          <script>
-            location.hash = '#<%= session[:user].shortlist%>';
-          </script>
-          <div id='login-user'><%= session[:user].email%></div>
-        <% else %>
-          <div id='login-user'></div>
-        <% end %>
+            $('#login-user').click(function() {
+              $('#login-user').fadeOut(function() {
+                $('#logout-links').fadeIn();});
+              return false;
+            });
 
-        &nbsp;| <a href='mailto:feedback@readwarp.com'>feedback</a>
+            $('#logout-button').click(function() {
+              $('#logout-links').fadeOut();
+              $.ajax({
+                url: '/login',
+                type: 'delete',
+                success: function() {
+                  $('#login-links').fadeIn();
+                },
+              });
+              return false;
+            });
+
+            $('#dontlogout-button').click(function() {
+              $('#logout-links').fadeOut(function() {
+                $('#login-user').fadeIn();});});
+          </script>
+
+        | <a href='mailto:feedback@readwarp.com'>feedback</a>
       </div>
 
       <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
