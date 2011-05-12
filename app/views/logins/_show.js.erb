@@ -50,6 +50,9 @@ $('#logout-button').click(function() {
     success: function() {
       $('#login-links').fadeIn();
     },
+    error: function() {
+      $('#login-user').show();
+    },
   });
   return false;
 });
