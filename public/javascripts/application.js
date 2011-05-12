@@ -47,7 +47,8 @@ function postProcess() {
     $('.item[author='+shortlist[i]+']').addClass('shortlist');
     $('.item[story_hnid='+shortlist[i]+']').addClass('shortlist');
     $('.follow[followee='+shortlist[i]+']').html('-');
-    $('.follow[followee='+shortlist[i]+']').parents('.column').find('.message').slideDown();
+    if (!getCookie('email'))
+      $('.follow[followee='+shortlist[i]+']').parents('.column').find('.message').slideDown();
   }
 }
 
