@@ -5,4 +5,5 @@ Hnrt::Application.routes.draw do
   resources :story
   resource :active_users
   resource :active_stories
+  resource :login
 end

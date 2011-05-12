@@ -27,6 +27,7 @@
 
         <script>
           $('#login-link').click(function() {
+            $('#login-submit').attr('value', 'login');
             $('#login-links').slideUp('fast',
               function(){$('#login-form').slideDown('fast',
                 function(){$('#login-input').focus();});});
@@ -44,15 +45,19 @@
           $('#login-form').submit(function() {
             $.ajax({
               url: '/login',
-              method: 'post',
+              type: 'post',
               data: {
                 email: $('#login-input').val(),
                 shortlist: shortlist,
               },
-              complete: function() {
+              success: function() {
                 $('#login-form').hide();
                 $('#login-user').html($('#login-input').val());
               },
+              error: function() {
+                $('#login-form').hide();
+                $('#login-links').show();
+              }
             });
             return false;
           });
