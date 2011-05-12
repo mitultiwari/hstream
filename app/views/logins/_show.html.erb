@@ -1,0 +1,28 @@
+<div id='login-links' style='display:<%= session[:user] ? 'none' : 'block'%>'>
+  <a id='login-link' href='#'>login</a> |
+  <a id='signup-link' href='#'>signup</a>
+</div>
+
+<form id='login-form' style='display:none'>
+  email: <input id='login-input'/>
+  <input id='login-submit' type='submit' value='login'/>
+</form>
+
+<div id='logout-links' style='display:none'>
+  <input id='logout-button' type='submit' value='logout'/>
+  <input id='dontlogout-button' type='submit' value='cancel'/>
+</div>
+
+<% if session[:user] %>
+<script>
+  location.hash = '#<%= session[:user].shortlist%>';
+</script>
+<% end %>
+
+<a id='login-user' style='display:<%= session[:user] ? 'inline' : 'none'%>' href='#'>
+<%= session[:user].email rescue ''%>
+</a>
+
+<script>
+  <%= render :file => 'logins/_show.js.erb'%>
+</script>

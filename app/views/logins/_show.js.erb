@@ -1,0 +1,59 @@
+$('#login-link').click(function() {
+  $('#login-submit').attr('value', 'login');
+  $('#login-links').fadeOut(
+    function(){$('#login-form').fadeIn(
+      function(){$('#login-input').focus();});});
+  return false;
+});
+
+$('#signup-link').click(function() {
+  $('#login-submit').attr('value', 'signup');
+  $('#login-links').fadeOut(
+    function(){$('#login-form').fadeIn(
+      function(){$('#login-input').focus();});});
+  return false;
+});
+
+$('#login-form').submit(function() {
+  $('#login-form').hide();
+  $.ajax({
+    url: '/login',
+    type: 'post',
+    data: {
+      email: $('#login-input').val(),
+      shortlist: shortlist.join(','),
+    },
+    success: function() {
+      $('#login-user').html($('#login-input').val());
+      $('#login-user').fadeIn();
+      userLoggedIn();
+    },
+    error: function() {
+      $('#login-form').hide();
+      $('#login-links').show();
+    }
+  });
+  return false;
+});
+
+$('#login-user').click(function() {
+  $('#login-user').fadeOut(function() {
+    $('#logout-links').fadeIn();});
+  return false;
+});
+
+$('#logout-button').click(function() {
+  $('#logout-links').fadeOut();
+  $.ajax({
+    url: '/login',
+    type: 'delete',
+    success: function() {
+      $('#login-links').fadeIn();
+    },
+  });
+  return false;
+});
+
+$('#dontlogout-button').click(function() {
+  $('#logout-links').fadeOut(function() {
+    $('#login-user').fadeIn();});});
