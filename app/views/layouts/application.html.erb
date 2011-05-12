@@ -13,6 +13,7 @@
   <body>
     <div id="pagetop" style="background: <%= layout['topcolor']%>">
       <div class='right'>
+        <% unless session[:user]%>
         <div id='login-links'>
           <a id='login-link' href='#'>login</a> |
           <a id='signup-link' href='#'>signup</a>
@@ -22,8 +23,6 @@
           email: <input id='login-input'/>
           <input id='login-submit' type='submit' value='login'/>
         </form>
-
-        <div id='login-user'></div>
 
         <script>
           $('#login-link').click(function() {
@@ -62,6 +61,9 @@
             return false;
           });
         </script>
+        <% end %>
+
+        <div id='login-user'><%= session[:user].email rescue ''%></div>
 
         &nbsp;| <a href='mailto:feedback@readwarp.com'>feedback</a>
       </div>
