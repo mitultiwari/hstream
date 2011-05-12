@@ -112,7 +112,7 @@ function setupNewColumnHandlers(selector) {
 }
 
 function columnIds() {
-  return $.map($('.column').children('div'), function(elem) { return elem.id; });
+  return $.map($('.column').children('div[id]'), function(elem) { return elem.id; });
 }
 
 function addRarr() {
