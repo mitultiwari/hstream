@@ -27,16 +27,16 @@
           <script>
             $('#login-link').click(function() {
               $('#login-submit').attr('value', 'login');
-              $('#login-links').slideUp('fast',
-                function(){$('#login-form').slideDown('fast',
+              $('#login-links').fadeOut(
+                function(){$('#login-form').fadeIn(
                   function(){$('#login-input').focus();});});
               return false;
             });
 
             $('#signup-link').click(function() {
               $('#login-submit').attr('value', 'signup');
-              $('#login-links').slideUp('fast',
-                function(){$('#login-form').slideDown(
+              $('#login-links').fadeOut(
+                function(){$('#login-form').fadeIn(
                   function(){$('#login-input').focus();});});
               return false;
             });
