@@ -52,6 +52,7 @@
                 success: function() {
                   $('#login-form').hide();
                   $('#login-user').html($('#login-input').val());
+                  userLoggedIn();
                 },
                 error: function() {
                   $('#login-form').hide();

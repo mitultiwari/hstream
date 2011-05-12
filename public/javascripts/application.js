@@ -47,6 +47,7 @@ function postProcess() {
     $('.item[author='+shortlist[i]+']').addClass('shortlist');
     $('.item[story_hnid='+shortlist[i]+']').addClass('shortlist');
     $('.follow[followee='+shortlist[i]+']').html('-');
+    $('.follow[followee='+shortlist[i]+']').parents('.column').find('.message').slideDown();
   }
 }
 
@@ -194,6 +195,7 @@ function toggleFollow() {
     deleteFromArray(followee, shortlist);
     removeFromHash(followee);
     postProcess(); // refollow items with other reasons to be followed
+    $(this).parents('.column').find('.message').slideUp();
   }
   else {
     submit('follow/'+followee);
@@ -202,8 +204,14 @@ function toggleFollow() {
     $('.item[story_hnid='+followee+']').addClass('shortlist');
     shortlist.push(followee);
     addToHash(followee);
+    if (!getCookie('email'))
+      $(this).parents('.column').find('.message').slideDown();
   }
   return true;
+}
+
+function userLoggedIn() {
+  $('.message').slideUp();
 }
 
 function addToHash(word) {
@@ -256,4 +264,16 @@ function intDiv(a, b) {
 
 function jqEsc(s) {
   return s.replace(':', '\\:');
+}
+
+
+function getCookie(name) {
+  var nameEQ = name+"=";
+  var cookies = document.cookie.split(';');
+  for(var i=0; i < cookies.length; i++) {
+    var c = $.trim(cookies[i]);
+    if (c.indexOf(nameEQ) == 0)
+      return c.substring(nameEQ.length, c.length);
+  }
+  return null;
 }
