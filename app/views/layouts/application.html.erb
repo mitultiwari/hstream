@@ -29,7 +29,7 @@
             <input type='submit' value='signup' style='font-size:0.75em; vertical-align:middle'/>
           </form>
 
-          <div id='login-flash' style='float:left; margin-left:2em; color:lightgreen'></div>
+          <div id='login-user' style='float:left'></div>
 
           <script>
             $('#login-link').click(function() {
@@ -46,11 +46,9 @@
                   email: $('#login-input').val(),
                   shortlist: shortlist,
                 },
-                success: function() {
+                complete: function() {
                   $('#login-form').hide();
-                },
-                error: function() {
-                  $('#login-flash').html('user does not exist');
+                  $('#login-user').html($('#login-input').val());
                 },
               });
               return false;
@@ -64,7 +62,7 @@
             });
           </script>
 
-          | <a href='mailto:feedback@readwarp.com'>feedback</a>
+          &nbsp;| <a href='mailto:feedback@readwarp.com'>feedback</a>
         </div>
         <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
         <img height="1" width="10" src="/images/s.gif">
