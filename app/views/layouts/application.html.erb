@@ -12,64 +12,63 @@
 
   <body>
     <div id="pagetop" style="background: <%= layout['topcolor']%>">
-      <div style='height:18px'>
-        <div style='float:right; margin-right:5px'>
-          <div id='login-links' style='float:left'>
-            <a id='login-link' href='#'>login</a> |
-            <a id='signup-link' href='#'>signup</a>
-          </div>
-
-          <form id='login-form' style='display:none; float:left; font-size:0.75em'>
-            email: <input id='login-input' name='email' style='font-size:0.8em'/>
-            <input type='submit' value='login' style='font-size:0.75em; vertical-align:middle'/>
-          </form>
-
-          <form id='signup-form' style='display:none; float:left; font-size:0.75em'>
-            email: <input id='signup-input' name='email' style='font-size:0.8em'/>
-            <input type='submit' value='signup' style='font-size:0.75em; vertical-align:middle'/>
-          </form>
-
-          <div id='login-user' style='float:left'></div>
-
-          <script>
-            $('#login-link').click(function() {
-              $('#login-links').slideUp('fast',
-                function(){$('#login-form').slideDown('fast',
-                  function(){$('#login-input').focus();});});
-              return false;
-            });
-            $('#login-form').submit(function() {
-              $.ajax({
-                url: '/login',
-                method: 'post',
-                data: {
-                  email: $('#login-input').val(),
-                  shortlist: shortlist,
-                },
-                complete: function() {
-                  $('#login-form').hide();
-                  $('#login-user').html($('#login-input').val());
-                },
-              });
-              return false;
-            });
-
-            $('#signup-link').click(function() {
-              $('#login-links').slideUp('fast',
-                function(){$('#signup-form').slideDown(
-                  function(){$('#signup-input').focus();});});
-              return false;
-            });
-          </script>
-
-          &nbsp;| <a href='mailto:feedback@readwarp.com'>feedback</a>
+      <div class='right'>
+        <div id='login-links'>
+          <a id='login-link' href='#'>login</a> |
+          <a id='signup-link' href='#'>signup</a>
         </div>
-        <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
-        <img height="1" width="10" src="/images/s.gif">
-        <a id='active_stories_link' href='active_stories'>active stories</a> |
-        <a id='active_users_link' href='active_users'>active users</a> |
-        <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
+
+        <form id='login-form' style='display:none'>
+          email: <input id='login-input'/>
+          <input type='submit' value='login'/>
+        </form>
+
+        <form id='signup-form' style='display:none'>
+          email: <input id='signup-input'/>
+          <input type='submit' value='signup'/>
+        </form>
+
+        <div id='login-user'></div>
+
+        <script>
+          $('#login-link').click(function() {
+            $('#login-links').slideUp('fast',
+              function(){$('#login-form').slideDown('fast',
+                function(){$('#login-input').focus();});});
+            return false;
+          });
+          $('#login-form').submit(function() {
+            $.ajax({
+              url: '/login',
+              method: 'post',
+              data: {
+                email: $('#login-input').val(),
+                shortlist: shortlist,
+              },
+              complete: function() {
+                $('#login-form').hide();
+                $('#login-user').html($('#login-input').val());
+              },
+            });
+            return false;
+          });
+
+          $('#signup-link').click(function() {
+            $('#login-links').slideUp('fast',
+              function(){$('#signup-form').slideDown(
+                function(){$('#signup-input').focus();});});
+            return false;
+          });
+        </script>
+
+        &nbsp;| <a href='mailto:feedback@readwarp.com'>feedback</a>
       </div>
+
+      <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
+      <img height="1" width="10" src="/images/s.gif">
+      <a id='active_stories_link' href='active_stories'>active stories</a> |
+      <a id='active_users_link' href='active_users'>active users</a> |
+      <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
     </div>
 
     <%= yield %>

@@ -1,5 +1,5 @@
 body{ margin:2 auto; }
-#pagetop{ padding:2px; }
+#pagetop{ padding:2px; height:18px; }
 .column{ background:#f6f6ef; float:left; width:40em; padding-top:10px; margin-bottom:1em; }
 #stream{ }
 .view{ margin-left:20px; }
@@ -24,6 +24,10 @@ a.follow:hover { text-decoration:none !important; }
 .bold .subtext{ font-weight:normal; }
 .bold .comment{ font-weight:normal; }
 #more-items{ margin-left:3em; font-weight:normal; font-size:10pt; cursor:pointer; }
+
+#pagetop .right{ float:right; margin-right:5px; }
+#pagetop .right div, #pagetop .right form{ float:left; }
+#pagetop form, #pagetop input{ font-size:0.8em; }
 
 body{ font-family:Verdana; font-size:10pt; color:#000000; }
 h3{ color:#828282; margin-left:0.5em; margin-top:-0.25em; margin-bottom:0.5em; }
