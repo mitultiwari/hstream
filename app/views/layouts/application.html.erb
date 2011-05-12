@@ -14,53 +14,53 @@
     <div id="pagetop" style="background: <%= layout['topcolor']%>">
       <div class='right'>
         <% unless session[:user]%>
-        <div id='login-links'>
-          <a id='login-link' href='#'>login</a> |
-          <a id='signup-link' href='#'>signup</a>
-        </div>
+          <div id='login-links'>
+            <a id='login-link' href='#'>login</a> |
+            <a id='signup-link' href='#'>signup</a>
+          </div>
 
-        <form id='login-form' style='display:none'>
-          email: <input id='login-input'/>
-          <input id='login-submit' type='submit' value='login'/>
-        </form>
+          <form id='login-form' style='display:none'>
+            email: <input id='login-input'/>
+            <input id='login-submit' type='submit' value='login'/>
+          </form>
 
-        <script>
-          $('#login-link').click(function() {
-            $('#login-submit').attr('value', 'login');
-            $('#login-links').slideUp('fast',
-              function(){$('#login-form').slideDown('fast',
-                function(){$('#login-input').focus();});});
-            return false;
-          });
-
-          $('#signup-link').click(function() {
-            $('#login-submit').attr('value', 'signup');
-            $('#login-links').slideUp('fast',
-              function(){$('#login-form').slideDown(
-                function(){$('#login-input').focus();});});
-            return false;
-          });
-
-          $('#login-form').submit(function() {
-            $.ajax({
-              url: '/login',
-              type: 'post',
-              data: {
-                email: $('#login-input').val(),
-                shortlist: shortlist.join(','),
-              },
-              success: function() {
-                $('#login-form').hide();
-                $('#login-user').html($('#login-input').val());
-              },
-              error: function() {
-                $('#login-form').hide();
-                $('#login-links').show();
-              }
+          <script>
+            $('#login-link').click(function() {
+              $('#login-submit').attr('value', 'login');
+              $('#login-links').slideUp('fast',
+                function(){$('#login-form').slideDown('fast',
+                  function(){$('#login-input').focus();});});
+              return false;
             });
-            return false;
-          });
-        </script>
+
+            $('#signup-link').click(function() {
+              $('#login-submit').attr('value', 'signup');
+              $('#login-links').slideUp('fast',
+                function(){$('#login-form').slideDown(
+                  function(){$('#login-input').focus();});});
+              return false;
+            });
+
+            $('#login-form').submit(function() {
+              $.ajax({
+                url: '/login',
+                type: 'post',
+                data: {
+                  email: $('#login-input').val(),
+                  shortlist: shortlist.join(','),
+                },
+                success: function() {
+                  $('#login-form').hide();
+                  $('#login-user').html($('#login-input').val());
+                },
+                error: function() {
+                  $('#login-form').hide();
+                  $('#login-links').show();
+                }
+              });
+              return false;
+            });
+          </script>
         <% end %>
 
         <div id='login-user'><%= session[:user].email rescue ''%></div>
