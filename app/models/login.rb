@@ -4,6 +4,16 @@ class Login < ActiveRecord::Base
     save
   end
 
+  def add_shortlist(id)
+    self[:shortlist] = (shortlist.split(',')+[id]).uniq.join(',')
+    save
+  end
+
+  def del_shortlist(id)
+    self[:shortlist] = (shortlist.split(',').uniq-[id]).join(',')
+    save
+  end
+
   def self.create_or_merge(email, shortlist)
     user = find_by_email(email)
     if user
@@ -13,4 +23,5 @@ class Login < ActiveRecord::Base
     end
     user
   end
+
 end

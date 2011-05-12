@@ -186,8 +186,8 @@ function getShortlistFromHash() {
 
 function toggleFollow() {
   var followee = $(this).attr('followee');
-  metric('follow?'+followee);
   if ($.inArray(followee, shortlist) != -1) {
+    submit('unfollow/'+followee);
     $('.follow[followee='+followee+']').html('+');
     $('.item[author='+followee+']').removeClass('shortlist');
     $('.item[story_hnid='+followee+']').removeClass('shortlist');
@@ -196,6 +196,7 @@ function toggleFollow() {
     postProcess(); // refollow items with other reasons to be followed
   }
   else {
+    submit('follow/'+followee);
     $('.follow[followee='+followee+']').html('-');
     $('.item[author='+followee+']').addClass('shortlist');
     $('.item[story_hnid='+followee+']').addClass('shortlist');
@@ -237,7 +238,15 @@ function locationHashArray() {
 function metric(url) {
   $.ajax({
     url: '/'+url,
-    method: 'get',
+    type: 'get',
+  });
+}
+
+// Simple ajax requests where errors aren't very important.
+function submit(url) {
+  $.ajax({
+    url: '/'+url,
+    type: 'put',
   });
 }
 
