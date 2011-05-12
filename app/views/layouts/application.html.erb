@@ -20,12 +20,7 @@
 
         <form id='login-form' style='display:none'>
           email: <input id='login-input'/>
-          <input type='submit' value='login'/>
-        </form>
-
-        <form id='signup-form' style='display:none'>
-          email: <input id='signup-input'/>
-          <input type='submit' value='signup'/>
+          <input id='login-submit' type='submit' value='login'/>
         </form>
 
         <div id='login-user'></div>
@@ -37,6 +32,15 @@
                 function(){$('#login-input').focus();});});
             return false;
           });
+
+          $('#signup-link').click(function() {
+            $('#login-submit').attr('value', 'signup');
+            $('#login-links').slideUp('fast',
+              function(){$('#login-form').slideDown(
+                function(){$('#login-input').focus();});});
+            return false;
+          });
+
           $('#login-form').submit(function() {
             $.ajax({
               url: '/login',
@@ -50,13 +54,6 @@
                 $('#login-user').html($('#login-input').val());
               },
             });
-            return false;
-          });
-
-          $('#signup-link').click(function() {
-            $('#login-links').slideUp('fast',
-              function(){$('#signup-form').slideDown(
-                function(){$('#signup-input').focus();});});
             return false;
           });
         </script>
