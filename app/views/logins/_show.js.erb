@@ -29,7 +29,6 @@ $('#login-form').submit(function() {
       userLoggedIn();
     },
     error: function() {
-      $('#login-form').hide();
       $('#login-links').show();
     }
   });
@@ -43,7 +42,7 @@ $('#login-user').click(function() {
 });
 
 $('#logout-button').click(function() {
-  $('#logout-links').fadeOut();
+  $('#logout-links').hide();
   $.ajax({
     url: '/login',
     type: 'delete',
