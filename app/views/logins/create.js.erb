@@ -1,1 +1,1 @@
-shortlist = <%= session[:user].shortlist.split(',').to_json%>;
+shortlist = <%= raw session[:user].shortlist.split(',').to_json%>;

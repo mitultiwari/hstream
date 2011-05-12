@@ -48,7 +48,7 @@
               type: 'post',
               data: {
                 email: $('#login-input').val(),
-                shortlist: shortlist,
+                shortlist: shortlist.join(','),
               },
               success: function() {
                 $('#login-form').hide();
