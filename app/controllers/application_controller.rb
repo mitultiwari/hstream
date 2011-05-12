@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
   before_filter lambda {
     logger.debug "STAT: #{request.ip} #{request.remote_ip} requested #{request.path}?#{request.query_string} via #{request.referer}"
   }
+  before_filter lambda {
+    cookies['email'] = session[:user].email if session[:user]
+  }
 
   def initialize_item_scopes(params)
     bound = params[:until] ? Item.find_by_hnid(params[:until]) : Item.first

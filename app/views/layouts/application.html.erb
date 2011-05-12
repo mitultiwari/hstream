@@ -64,7 +64,14 @@
           </script>
         <% end %>
 
-        <div id='login-user'><%= session[:user].email rescue ''%></div>
+        <% if session[:user] %>
+          <script>
+            location.hash = '#<%= session[:user].shortlist%>';
+          </script>
+          <div id='login-user'><%= session[:user].email%></div>
+        <% else %>
+          <div id='login-user'></div>
+        <% end %>
 
         &nbsp;| <a href='mailto:feedback@readwarp.com'>feedback</a>
       </div>
