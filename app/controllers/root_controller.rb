@@ -15,4 +15,8 @@ class RootController < ApplicationController
       end
     end
   end
+
+  def reply
+    redirect_to "http://news.ycombinator.com/item?id=#{params[:id]}"
+  end
 end

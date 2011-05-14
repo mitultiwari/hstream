@@ -128,7 +128,7 @@ function newColumn() {
   if (maxColumns < 2) return true;
   $(this).trigger('mouseout');
   var newColumnId = $(this).attr('followee') || convertId($(this));
-  if (newColumnId.match(/^http:/)) {
+  if (newColumnId.match(/^http:/) || newColumnId[0] == '/') {
     $(this).attr('href', newColumnId);
     return true;
   }

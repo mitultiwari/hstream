@@ -9,4 +9,6 @@ Hnrt::Application.routes.draw do
 
   resource :login
   resources :follow
+
+  match 'reply/:id', :to => 'root#reply'
 end
