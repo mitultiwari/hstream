@@ -82,7 +82,7 @@ function showNewItems() {
 }
 
 function toggleContext() {
-  metric('context?'+$(this).parents('.item').attr('hnid'));
+  $.ajax({url: '/context?'+$(this).parents('.item').attr('hnid')});
   $(this).siblings('.context').slideToggle();
   return false;
 }
@@ -189,7 +189,8 @@ function getShortlistFromHash() {
 function toggleFollow() {
   var followee = $(this).attr('followee');
   if ($.inArray(followee, shortlist) != -1) {
-    submit('unfollow/'+followee);
+    $.ajax({url: '/follow/'+followee,
+      type: 'delete'});
     $('.follow[followee='+followee+']').html('+');
     $('.item[author='+followee+']').removeClass('shortlist');
     $('.item[story_hnid='+followee+']').removeClass('shortlist');
@@ -199,7 +200,9 @@ function toggleFollow() {
     $(this).parents('.column').find('.message').slideUp();
   }
   else {
-    submit('follow/'+followee);
+    $.ajax({url: '/follow',
+      data: {id: followee},
+      type: 'post'});
     $('.follow[followee='+followee+']').html('-');
     $('.item[author='+followee+']').addClass('shortlist');
     $('.item[story_hnid='+followee+']').addClass('shortlist');
@@ -242,21 +245,6 @@ function locationHashArray() {
   if (location.hash == '' || location.hash == '#')
     return [];
   return location.hash.substring(1).split(',');
-}
-
-function metric(url) {
-  $.ajax({
-    url: '/'+url,
-    type: 'get',
-  });
-}
-
-// Simple ajax requests where errors aren't very important.
-function submit(url) {
-  $.ajax({
-    url: '/'+url,
-    type: 'put',
-  });
 }
 
 function intDiv(a, b) {

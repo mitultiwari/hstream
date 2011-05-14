@@ -9,5 +9,4 @@ Hnrt::Application.routes.draw do
 
   resource :login
   resources :follow
-  resources :unfollow
 end
