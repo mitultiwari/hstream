@@ -12,6 +12,8 @@ class Logger
         age_file = "#{@filename}.#{previous_period_end(now).strftime("%Y%m%d")}"
         if FileTest.exist?(age_file)
           puts "'#{age_file}' already exists. Assuming rotation already occurred."
+          @dev.close
+          @dev = open_logfile(@filename) if @filename
           return true
         end
         old_shift_log_period_13413141341234(now)
