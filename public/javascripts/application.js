@@ -79,6 +79,8 @@ function showNewItems() {
 
   $('.item').slideDown();
   $('#stream .item:gt('+maxColumnCapacity+')').remove();
+
+  $.ajax({url: '/more'});
 }
 
 function toggleContext() {
