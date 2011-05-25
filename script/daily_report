@@ -31,13 +31,8 @@ grep "STAT.*google" `log_file 1` |column 2 > y.google
 grep "STAT.*google" `log_file 1` |column 3 >> y.google
 echo " " $(cat y.refresh |column 5 |wgrep -f y.google |sort |uniq |wc -l) sessions from google
 
-grep "Started.*follow" `log_file 1` > y.follow2
-cat y.follow2 |column 5 |wgrep -f y.google |sort |uniq |wc -l
-cat y.follow2 |column 5 |wgrep -f y.google |sort |uniq
-
-grep "STAT.*requested /follow" `log_file 1` > y.follow
-echo Activation: `wc -l < y.follow` follows in `cat y.follow |column 2 |sort |uniq |wc -l` sessions
-echo " " $(cat y.follow |grep "google\|ad=" |column 2 |sort |uniq |wc -l) sessions from google
-cat y.follow |grep "google\|ad=" |column 2 |sort |uniq
+grep "Started.*follow" `log_file 1` > y.follow
+echo Activation: `wc -l < y.follow` follows in `cat y.follow |column 5 |sort |uniq |wc -l` sessions
+echo " " $(cat y.follow2 |column 5 |wgrep -f y.google |sort |uniq |wc -l) sessions from google
 
 # TODO: Retention = activated twice in 7 days
