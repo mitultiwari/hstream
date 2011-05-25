@@ -19,20 +19,26 @@ log_file() {
 grep STAT `log_file 1` |grep "/\.js" |column 2 |sort |uniq > y.non_crawler
 echo Acquisition: $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |column 2 |sort |uniq |wc -l) sessions
 echo " " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 2 |sort |uniq |wc -l) from google
-echo " " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 2 |sort |uniq |wc -l) from adwords
+echo "   " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 2 |sort |uniq |wc -l) from adwords
 
-grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js\|requested /?item\|requested /? " > y.clicks
-echo Activation: `wc -l < y.clicks` clicks in `cat y.clicks |column 2 |sort |uniq |wc -l` sessions
-echo " " $(cat y.clicks |grep google |column 2 |sort |uniq |wc -l) sessions from google
-
-grep "Start.*/more" `log_file 1` > y.refresh
-echo Activation: `wc -l < y.refresh` refreshes in `cat y.refresh |column 5 |sort |uniq |wc -l` sessions
 grep "STAT.*google" `log_file 1` |column 2 > y.google
 grep "STAT.*google" `log_file 1` |column 3 >> y.google
-echo " " $(cat y.refresh |column 5 |wgrep -f y.google |sort |uniq |wc -l) sessions from google
+
+grep Started `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js\|/?item\|/? " > y.clicks
+echo Activation: `wc -l < y.clicks` clicks in `cat y.clicks |column 5 |sort |uniq |wc -l` sessions
+echo " " $(cat y.clicks |column 5 |wgrep -f y.google |wc -l) clicks in \
+  $(cat y.clicks |column 5 |wgrep -f y.google |sort |uniq |wc -l) sessions from google
+echo " " $(cat y.clicks |column 5 |wgrep -vf y.google |wc -l) clicks in \
+  $(cat y.clicks |column 5 |wgrep -vf y.google |sort |uniq |wc -l) sessions from elsewhere
+
+grep "Started.*/more" `log_file 1` > y.refresh
+echo Activation: `wc -l < y.refresh` refreshes in `cat y.refresh |column 5 |sort |uniq |wc -l` sessions
+echo " " $(cat y.refresh |column 5 |wgrep -f y.google |wc -l) refreshes in \
+  $(cat y.refresh |column 5 |wgrep -f y.google |sort |uniq |wc -l) sessions from google
 
 grep "Started.*follow" `log_file 1` > y.follow
 echo Activation: `wc -l < y.follow` follows in `cat y.follow |column 5 |sort |uniq |wc -l` sessions
-echo " " $(cat y.follow2 |column 5 |wgrep -f y.google |sort |uniq |wc -l) sessions from google
+echo " " $(cat y.follow |column 5 |wgrep -f y.google |wc -l) follows in \
+  $(cat y.follow |column 5 |wgrep -f y.google |sort |uniq |wc -l) sessions from google
 
 # TODO: Retention = activated twice in 7 days
