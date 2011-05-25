@@ -16,16 +16,21 @@ log_file() {
   echo development.log.$(date +"%Y%m%d" -d '-'$1' day')
 }
 
-grep STAT `log_file 1` |grep "/.js" |column 2 |sort |uniq > y.non_crawler
-echo Acquisition: $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/.js" |column 2 |sort |uniq |wc -l) sessions
+grep STAT `log_file 1` |grep "/\.js" |column 2 |sort |uniq > y.non_crawler
+echo Acquisition: $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |column 2 |sort |uniq |wc -l) sessions
+echo " " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 2 |sort |uniq |wc -l) from google
+echo " " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 2 |sort |uniq |wc -l) from adwords
 
-grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/.js\|requested /?" > y.clicks
+grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js\|requested /?" > y.clicks
 echo Activation: `wc -l < y.clicks` clicks in `cat y.clicks |column 2 |sort |uniq |wc -l` sessions
+echo " " $(cat y.clicks |grep google |column 2 |sort |uniq |wc -l) from google
 
-grep STAT `log_file 1` |wgrep -f y.non_crawler |grep "requested /follow" > y.follow
+grep "STAT.*requested /follow" `log_file 1` > y.follow
 echo Activation: `wc -l < y.follow` follows in `cat y.follow |column 2 |sort |uniq |wc -l` sessions
+echo " " $(cat y.follow |grep google |column 2 |sort |uniq |wc -l) from google
 
 grep "Start.*/more" `log_file 1` > y.refresh
 echo Activation: `wc -l < y.refresh` refreshes in `cat y.refresh |column 5 |sort |uniq |wc -l` sessions
+echo " " $(cat y.refresh |grep google |column 2 |sort |uniq |wc -l) from google
 
 # TODO: Retention = activated twice in 7 days
