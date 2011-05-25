@@ -1,2 +1,3 @@
 # m h  dom mon dow   command
 18 4 * * *  /app/hackerstream/log/daily_report |/usr/sbin/sendmail -t -f feedback@readwarp.com > /tmp/daily_report.out 2> /tmp/daily_report.err
+18 3 * * *  /app/hackerstream/script/daily_report |/usr/sbin/sendmail -t -f feedback@readwarp.com > /tmp/daily_report2.out 2> /tmp/daily_report2.err

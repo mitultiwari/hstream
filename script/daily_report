@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+
+echo To: akkartik@gmail.com, mitultiwari@gmail.com, tk@tristankromer.com
+echo Subject: AARRR HackerStream metrics for yesterday
+echo
+
+export PATH=.:/app/hackerstream/log/yam:/app/local/0bin:/app/local/share/scripts:/app/local/share/scripts/Startup:/app/local/share/scripts/Data:$PATH:/usr/sbin
+export RUBYLIB=/app/hackerstream/log/yam:$RUBYLIB
+cd /app/hackerstream/log
+
+wgrep() {
+  grep -w $*
+}
+
+log_file() {
+  echo development.log.$(date +"%Y%m%d" -d '-'$1' day')
+}
+
+grep STAT `log_file 1` |grep "/.js" |column 2 |sort |uniq > y.non_crawler
+echo Acquisition: $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/.js" |column 2 |sort |uniq |wc -l) sessions
+
+grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/.js\|requested /?" > y.clicks
+echo Activation: `wc -l < y.clicks` clicks in `cat y.clicks |column 2 |sort |uniq |wc -l` sessions
+
+grep STAT `log_file 1` |wgrep -f y.non_crawler |grep "requested /follow" > y.follow
+echo Activation: `wc -l < y.follow` follows in `cat y.follow |column 2 |sort |uniq |wc -l` sessions
+
+grep "Start.*/more" `log_file 1` > y.refresh
+echo Activation: `wc -l < y.refresh` refreshes in `cat y.refresh |column 5 |sort |uniq |wc -l` sessions
+
+# TODO: Retention = activated twice in 7 days
