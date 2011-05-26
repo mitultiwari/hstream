@@ -1,6 +1,7 @@
 class RootController < ApplicationController
   def index
     @mostRecentItem, @items = initialize_item_scopes(params)
+    session[:user].reload if session[:user]
     if params[:item]
       currItem = Item.find_by_hnid(params[:item])
       @items['stream'] = [currItem]+(@items['stream']-[currItem])
