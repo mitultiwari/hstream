@@ -21,8 +21,8 @@ echo Acquisition: $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.
 echo " " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 2 |sort |uniq |wc -l) from google
 echo "   " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 2 |sort |uniq |wc -l) from adwords
 
-grep "STAT.*google" `log_file 1` |column 2 > y.google
-grep "STAT.*google" `log_file 1` |column 3 >> y.google
+grep "STAT.*google" `log_file 1` |column 4 > y.google
+grep "STAT.*google" `log_file 1` |column 5 >> y.google
 
 grep Started `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js\|/?item\|/? " > y.clicks
 echo Activation: `wc -l < y.clicks` clicks in `cat y.clicks |column 5 |sort |uniq |wc -l` sessions
