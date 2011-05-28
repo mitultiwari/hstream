@@ -144,10 +144,9 @@ function newColumn() {
 
 function insertColumnLeft(newColumnId) {
   if ($('.column').length >= maxColumns) {
-    $('.column:last .item').slideUp();
-    setTimeout(function() {
+    $('.column:last').slideUp('slow', function() {
       $('.column:last').remove();
-    }, 200);
+    });
   }
 
   ajax({
@@ -159,15 +158,12 @@ function insertColumnLeft(newColumnId) {
 }
 
 function slideColumnLeft(newColumnId) {
-  $('#'+jqEsc(newColumnId)+' .item').slideUp();
-  setTimeout(function() {
+  $('#'+jqEsc(newColumnId)).slideUp('fast', function() {
     var column = $('#'+jqEsc(newColumnId)).parent('.column');
     column.remove();
     $('#stream_column').after(column);
-    setTimeout(function() {
-      $('#'+jqEsc(newColumnId)+' .item').slideDown();
-    }, 200);
-  }, 200);
+    $('#'+jqEsc(newColumnId)).slideDown();
+  });
 }
 
 function convertId(elem) {
