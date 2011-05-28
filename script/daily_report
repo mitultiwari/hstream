@@ -16,10 +16,14 @@ log_file() {
   echo development.log.$(date +"%Y%m%d" -d '-'$1' day')
 }
 
-grep STAT `log_file 1` |grep "/\.js" |column 2 |sort |uniq > y.non_crawler
-echo Acquisition: $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |column 2 |sort |uniq |wc -l) sessions
-echo " " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 2 |sort |uniq |wc -l) from google
-echo "   " $(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 2 |sort |uniq |wc -l) from adwords
+grep STAT `log_file 1` |grep "/\.js" |column 4 |sort |uniq |grep -v "[a-z]" > y.non_crawler
+grep STAT `log_file 1` |grep "/\.js" |column 5 |sort |uniq |grep -v "[a-z]" >> y.non_crawler
+X=$(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |column 5 |sort |uniq |wc -l)
+echo "Acquisition: $X IPs (couldn't count cookie sessions)"
+X=$(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 5 |sort |uniq |wc -l)
+echo "  $X from google"
+X=$(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 5 |sort |uniq |wc -l)
+echo "    $X from adwords"
 
 grep "STAT.*google" `log_file 1` |column 4 > y.google
 grep "STAT.*google" `log_file 1` |column 5 >> y.google
