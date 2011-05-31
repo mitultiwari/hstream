@@ -6,6 +6,12 @@
         <%= render 'root/show_user', :item => item %>
       <% end %>
     </div>
+  <% else %>
+    <div id='call-to-action' style='font-weight:bold; margin-bottom:1em; margin-left:1em'>
+      You aren't following anybody yet.
+      Click <span style='color:#bb5500;border:1px solid #bb5500;font-weight:bold;padding-left:0.5em;padding-right:0.5em'>follow</span> a few times to get started!
+    </div>
+    <div class='message' style='text-align:right; display:none; font-weight:bold; margin-bottom:1em; margin-right:5px'>Now login &uarr; to save your subscriptions</div>
   <% end %>
 
   <h3>Top users</h3>

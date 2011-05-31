@@ -193,6 +193,7 @@ function getShortlistFromHash() {
 
 function toggleFollow() {
   var followee = $(this).attr('followee');
+  $('#call-to-action').slideUp();
   if ($.inArray(followee, shortlist) != -1) {
     $.ajax({url: '/follow/'+followee,
       type: 'delete'});
