@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="shortcut icon" href="/favicon.ico"/>
-    <title><%= layout['title']%></title>
+    <title>Follow HN in real-time</title>
     <%= stylesheet_link_tag :all %>
     <link rel="stylesheet" media="handheld" href="/stylesheets/handheld/application.css"/>
     <link rel="stylesheet" media="screen and (max-device-width: 801px)" href="/stylesheets/handheld/application.css"/>
@@ -11,18 +11,18 @@
   </head>
 
   <body>
-    <div id="pagetop" style="background: <%= layout['topcolor']%>">
+    <div id="pagetop">
       <div class='right'>
         <%= render :file => 'logins/_show.html.erb' %>
 
         | <a href='mailto:feedback@readwarp.com'>feedback</a>
       </div>
 
-      <b><a target="_blank" href="<%= layout['root']%>/"><%= layout['title']%></a></b>
+      <b>Follow HN in real-time</b>
       <img height="1" width="10" src="/images/s.gif">
-      <a id='active_stories_link' href='active_stories'>active stories</a> |
-      <a id='active_users_link' href='active_users'>active users</a> |
-      <a target="_blank" href="<%= layout['root']%>/submit">submit</a>
+      <a class='new_column_link' href='active_stories'>active stories</a> |
+      <a class='new_column_link' href='active_users'>active users</a> |
+      <a target="_blank" href="http://news.ycombinator.com/submit">submit</a>
     </div>
 
     <%= yield %>
