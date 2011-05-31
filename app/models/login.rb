@@ -14,6 +14,20 @@ class Login < ActiveRecord::Base
     save
   end
 
+  def has_followees?
+    !shortlist.blank?
+  end
+
+  def followee_count
+    shortlist.split(',').size rescue 0
+  end
+
+  def followees
+    shortlist.split(',').collect do |user|
+      Item.where('author = ?', user).first
+    end
+  end
+
   def self.create_or_merge(email, shortlist)
     user = find_by_email(email)
     if user

@@ -1,0 +1,9 @@
+<div class='item' author='<%= item.author%>'>
+  <div>
+    <a class='author bold' href='http://news.ycombinator.com/user?id=<%= item.author%>'><%= item.author%></a>
+    <a class='follow button' followee='<%= item.author%>'>follow</a>
+  </div>
+  <div class='story'>
+    on <em><%= raw item.story ? item.story.title_with_hn_link : item.title_with_hn_link %></em>
+  </div>
+</div>

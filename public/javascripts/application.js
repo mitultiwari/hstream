@@ -8,8 +8,7 @@ $(function() {
   setupNewColumnHandlers('a.story');
   setupNewColumnHandlers('a.author');
   $('a.comment').live('click', newColumn);
-  $('#active_users_link').click(newColumn);
-  $('#active_stories_link').click(newColumn);
+  $('.new_column_link').click(newColumn);
 
   $(document).ready(postProcess);
   setTimeout(refreshPage, pollInterval);
@@ -46,7 +45,15 @@ function postProcess() {
   for (var i = 0; i < shortlist.length; ++i) {
     $('.item[author='+shortlist[i]+']').addClass('shortlist');
     $('.item[story_hnid='+shortlist[i]+']').addClass('shortlist');
-    $('.follow[followee='+shortlist[i]+']').html('-');
+    $('.follow[followee='+shortlist[i]+']').html('following');
+    $('.follow[followee='+shortlist[i]+']').addClass('following');
+    $('.follow[followee='+shortlist[i]+']').hover(
+      function() {
+        $(this).html('unfollow');
+      },
+      function() {
+        $(this).html('following');
+      });
     if (!getCookie('email'))
       $('.follow[followee='+shortlist[i]+']').parents('.column').find('.message').slideDown();
   }
@@ -189,7 +196,10 @@ function toggleFollow() {
   if ($.inArray(followee, shortlist) != -1) {
     $.ajax({url: '/follow/'+followee,
       type: 'delete'});
-    $('.follow[followee='+followee+']').html('+');
+    $('.follow[followee='+followee+']').html('follow');
+    $('.follow[followee='+followee+']').removeClass('following');
+    $('.follow[followee='+followee+']').unbind('mouseenter');
+    $('.follow[followee='+followee+']').unbind('mouseleave');
     $('.item[author='+followee+']').removeClass('shortlist');
     $('.item[story_hnid='+followee+']').removeClass('shortlist');
     deleteFromArray(followee, shortlist);
@@ -201,7 +211,15 @@ function toggleFollow() {
     $.ajax({url: '/follow',
       data: {id: followee},
       type: 'post'});
-    $('.follow[followee='+followee+']').html('-');
+    $('.follow[followee='+followee+']').html('following');
+    $('.follow[followee='+followee+']').addClass('following');
+    $('.follow[followee='+followee+']').hover(
+      function() {
+        $(this).html('unfollow');
+      },
+      function() {
+        $(this).html('following');
+      });
     $('.item[author='+followee+']').addClass('shortlist');
     $('.item[story_hnid='+followee+']').addClass('shortlist');
     shortlist.push(followee);

@@ -1,5 +1,5 @@
 body{ margin:2 auto; }
-#pagetop{ padding:2px; height:18px; }
+#pagetop{ padding:2px; height:18px; background:#ff6600; }
 .column{ background:#f6f6ef; float:left; width:40em; padding-top:10px; margin-bottom:1em; }
 #stream{ }
 .view{ margin-left:20px; }
@@ -14,6 +14,8 @@ body{ margin:2 auto; }
 .shortlist{ background:#d6d6cf; }
 
 .button{ color:#f6f6ef; background:#c2c2c2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; }
+.follow{ color:#bb5500; border:1px solid #bb5500; background:none !important; font-weight:bold; }
+.following{ color:#00b243; border:1px solid #00b243; font-weight:bold; }
 .moreComments{ width:10em; margin-top:1em; }
 a.follow:hover { text-decoration:none !important; }
 

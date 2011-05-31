@@ -51,4 +51,9 @@ class Item < ActiveRecord::Base
       Item.where('author = ?', user).first
     end
   end
+  def self.top_users
+    %w(pg tptacek patio11 edw519 jacquesm fogus cwan jrockway swombat vaksel raganwald icey RiderOfGiraffes).collect do |user|
+      Item.where('author = ?', user).first
+    end
+  end
 end

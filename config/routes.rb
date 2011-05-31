@@ -4,6 +4,7 @@ Hnrt::Application.routes.draw do
 
   resources :user
   resources :story
+  resources :following
   resource :active_users
   resource :active_stories
 
