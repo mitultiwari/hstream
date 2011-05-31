@@ -1,2 +1,4 @@
 shortlist = <%= raw session[:user].shortlist.split(',').to_json%>;
 location.hash = shortlist.join(',');
+$('#call-to-action').slideUp();
+postProcess();
