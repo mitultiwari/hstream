@@ -3,7 +3,7 @@
     <h3>You are following <%= pluralize session[:user].followee_count, 'user'%></h3>
     <div style='padding-bottom:1em'>
       <% session[:user].followees.each do |item|%>
-        <%= render 'root/show_user', :item => item %>
+        <%= render 'root/show_user', :item => item if item%>
       <% end %>
     </div>
   <% else %>
