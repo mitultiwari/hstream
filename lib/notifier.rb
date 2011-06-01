@@ -3,7 +3,6 @@ class Notifier
     emailsNotified = Set.new
     Subscription.all.each do |sub|
       next if emailsNotified.include?(sub.email.email)
-      emailsNotified << sub.email.email
 
       next if !sub.author_to_ignore.blank? && sub.author_to_ignore == item.author
 
@@ -12,9 +11,11 @@ class Notifier
            (item.is_story? && item.title =~ /\b#{sub.pattern}\b/))
         NotificationMailer.email(sub.email.email, item.hnid,
                                 "New story on HN about #{sub.pattern}").deliver
+        emailsNotified << sub.email.email
       elsif !sub.author.blank? && sub.author == item.author
         NotificationMailer.email(sub.email.email, item.hnid,
                                 "New story on HN by #{sub.author}").deliver
+        emailsNotified << sub.email.email
       end
     end
   end
