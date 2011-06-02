@@ -1,7 +1,7 @@
 class CreateLogins < ActiveRecord::Migration
   def self.up
     create_table :logins do |t|
-      t.string :email
+      t.integer :email_id
       t.text :shortlist, :default => ''
       t.timestamps
     end

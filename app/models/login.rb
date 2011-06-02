@@ -1,4 +1,6 @@
 class Login < ActiveRecord::Base
+  belongs_to :email
+
   def merge_shortlist(s)
     self[:shortlist] = (shortlist.split(',')+s.split(',')).uniq.join(',')
     save
@@ -29,7 +31,8 @@ class Login < ActiveRecord::Base
   end
 
   def self.create_or_merge(email, shortlist)
-    user = find_by_email(email)
+    email = Email.find_or_create_by_email(email)
+    user = find_by_email_id(email.id)
     if user
       user.merge_shortlist(shortlist)
     else
