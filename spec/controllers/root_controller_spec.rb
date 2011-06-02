@@ -4,7 +4,7 @@ describe RootController do
   render_views
 
   before do
-    Factory(:item, :hnid => 1, :timestamp => 3.seconds.ago, :author => 'foo')
+    Factory(:item, :hnid => 1, :timestamp => 3.seconds.ago, :author => 'foo', :title => 'story0')
     Factory(:item, :hnid => 2, :timestamp => 2.seconds.ago, :title => 'story')
     Factory(:item, :hnid => 3, :timestamp => 1.second.ago, :story_hnid => 2)
   end

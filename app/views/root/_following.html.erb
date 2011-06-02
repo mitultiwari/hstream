@@ -24,7 +24,7 @@
   <h3>Recently active users</h3>
   <div>
     <% Item.active_users.each do |item| %>
-      <%= render 'root/show_user', :item => item%>
+      <%= render 'root/show_user', :item => item if item%>
     <% end %>
   </div>
 </div>
