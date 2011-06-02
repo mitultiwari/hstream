@@ -20,7 +20,7 @@
 <% end %>
 
 <a id='login-user' style='display:<%= session[:user] ? 'inline' : 'none'%>' href='#'>
-<%= session[:user].email rescue ''%>
+<%= session[:user].email.email rescue ''%>
 </a>
 
 <script>
