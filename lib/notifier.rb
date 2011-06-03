@@ -9,11 +9,11 @@ class Notifier
       if !sub.pattern.blank? &&
          ((item.contents && item.contents.gsub(/\n/, ' ') =~ /\b#{sub.pattern}\b/) ||
            (item.is_story? && item.title =~ /\b#{sub.pattern}\b/))
-        NotificationMailer.email(sub.email.email, item.hnid,
+        NotificationMailer.email(sub, item.hnid,
                                 "New story on HN about #{sub.pattern}").deliver
         emailsNotified << sub.email.email
       elsif !sub.author.blank? && sub.author == item.author
-        NotificationMailer.email(sub.email.email, item.hnid,
+        NotificationMailer.email(sub, item.hnid,
                                 "New story on HN by #{sub.author}").deliver
         emailsNotified << sub.email.email
       end

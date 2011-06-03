@@ -10,6 +10,7 @@ Hnrt::Application.routes.draw do
 
   resource :login
   resources :follow
+  resources :unsubscribe
 
   match 'reply/:id', :to => 'root#reply'
 end
