@@ -3,4 +3,8 @@ http://hackerstream.com/?item=<%= @hnid%>
 
 
 --
-                      Stop getting this email: http://hackerstream.com/unsubscribe/<%= @sub.code%>
+<% if !@sub.author.blank? -%>
+                      Stop getting notified about posts by <%= @sub.author%>: http://hackerstream.com/unsubscribe/<%= @sub.code%>
+<% else -%>
+                      Stop getting notified about posts on <%= @sub.pattern%>: http://hackerstream.com/unsubscribe/<%= @sub.code%>
+<% end -%>
