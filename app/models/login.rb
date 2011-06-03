@@ -31,7 +31,7 @@ class Login < ActiveRecord::Base
   end
 
   def self.create_or_merge(email, shortlist)
-    email = Email.find_or_create_by_email(email)
+    email = Email.find_or_create_by_email(email.downcase)
     user = find_by_email_id(email.id)
     if user
       user.merge_shortlist(shortlist)
