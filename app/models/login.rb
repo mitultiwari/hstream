@@ -26,7 +26,7 @@ class Login < ActiveRecord::Base
 
   def followees
     shortlist.split(',').collect do |user|
-      Item.where('author = ?', user).first
+      Item.where(:author => user).first
     end
   end
 

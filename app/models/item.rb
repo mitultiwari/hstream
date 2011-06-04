@@ -30,9 +30,7 @@ class Item < ActiveRecord::Base
   def self.title(hnid)
     story = Item.find_by_hnid(hnid)
     return story.title if story
-    aComment = Item.where('story_hnid = ?', hnid).first
-    return aComment.title if aComment
-    return ''
+    Item.where(:story_hnid => hnid).first.title rescue ''
   end
 
   def title_with_hn_link
@@ -48,12 +46,12 @@ class Item < ActiveRecord::Base
   def self.active_users
     # select story_hnid,count(story_hnid) from (select * from items limit 200) group by story_hnid;
     Item.where(:hnid => Item.limit(200).select('hnid').collect(&:hnid)).group('author').count('author').top_keys(20).collect do |user|
-      Item.where('author = ?', user).first
+      Item.where(:author => user).first
     end
   end
   def self.top_users
     %w(pg tptacek patio11 edw519 jacquesm fogus cwan jrockway swombat vaksel raganwald icey RiderOfGiraffes).collect do |user|
-      Item.where('author = ?', user).first
+      Item.where(:author => user).first
     end
   end
 end

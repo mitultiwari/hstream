@@ -7,11 +7,8 @@ class StoryController < ApplicationController
 
     @id = 'story:'+@followee
     story = Item.find_by_hnid(@followee)
-    if story.contents.blank?
-      @items[@id] = @items['stream'].where('story_hnid = ?', @followee)
-    else
-      @items[@id] = @items['stream'].where('story_hnid = ? or hnid = ?', @followee, @followee)
-    end
+    @items[@id] = @items['stream'].where(:story_hnid => @followee)
+    @items[@id] += [Item.find_by_hnid @followee] unless story.contents.blank?
     render 'root/show'
   end
 end
