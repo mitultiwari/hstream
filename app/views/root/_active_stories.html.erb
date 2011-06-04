@@ -6,6 +6,7 @@
         <span class='story'>
           <%= raw story.title_with_hn_link %>
         </span>
+        <a class='follow button' followee='<%= story.hnid%>'>follow</a>
         <div class='comhead'>
           by <a class='author' href='http://news.ycombinator.com/user?id=<%= story.author%>'><%= story.author%></a>
         </div>
