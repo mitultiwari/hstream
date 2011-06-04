@@ -1,0 +1,8 @@
+<% if @items['my_stream'].blank? %>
+  <%= render 'root/following' %>
+<% else %>
+  <div class="column view">
+    <h3>My stream</h3>
+    <%= htmlstream 'my_stream' %>
+  </div>
+<% end %>
