@@ -1,11 +1,15 @@
 class RootController < ApplicationController
   def index
     @mostRecentItem, @items = initialize_item_scopes(params)
-    session[:user].reload if session[:user]
+    if session[:user] && initial_load?
+      @items['my_stream'] = session[:user].stream @items['stream']
+    end
+
     if params[:item]
       currItem = Item.find_by_hnid(params[:item])
       @items['stream'] = [currItem]+(@items['stream']-[currItem])
     end
+
     @columns = (params[:columns] || '').split(',')
     @columns.each do |column|
       next if column == 'stream'
@@ -19,5 +23,9 @@ class RootController < ApplicationController
 
   def reply
     redirect_to "http://news.ycombinator.com/item?id=#{params[:id]}"
+  end
+
+  def initial_load?
+    params[:format].blank?
   end
 end

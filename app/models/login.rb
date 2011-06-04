@@ -41,4 +41,14 @@ class Login < ActiveRecord::Base
     user
   end
 
+  # given a scope of items, return a scope of followed items
+  def stream(scope)
+    reload
+    s = shortlist.split(',')
+    t = Item.arel_table
+    scope.where(t[:author].in(s).
+             or(t[:story_hnid].in(s)).
+             or(t[:hnid].in(s)))
+  end
+
 end
