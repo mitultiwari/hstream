@@ -2,7 +2,7 @@
 require File.expand_path('../application', __FILE__)
 
 # Initialize the rails application
-Hnrt::Application.initialize!
+HackerStream::Application.initialize!
 
 ActionMailer::Base.raise_delivery_errors = false
 ActionMailer::Base.delivery_method = :smtp
