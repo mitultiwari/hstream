@@ -5,10 +5,9 @@ class RootController < ApplicationController
       @items['my_stream'] = session[:user].stream @items['stream']
     end
 
-    if params[:item]
-      currItem = Item.find_by_hnid(params[:item])
-      @items['stream'] = [currItem]+(@items['stream']-[currItem])
-    end
+    currItem = Item.find_by_hnid(params[:item]) if params[:item]
+    currItem = Item.where(:author => params[:user]).first if params[:user]
+    @items['stream'] = [currItem]+(@items['stream']-[currItem]) if currItem
 
     @columns = (params[:columns] || '').split(',')
     @columns.each do |column|

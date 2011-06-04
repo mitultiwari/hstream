@@ -20,6 +20,11 @@ describe RootController do
       assigns(:items)['stream'].map(&:hnid).should == [2, 3, 1]
     end
 
+    it 'should put the appropriate item up top when given params[:user]' do
+      get :index, :user => 'foo'
+      assigns(:items)['stream'].map(&:hnid).should == [1, 3, 2]
+    end
+
     it 'should include additional column for user' do
       get :index, :columns => 'stream,user:foo'
       assigns(:items)['user:foo'].map(&:hnid).should == [1]
