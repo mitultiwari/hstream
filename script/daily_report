@@ -18,43 +18,34 @@ log_file() {
 
 grep STAT `log_file 1` |grep "/\.js" |column 4 |sort |uniq |grep -v "[a-z]" > y.non_crawler
 grep STAT `log_file 1` |grep "/\.js" |column 5 |sort |uniq |grep -v "[a-z]" >> y.non_crawler
-X=$(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |column 5 |sort |uniq |wc -l)
-echo "Acquisition: $X IPs (couldn't count cookie sessions)"
-X=$(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 5 |sort |uniq |wc -l)
-echo "  $X from google"
+Acq=$(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |column 5 |sort |uniq |wc -l)
+echo "Acquisition: $Acq IPs (couldn't count cookie sessions)"
+Goog=$(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 5 |sort |uniq |wc -l)
+echo "  $Goog from google"
 X=$(grep STAT `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 5 |sort |uniq |wc -l)
 echo "    $X from adwords"
 
 grep "STAT.*google" `log_file 1` |column 4 > y.google
 grep "STAT.*google" `log_file 1` |column 5 >> y.google
 
-div() {
-  printf "%.3f" $(($1.0/$2))
+percent() {
+  printf "%.1f%%" $(($1.0/$2*100))
 }
 
 grep Started `log_file 1` |wgrep -f y.non_crawler |grep -v "/\.js\|/?item\|/? " > y.clicks
-Nr=`wc -l < y.clicks`
-Dr=`cat y.clicks |column 5 |sort |uniq |wc -l`
-echo "Activation: $Nr clicks in $Dr sessions (`div $Nr $Dr` per session)"
-Nr=`cat y.clicks |column 5 |wgrep -f y.google |wc -l`
-Dr=`cat y.clicks |column 5 |wgrep -f y.google |sort |uniq |wc -l`
-echo "  $Nr clicks in $Dr sessions from google (`div $Nr $Dr` per session)"
-Nr=`cat y.clicks |column 5 |wgrep -vf y.google |wc -l`
-Dr=`cat y.clicks |column 5 |wgrep -vf y.google |sort |uniq |wc -l`
-echo "  $Nr clicks in $Dr sessions from elsewhere (`div $Nr $Dr` per session)"
+X=`cat y.clicks |column 5 |sort |uniq |wc -l`
+echo "Activation: $X sessions with clicks (`percent $X $Acq`)"
+X=`cat y.clicks |column 5 |wgrep -f y.google |sort |uniq |wc -l`
+echo "  $X sessions from google (`percent $X $Goog`)"
 
 grep "Started.*/more" `log_file 1` > y.refreshes
-Nr=`wc -l < y.refreshes`
-Dr=`cat y.refreshes |column 5 |sort |uniq |wc -l`
-echo "Activation: $Nr refreshes in $Dr sessions (`div $Nr $Dr` per session)"
-Nr=`cat y.refreshes |column 5 |wgrep -f y.google |wc -l`
-Dr=`cat y.refreshes |column 5 |wgrep -f y.google |sort |uniq |wc -l`
-echo "  $Nr refreshes in $Dr sessions from google (`div $Nr $Dr` per session)"
+X=`cat y.refreshes |column 5 |sort |uniq |wc -l`
+echo "Activation: $X sessions hit the more button (`percent $X $Acq`)"
+X=`cat y.refreshes |column 5 |wgrep -f y.google |sort |uniq |wc -l`
+echo "  $X sessions from google (`percent $X $Goog`)"
 
 grep "Started.*follow" `log_file 1` > y.follows
-Nr=`wc -l < y.follows`
-Dr=`cat y.follows |column 5 |sort |uniq |wc -l`
-echo "Activation: $Nr follows in $Dr sessions (`div $Nr $Dr` per session)"
-Nr=`cat y.follows |column 5 |wgrep -f y.google |wc -l`
-Dr=`cat y.follows |column 5 |wgrep -f y.google |sort |uniq |wc -l`
-echo "  $Nr follows in $Dr sessions from google (`div $Nr $Dr` per session)"
+X=`cat y.follows |column 5 |sort |uniq |wc -l`
+echo "Activation: $X sessions followed somebody (`percent $X $Acq`)"
+X=`cat y.follows |column 5 |wgrep -f y.google |sort |uniq |wc -l`
+echo "  $X sessions from google (`percent $X $Goog`)"
