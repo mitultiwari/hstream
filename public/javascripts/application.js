@@ -36,7 +36,7 @@ function ajax(args) {
 
 var title = $('title').html();
 function postProcess() {
-  $('#more-items').html(moreItemMessage());
+  moreItemMessage();
   $('.column').children().children('.item').slideDown();
   $('title').html(titlePrefix()+title);
   $('a').attr('target', '_blank');
@@ -62,9 +62,10 @@ function postProcess() {
 var maxColumnCapacity = 30;
 function moreItemMessage() {
   var numNewItems = Math.min($('#stream .holding').children('.item').length, maxColumnCapacity);
-  if (numNewItems == 0) return '';
-  if (numNewItems == 1) return '1 new post';
-  return numNewItems+' new posts';
+  if (numNewItems == 0) return;
+  if (numNewItems == 1) $('#more-items').html('1 new post');
+  else $('#more-items').html(numNewItems+' new posts');
+  $('#more-items').slideDown();
 }
 
 function titlePrefix() {
@@ -76,7 +77,9 @@ function titlePrefix() {
 
 function showNewItems() {
   $('title').html(title);
-  $('#more-items').html('');
+  $('#more-items').slideUp('fast', function() {
+    $('#more-items').html('');
+  });
 
   var cols = columnIds();
   for (var i = 0; i < cols.length; ++i) {
