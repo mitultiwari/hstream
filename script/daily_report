@@ -24,10 +24,8 @@ Goog=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |grep -v "/\.js"
 echo "  $Goog from google"
 X=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 5 |sort |uniq |wc -l)
 echo "    $X from adwords"
-X=$(grep STAT development.log.`yday` |column 3 |sort |uniq |grep -v "^nil$" |wc -l)
-echo "  $X logged-in users"
 X=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |column 2 |sort |uniq |wc -l)
-echo "  $X unique session cookies"
+echo "Acquisition: $X unique session cookies"
 
 grep "STAT.*google" development.log.`yday` |column 4 > y.google
 grep "STAT.*google" development.log.`yday` |column 5 >> y.google
@@ -41,6 +39,8 @@ X=`cat y.clicks |column 5 |sort |uniq |wc -l`
 echo "Activation: $X sessions with clicks (`percent $X $Acq`)"
 X=`cat y.clicks |column 5 |wgrep -f y.google |sort |uniq |wc -l`
 echo "  $X sessions from google (`percent $X $Goog`)"
+X=$(grep STAT development.log.`yday` |column 3 |sort |uniq |grep -v "^nil$" |wc -l)
+echo "  $X logged-in users"
 
 grep "Started.*/more" development.log.`yday` > y.refreshes
 X=`cat y.refreshes |column 5 |sort |uniq |wc -l`
