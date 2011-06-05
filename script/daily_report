@@ -19,13 +19,15 @@ yday() {
 grep STAT development.log.`yday` |grep "/\.js" |column 4 |sort |uniq |grep -v "[a-z]" > y.non_crawler
 grep STAT development.log.`yday` |grep "/\.js" |column 5 |sort |uniq |grep -v "[a-z]" >> y.non_crawler
 Acq=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |grep -v "/\.js" |column 5 |sort |uniq |wc -l)
-echo "Acquisition: $Acq IPs (couldn't count cookie sessions)"
+echo "Acquisition: $Acq IPs"
 Goog=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 5 |sort |uniq |wc -l)
 echo "  $Goog from google"
 X=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 5 |sort |uniq |wc -l)
 echo "    $X from adwords"
 X=$(grep STAT development.log.`yday` |column 3 |sort |uniq |grep -v "^nil$" |wc -l)
 echo "  $X logged-in users"
+X=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |column 2 |sort |uniq |wc -l)
+echo "  $X unique session cookies"
 
 grep "STAT.*google" development.log.`yday` |column 4 > y.google
 grep "STAT.*google" development.log.`yday` |column 5 >> y.google
