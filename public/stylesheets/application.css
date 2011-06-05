@@ -1,5 +1,5 @@
 body{ margin:2 auto; }
-#pagetop{ padding:2px; height:18px; background:#ff6600; }
+#pagetop{ padding:2px; height:18px; background:#ff6600; border-radius:2px; }
 .column{ background:#f6f6ef; float:left; width:40em; padding-top:10px; margin-bottom:1em; }
 #stream{ }
 .view{ margin-left:20px; }
@@ -7,15 +7,15 @@ body{ margin:2 auto; }
 .context{ background:#f6f6ef; display:none; }
 .itembox{ margin-left: 1em; margin-right:5px; }
 
-.item{ padding-left:5px; padding-top:5px; padding-bottom:5px; }
+.item{ padding-left:5px; padding-top:5px; padding-bottom:5px; border-radius:2px; }
 .subtext,.comhead{ padding-top:1em; padding-bottom:5px; }
 .context{ padding-left:5px; }
 .ancestor{ padding-bottom:0.5em; }
 .shortlist{ background:#d6d6cf; }
 
-.button{ color:#f6f6ef; background:#c2c2c2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; }
-.follow{ color:#bb5500; border:1px solid #bb5500; background:none !important; font-weight:bold; }
-.following{ color:#00b243; border:1px solid #00b243; font-weight:bold; }
+.button{ color:#f6f6ef; background:#c2c2c2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; border-radius:2px; }
+.follow{ color:#bb5500; border:1px solid #bb5500; background:none !important; font-weight:bold; border-radius:2px; }
+.following{ color:#00b243; border:1px solid #00b243; font-weight:bold; border-radius:3px; }
 .moreComments{ width:10em; margin-top:1em; }
 a.follow:hover { text-decoration:none !important; }
 
@@ -25,7 +25,7 @@ a.follow:hover { text-decoration:none !important; }
 .bold a:link{ color:#666; }
 .bold .subtext{ font-weight:normal; }
 .bold .comment{ font-weight:normal; }
-#more-items{ background:#ffbb88; border:1px solid #ff6600; font-weight:normal; font-size:10pt; cursor:pointer; margin-top:5px; padding:5px; }
+#more-items{ background:#ffbb88; border:1px solid #ff6600; font-weight:normal; font-size:10pt; cursor:pointer; margin-top:5px; padding:5px; border-radius:2px; }
 
 #pagetop .right{ float:right; margin-right:5px; }
 #pagetop .right div, #pagetop .right form{ float:left; }
