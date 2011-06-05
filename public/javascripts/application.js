@@ -4,9 +4,9 @@ $(function() {
   $('.follow').live('click', toggleFollow);
 
   $(document).ready(setupColumns);
-  setupNewColumnHandlers('.story a');
-  setupNewColumnHandlers('a.story');
-  setupNewColumnHandlers('a.author');
+  $('.story a').live('click', newColumn);
+  $('a.story').live('click', newColumn);
+  $('a.author').live('click', newColumn);
   $('a.comment').live('click', newColumn);
   $('.new_column_link').click(newColumn);
 
@@ -116,23 +116,8 @@ setTimeout(function() { // wait for initial slideDown; it messes with pagetop.wi
 }, 300);
 }
 
-function setupNewColumnHandlers(selector) {
-  $(selector).live('mouseover', addRarr);
-  $(selector).live('mouseout', rmRarr);
-  $(selector).live('click', newColumn);
-}
-
 function columnIds() {
   return $.map($('.column').children('div[id]'), function(elem) { return elem.id; });
-}
-
-function addRarr() {
-  $(this).html($(this).html()+' &rarr;');
-}
-function rmRarr() {
-  var old = $(this).html();
-  if(old.charAt(old.length-2) == ' ')
-    $(this).html(old.substring(0, old.length-2));
 }
 
 function newColumn() {
