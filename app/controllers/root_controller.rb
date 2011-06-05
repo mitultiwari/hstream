@@ -1,7 +1,7 @@
 class RootController < ApplicationController
   def index
     @mostRecentItem, @items = initialize_item_scopes(params)
-    if session[:user] && initial_load?
+    if session[:user]
       @items['my_stream'] = session[:user].stream @items['stream']
     end
 
@@ -22,9 +22,5 @@ class RootController < ApplicationController
 
   def reply
     redirect_to "http://news.ycombinator.com/item?id=#{params[:id]}"
-  end
-
-  def initial_load?
-    params[:format].blank?
   end
 end
