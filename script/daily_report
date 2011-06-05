@@ -24,6 +24,8 @@ Goog=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |grep -v "/\.js"
 echo "  $Goog from google"
 X=$(grep STAT development.log.`yday` |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 5 |sort |uniq |wc -l)
 echo "    $X from adwords"
+X=$(grep STAT development.log.`yday` |column 3 |sort |uniq |grep -v "^nil$" |wc -l)
+echo "  $X logged-in users"
 
 grep "STAT.*google" development.log.`yday` |column 4 > y.google
 grep "STAT.*google" development.log.`yday` |column 5 >> y.google
