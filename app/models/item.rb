@@ -18,7 +18,7 @@ class Item < ActiveRecord::Base
   end
 
   def self.since(hnid, bound=nil)
-    ans = scoped.limit(20).where('id > ?', Item.first.id-1000)
+    ans = scoped.limit(20).where('id > ?', Item.first.id-10000)
     ans = ans.where('id <= ?', bound) if bound
     return ans if [nil, '', '0', 0].index(hnid)
 
