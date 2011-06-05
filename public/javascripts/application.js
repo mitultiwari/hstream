@@ -77,9 +77,8 @@ function titlePrefix() {
 
 function showNewItems() {
   $('title').html(title);
-  $('#more-items').slideUp('fast', function() {
-    $('#more-items').html('');
-  });
+  $('#more-items').hide();
+  $('#more-items').html('');
 
   var cols = columnIds();
   for (var i = 0; i < cols.length; ++i) {
