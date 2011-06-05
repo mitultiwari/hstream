@@ -49,3 +49,8 @@ X=`cat y.follows |column 5 |sort |uniq |wc -l`
 echo "Activation: $X sessions followed somebody (`percent $X $Acq`)"
 X=`cat y.follows |column 5 |wgrep -f y.google |sort |uniq |wc -l`
 echo "  $X sessions from google (`percent $X $Goog`)"
+
+echo "select created_at from logins;" |sqlite3 ../db/development.sqlite3 > y.logins
+X=`grep $(date +"%Y-%m-%d" -d '-1 day') y.logins |wc -l`
+Y=`wc -l < y.logins`
+echo "Activation: $X new logins created ($Y total)"
