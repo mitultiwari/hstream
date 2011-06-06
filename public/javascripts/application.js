@@ -36,6 +36,7 @@ function ajax(args) {
 
 var title = $('title').html();
 function postProcess() {
+  $('#spinner').hide();
   moreItemMessage();
   $('.column').children().children('.item').slideDown();
   $('title').html(titlePrefix()+title);
@@ -122,6 +123,7 @@ setTimeout(function() { // wait for initial slideDown; it messes with pagetop.wi
 
   columnWidth = (availableSpace - (maxColumns-1)*intercolumnGutter) / maxColumns;
   $('.column').width(columnWidth);
+  $('#spinner').width(columnWidth-10); // HACK: not sure why this needs to be narrower.
 }, 300);
 }
 
@@ -147,8 +149,10 @@ function newColumn() {
 
 function insertColumnLeft(newColumnId) {
   if ($('.column').length >= maxColumns) {
-    $('.column:last').slideUp('slow', function() {
+    $('.column:last').slideUp('fast', function() {
       $('.column:last').remove();
+      $('#stream_column').after($('#spinner'));
+      $('#spinner').show();
     });
   }
 
