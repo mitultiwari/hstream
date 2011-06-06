@@ -23,7 +23,8 @@ body{ margin:2 auto; }
 .follow{ color:#bb5500; border:1px solid #bb5500; background:none !important; font-weight:bold; border-radius:2px; }
 .following{ color:#00b243; border:1px solid #00b243; font-weight:bold; border-radius:3px; }
 .moreComments{ width:12em; margin-top:1em; }
-a.follow:hover { text-decoration:none !important; }
+a.follow:hover{ text-decoration:none !important; }
+.comment a{ text-decoration:underline !important; }
 
 .column{ font-size:9pt; }
 .moreComments{ font-size:8pt; }
