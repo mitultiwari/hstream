@@ -56,7 +56,7 @@ function postProcess() {
         $(this).html('following');
       });
     if (!getCookie('email'))
-      $('.follow[followee='+shortlist[i]+']').parents('.column').find('.message').slideDown();
+      $('.follow[followee='+shortlist[i]+']').parents('.column').find('.login-call').slideDown();
   }
 }
 
@@ -208,7 +208,7 @@ function toggleFollow() {
     deleteFromArray(followee, shortlist);
     removeFromHash(followee);
     postProcess(); // refollow items with other reasons to be followed
-    $(this).parents('.column').find('.message').slideUp();
+    $(this).parents('.column').find('.login-call').slideUp();
   }
   else {
     $.ajax({url: '/follow',
@@ -228,13 +228,13 @@ function toggleFollow() {
     shortlist.push(followee);
     addToHash(followee);
     if (!getCookie('email'))
-      $(this).parents('.column').find('.message').slideDown();
+      $(this).parents('.column').find('.login-call').slideDown();
   }
   return true;
 }
 
 function userLoggedIn() {
-  $('.message').slideUp();
+  $('.login-call').slideUp();
 }
 
 function addToHash(word) {
