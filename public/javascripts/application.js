@@ -37,6 +37,13 @@ function ajax(args) {
 var title = $('title').html();
 function postProcess() {
   $('#spinner').hide();
+  if (shortlist.length > 0) {
+    $('#follow-call').hide();
+    if (!getCookie('email')) {
+      $('.login-call').show();
+    }
+  }
+
   moreItemMessage();
   $('.column').children().children('.item').slideDown();
   $('title').html(titlePrefix()+title);
