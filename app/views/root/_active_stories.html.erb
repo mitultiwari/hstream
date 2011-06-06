@@ -3,12 +3,12 @@
   <div id='active_stories'>
     <% Item.active_stories.each do |story| %>
       <div class='item' story_hnid='<%= story.hnid%>'>
-        <span class='story'>
+        <span class='story internal'>
           <%= raw story.title_with_hn_link %>
         </span>
         <a class='follow button' followee='<%= story.hnid%>'>follow</a>
         <div class='comhead'>
-          by <a class='author' href='http://news.ycombinator.com/user?id=<%= story.author%>'><%= story.author%></a>
+          by <a class='author internal' href='http://news.ycombinator.com/user?id=<%= story.author%>'><%= story.author%></a>
         </div>
       </div>
     <% end %>
