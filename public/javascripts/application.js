@@ -94,7 +94,16 @@ function showNewItems() {
 
 function toggleContext() {
   $.ajax({url: '/context?'+$(this).parents('.item').attr('hnid')});
-  $(this).siblings('.context').slideToggle();
+
+  var context = $(this).siblings('.context');
+  context.slideToggle();
+
+  var old = $(this).html();
+  if (old.charAt(old.length-1) == String.fromCharCode(8595)) { // &darr;
+    $(this).html(old.substring(0, old.length-1)+"&uarr;");
+  } else {
+    $(this).html(old.substring(0, old.length-1)+"&darr;");
+  }
   return false;
 }
 
