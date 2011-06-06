@@ -3,11 +3,7 @@
   <% if item.timestamp.to_f > 0 %>
   | <%= distance_of_time_in_words(Time.now.to_i - item.timestamp.to_i)%> ago
   <% end %>
-  <% if item.is_story? %>
-  | <a class='story internal' followee='story:<%= item.hnid%>' href='/?item=<%= item.hnid%>'>link</a>
-  <% else %>
   | <a class='comment external' followee='/reply/<%= item.hnid%>' href='/?item=<%= item.hnid%>'>reply</a>
-  <% end %>
 </div>
 
 <%= raw item.contents if item.contents %>
