@@ -1,7 +1,7 @@
 <div class="column view">
   <% if session[:user] && session[:user].has_followees?%>
     <h3>You are following <%= pluralize session[:user].followee_count, 'user'%></h3>
-    <div style='padding-bottom:1em'>
+    <div style='padding-bottom:3em'>
       <% session[:user].followees.each do |item|%>
         <%= render 'root/show_user', :item => item if item%>
       <% end %>
@@ -17,13 +17,6 @@
   <h3>Top users</h3>
   <div style='padding-bottom:1em'>
     <% Item.top_users.each do |item|%>
-      <%= render 'root/show_user', :item => item if item%>
-    <% end %>
-  </div>
-
-  <h3>Recently active users</h3>
-  <div>
-    <% Item.active_users.each do |item| %>
       <%= render 'root/show_user', :item => item if item%>
     <% end %>
   </div>
