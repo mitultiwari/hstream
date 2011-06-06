@@ -12,7 +12,11 @@ body{ margin:2 auto; }
 .context{ padding-left:5px; }
 .ancestor{ padding-bottom:0.5em; }
 .shortlist{ background:#d6d6cf; }
+.author{ border:1px solid #e6e6cf; border-radius:2px; text-decoration:none !important; }
+.shortlist .author{ border:1px solid #d6d6cf; border-radius:2px; text-decoration:none !important; }
 .author:hover{ border:1px solid #444; border-radius:2px; text-decoration:none !important; }
+.story{ border:1px solid #e6e6cf; border-radius:2px; text-decoration:none !important; }
+.shortlist .story{ border:1px solid #d6d6cf; border-radius:2px; text-decoration:none !important; }
 .story:hover{ border:1px solid #444; border-radius:2px; text-decoration:none !important; }
 
 .button{ color:#f6f6ef; background:#c2c2c2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; border-radius:2px; }
