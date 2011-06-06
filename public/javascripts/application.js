@@ -149,10 +149,12 @@ function newColumn() {
 
 function insertColumnLeft(newColumnId) {
   if ($('.column').length >= maxColumns) {
-    $('.column:last').slideUp('fast', function() {
+    $('.column:last').slideUp('slow', function() {
       $('.column:last').remove();
       $('#stream_column').after($('#spinner'));
-      $('#spinner').show();
+      if ($('.column').length < maxColumns) { // just in case response returned really fast
+        $('#spinner').show();
+      }
     });
   }
 
