@@ -32,7 +32,7 @@ a.follow:hover{ text-decoration:none !important; }
 .bold a:link{ color:#666; }
 .bold .subtext{ font-weight:normal; }
 .bold .comment{ font-weight:normal; }
-#more-items{ background:#ffbb88; border:1px solid #ff6600; font-weight:normal; font-size:10pt; cursor:pointer; margin-top:5px; padding:5px; border-radius:2px; }
+#more-items{ background:#ffbb88; border:1px solid #ff6600; font-weight:normal; font-size:10pt; cursor:pointer; margin-top:5px; padding:3px; border-radius:2px; }
 
 #pagetop .right{ float:right; margin-right:5px; }
 #pagetop .right div, #pagetop .right form{ float:left; }
