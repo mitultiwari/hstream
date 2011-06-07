@@ -48,7 +48,7 @@ echo "Activation: $X sessions hit the more button (`percent $X $Acq`)"
 X=`cat y.refreshes |column 5 |wgrep -f y.google |sort |uniq |wc -l`
 echo "  $X sessions from google (`percent $X $Goog`)"
 
-grep "Started.*follow" development.log.`yday` > y.follows
+grep "Started.*/follow\>" development.log.`yday` > y.follows
 X=`cat y.follows |column 5 |sort |uniq |wc -l`
 echo "Activation: $X sessions followed somebody (`percent $X $Acq`)"
 X=`cat y.follows |column 5 |wgrep -f y.google |sort |uniq |wc -l`
