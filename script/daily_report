@@ -70,3 +70,44 @@ for offset in `seq 1 14`
 do
   acq $offset
 done
+
+allprevsessions() {
+  arg=${1/development.log./}
+  for file in development.log.*
+  do
+    if [ ${file/development.log./} -lt $arg ]
+    then
+      echo $file
+    fi
+  done
+}
+
+prev7sessions() {
+  for i in `seq 1 7`
+  do
+    echo development.log.`compute_date $(($1+$i))`
+  done
+}
+
+echo "=== Retention"
+echo "Date: All-time returning -> 7-day returning -> 1-day returning || Email clicks || Unsubscribes"
+ret() {
+  date=`compute_date $1`
+  grep "Started.*/\.js" development.log.$date |column 5 |sort |uniq > y.sessions.$date
+  acq=`wc -l < y.sessions.$date`
+  grep "Started.*/\.js" development.log.`compute_date $(($1+1))` |column 5 |sort |uniq > y.sessions.prev.$date
+  returning1=`cat y.sessions.$date y.sessions.prev.$date |sort |dups |uniq |wc -l`
+  grep "Started.*/\.js" `prev7sessions $1` |column 5 |sort |uniq > y.sessions.prev7.$date
+  returning7=`cat y.sessions.$date y.sessions.prev7.$date |sort |dups |uniq |wc -l`
+  grep "Started.*/\.js" `allprevsessions development.log.$date` |column 5 |sort |uniq > y.sessions.prevall.$date
+  returningall=`cat y.sessions.$date y.sessions.prevall.$date |sort |dups |uniq |wc -l`
+
+  unsubscribes=`grep "Started.*/unsubscribe" development.log.$date |column 5 |wgrep -f y.sessions.$date |sort |uniq |wc -l`
+
+  echo "$date: $returningall (`percent $returningall $acq`) -> $returning7 (`percent $returning7 $acq`) -> $returning1 (`percent $returning1 $acq`) || $unsubscribes"
+}
+
+for offset in `seq 1 14`
+do
+  ret $offset
+done
