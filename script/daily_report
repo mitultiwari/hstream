@@ -20,11 +20,16 @@ percent() {
   printf "%.1f%%" $(($1.0/$2*100))
 }
 
+last -a -i |grep pts |column 10 |sort |uniq > my_ips
+filter() {
+  wgrep -f y.realips.$date |grep -vf my_ips
+}
+
 cp ../db/development.sqlite3 .
 
+echo "=== Acquisition/Activation"
 echo "Date: Sessions -> More button -> Follow button -> Login"
-
-stats() {
+acq() {
   date=`compute_date $1`
 
   if [ $date -gt "20110524" ] # that's when we added session cookie and username to STAT lines
@@ -35,20 +40,20 @@ stats() {
     grep "STAT" development.log.$date |grep "/\.js" |column 2 |sort |uniq |grep -v "[a-z]" > y.realips.$date
     grep "STAT" development.log.$date |grep "/\.js" |column 3 |sort |uniq |grep -v "[a-z]" >> y.realips.$date
   fi
-  acq=`grep STAT development.log.$date |wgrep -f y.realips.$date |grep -v "/\.js" |column 5 |sort |uniq |wc -l`
+  acq=`grep STAT development.log.$date |filter |grep -v "/\.js" |column 5 |sort |uniq |wc -l`
 
-  grep "Started" development.log.$date |wgrep -f y.realips.$date |grep -v "/\.js\|/?item\|/? " > y.clicks.$date
+  grep "Started" development.log.$date |filter |grep -v "/\.js\|/?item\|/? " > y.clicks.$date
   clicks=`cat y.clicks.$date |column 5 |sort |uniq |wc -l`
 
-  grep "Started.*/more" development.log.$date > y.more.$date
+  grep "Started.*/more" development.log.$date |filter > y.more.$date
   more=`cat y.more.$date |column 5 |sort |uniq |wc -l`
 
-  grep "Started.*/follow\>" development.log.$date > y.follow.$date
+  grep "Started.*/follow\>" development.log.$date |filter > y.follow.$date
   follow=`cat y.follow.$date |column 5 |sort |uniq |wc -l`
 
   if [ $date -gt "20110525" ]
   then
-    login=`grep STAT development.log.$date |column 3 |sort |uniq |grep -v "^nil$" |wc -l`
+    login=`grep STAT development.log.$date |column 3 |sort |uniq |grep -v "^nil$\|akkartik\|mitultiwari" |wc -l`
   else
     login=0
   fi
@@ -63,5 +68,5 @@ stats() {
 
 for offset in `seq 1 14`
 do
-  stats $offset
+  acq $offset
 done
