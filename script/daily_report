@@ -20,6 +20,24 @@ percent() {
   printf "%.1f%%" $(($1.0/$2*100))
 }
 
+allprevsessions() {
+  arg=${1/development.log./}
+  for file in development.log.*
+  do
+    if [ ${file/development.log./} -lt $arg ]
+    then
+      echo $file
+    fi
+  done
+}
+
+prev7sessions() {
+  for i in `seq 1 7`
+  do
+    echo development.log.`compute_date $(($1+$i))`
+  done
+}
+
 last -a -i |grep pts |column 10 |sort |uniq > my_ips
 filter() {
   wgrep -f y.realips.$date |grep -vf my_ips
@@ -29,9 +47,8 @@ cp ../db/development.sqlite3 .
 echo "select created_at from logins;" |sqlite3 development.sqlite3 > y.logins
 logins=`wc -l < y.logins`
 
-echo "=== Acquisition/Activation"
-echo "Date: Sessions -> More button -> Follow button -> Login"
-acq() {
+echo "Date: Sessions -> More button -> Follow button -> Login || Returning -> 7-day -> 1-day || Unsubscribes"
+stats() {
   date=`compute_date $1`
 
   if [ $date -gt "20110524" ] # that's when we added session cookie and username to STAT lines
@@ -62,39 +79,7 @@ acq() {
 
   newlogins=`grep $(compute_date $1 "%Y-%m-%d") y.logins |wc -l`
 
-  echo "$date: $acq -> $more (`percent $more $acq`) -> $follow (`percent $follow $acq`) -> $login (`percent $login $acq`)"
-  grep $date milestones
-}
-
-for offset in `seq 1 14`
-do
-  acq $offset
-done
-
-allprevsessions() {
-  arg=${1/development.log./}
-  for file in development.log.*
-  do
-    if [ ${file/development.log./} -lt $arg ]
-    then
-      echo $file
-    fi
-  done
-}
-
-prev7sessions() {
-  for i in `seq 1 7`
-  do
-    echo development.log.`compute_date $(($1+$i))`
-  done
-}
-
-echo "=== Retention"
-echo "Date: All-time returning -> 7-day returning -> 1-day returning || Email clicks || Unsubscribes"
-ret() {
-  date=`compute_date $1`
   grep "Started.*/\.js" development.log.$date |column 5 |sort |uniq > y.sessions.$date
-  acq=`wc -l < y.sessions.$date`
   grep "Started.*/\.js" development.log.`compute_date $(($1+1))` |column 5 |sort |uniq > y.sessions.prev.$date
   returning1=`cat y.sessions.$date y.sessions.prev.$date |sort |dups |uniq |wc -l`
   grep "Started.*/\.js" `prev7sessions $1` |column 5 |sort |uniq > y.sessions.prev7.$date
@@ -102,12 +87,13 @@ ret() {
   grep "Started.*/\.js" `allprevsessions development.log.$date` |column 5 |sort |uniq > y.sessions.prevall.$date
   returningall=`cat y.sessions.$date y.sessions.prevall.$date |sort |dups |uniq |wc -l`
 
-  unsubscribes=`grep "Started.*/unsubscribe" development.log.$date |column 5 |wgrep -f y.sessions.$date |sort |uniq |wc -l`
+  unsubscribes=`grep "Started.*/unsubscribe" development.log.$date |column 5 |filter |sort |uniq |wc -l`
 
-  echo "$date: $returningall (`percent $returningall $acq`) -> $returning7 (`percent $returning7 $acq`) -> $returning1 (`percent $returning1 $acq`) || $unsubscribes"
+  echo "$date: $acq -> $more (`percent $more $acq`) -> $follow (`percent $follow $acq`) -> $login (`percent $login $acq`) || $returningall (`percent $returningall $acq`) -> $returning7 (`percent $returning7 $acq`) -> $returning1 (`percent $returning1 $acq`) || $unsubscribes"
+  grep $date milestones
 }
 
 for offset in `seq 1 14`
 do
-  ret $offset
+  stats $offset
 done
