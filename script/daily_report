@@ -26,6 +26,8 @@ filter() {
 }
 
 cp ../db/development.sqlite3 .
+echo "select created_at from logins;" |sqlite3 development.sqlite3 > y.logins
+logins=`wc -l < y.logins`
 
 echo "=== Acquisition/Activation"
 echo "Date: Sessions -> More button -> Follow button -> Login"
@@ -58,9 +60,7 @@ acq() {
     login=0
   fi
 
-  echo "select created_at from logins;" |sqlite3 development.sqlite3 > y.logins.$date
-  newlogins=`grep $(compute_date $1 "%Y-%m-%d") y.logins.$date |wc -l`
-  logins=`wc -l < y.logins.$date`
+  newlogins=`grep $(compute_date $1 "%Y-%m-%d") y.logins |wc -l`
 
   echo "$date: $acq -> $more (`percent $more $acq`) -> $follow (`percent $follow $acq`) -> $login (`percent $login $acq`)"
   grep $date milestones
