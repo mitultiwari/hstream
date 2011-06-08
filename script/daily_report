@@ -12,52 +12,56 @@ wgrep() {
   grep -w $*
 }
 
-offset=${1:-1}
-
 compute_date() {
-  date +${1:-"%Y%m%d"} -d '-'$offset' day'
+  date +${2:-"%Y%m%d"} -d '-'$1' day'
 }
-date=`compute_date`
-
-grep STAT development.log.$date |grep "/\.js" |column 4 |sort |uniq |grep -v "[a-z]" > y.non_crawler
-grep STAT development.log.$date |grep "/\.js" |column 5 |sort |uniq |grep -v "[a-z]" >> y.non_crawler
-Acq=$(grep STAT development.log.$date |wgrep -f y.non_crawler |grep -v "/\.js" |column 5 |sort |uniq |wc -l)
-echo "Acquisition: $Acq IPs"
-Goog=$(grep STAT development.log.$date |wgrep -f y.non_crawler |grep -v "/\.js" |grep google |column 5 |sort |uniq |wc -l)
-echo "  $Goog from google"
-X=$(grep STAT development.log.$date |wgrep -f y.non_crawler |grep -v "/\.js" |grep ad=g |column 5 |sort |uniq |wc -l)
-echo "    $X from adwords"
-X=$(grep STAT development.log.$date |wgrep -f y.non_crawler |column 2 |sort |uniq |wc -l)
-echo "Acquisition: $X unique session cookies"
-
-grep "STAT.*google" development.log.$date |column 4 > y.google
-grep "STAT.*google" development.log.$date |column 5 >> y.google
 
 percent() {
   printf "%.1f%%" $(($1.0/$2*100))
 }
 
-grep Started development.log.$date |wgrep -f y.non_crawler |grep -v "/\.js\|/?item\|/? " > y.clicks
-X=`cat y.clicks |column 5 |sort |uniq |wc -l`
-echo "Activation: $X sessions with clicks (`percent $X $Acq`)"
-X=`cat y.clicks |column 5 |wgrep -f y.google |sort |uniq |wc -l`
-echo "  $X sessions from google (`percent $X $Goog`)"
-X=$(grep STAT development.log.$date |column 3 |sort |uniq |grep -v "^nil$" |wc -l)
-echo "  $X logged-in users"
+cp ../db/development.sqlite3 .
 
-grep "Started.*/more" development.log.$date > y.refreshes
-X=`cat y.refreshes |column 5 |sort |uniq |wc -l`
-echo "Activation: $X sessions hit the more button (`percent $X $Acq`)"
-X=`cat y.refreshes |column 5 |wgrep -f y.google |sort |uniq |wc -l`
-echo "  $X sessions from google (`percent $X $Goog`)"
+echo "Date: Sessions -> More button -> Follow button -> Login"
 
-grep "Started.*/follow\>" development.log.$date > y.follows
-X=`cat y.follows |column 5 |sort |uniq |wc -l`
-echo "Activation: $X sessions followed somebody (`percent $X $Acq`)"
-X=`cat y.follows |column 5 |wgrep -f y.google |sort |uniq |wc -l`
-echo "  $X sessions from google (`percent $X $Goog`)"
+stats() {
+  date=`compute_date $1`
 
-echo "select created_at from logins;" |sqlite3 ../db/development.sqlite3 > y.logins
-X=`grep $(compute_date "%Y-%m-%d") y.logins |wc -l`
-Y=`wc -l < y.logins`
-echo "Activation: $X new logins created ($Y total)"
+  if [ $date -gt "20110524" ] # that's when we added session cookie and username to STAT lines
+  then
+    grep "STAT" development.log.$date |grep "/\.js" |column 4 |sort |uniq |grep -v "[a-z]" > y.realips.$date
+    grep "STAT" development.log.$date |grep "/\.js" |column 5 |sort |uniq |grep -v "[a-z]" >> y.realips.$date
+  else
+    grep "STAT" development.log.$date |grep "/\.js" |column 2 |sort |uniq |grep -v "[a-z]" > y.realips.$date
+    grep "STAT" development.log.$date |grep "/\.js" |column 3 |sort |uniq |grep -v "[a-z]" >> y.realips.$date
+  fi
+  acq=`grep STAT development.log.$date |wgrep -f y.realips.$date |grep -v "/\.js" |column 5 |sort |uniq |wc -l`
+
+  grep "Started" development.log.$date |wgrep -f y.realips.$date |grep -v "/\.js\|/?item\|/? " > y.clicks.$date
+  clicks=`cat y.clicks.$date |column 5 |sort |uniq |wc -l`
+
+  grep "Started.*/more" development.log.$date > y.more.$date
+  more=`cat y.more.$date |column 5 |sort |uniq |wc -l`
+
+  grep "Started.*/follow\>" development.log.$date > y.follow.$date
+  follow=`cat y.follow.$date |column 5 |sort |uniq |wc -l`
+
+  if [ $date -gt "20110525" ]
+  then
+    login=`grep STAT development.log.$date |column 3 |sort |uniq |grep -v "^nil$" |wc -l`
+  else
+    login=0
+  fi
+
+  echo "select created_at from logins;" |sqlite3 development.sqlite3 > y.logins.$date
+  newlogins=`grep $(compute_date $1 "%Y-%m-%d") y.logins.$date |wc -l`
+  logins=`wc -l < y.logins.$date`
+
+  echo "$date: $acq -> $more (`percent $more $acq`) -> $follow (`percent $follow $acq`) -> $login (`percent $login $acq`)"
+  grep $date milestones
+}
+
+for offset in `seq 1 14`
+do
+  stats $offset
+done
