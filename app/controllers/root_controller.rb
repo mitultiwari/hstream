@@ -2,7 +2,7 @@ class RootController < ApplicationController
   def index
     @mostRecentItem, @items = initialize_item_scopes(params)
     if session[:user]
-      @items['my_stream'] = session[:user].stream @items['stream']
+      @items['filtered_stream'] = session[:user].stream @items['stream']
     end
 
     currItem = Item.find_by_hnid(params[:item]) if params[:item]

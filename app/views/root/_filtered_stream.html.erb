@@ -1,9 +1,9 @@
-<% if @items['my_stream'].blank? %>
+<% if @items['filtered_stream'].blank? %>
   <%= render 'root/following' %>
 <% else %>
   <div class="column view">
     <div class='closeButton'>x</div>
     <h3>Your stream</h3>
-    <%= htmlstream 'my_stream' %>
+    <%= htmlstream 'filtered_stream' %>
   </div>
 <% end %>

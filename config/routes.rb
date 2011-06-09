@@ -4,7 +4,7 @@ HackerStream::Application.routes.draw do
 
   resources :user
   resources :story
-  resources :my_stream
+  resources :filtered_stream
   resources :following
   resource :active_users
   resource :active_stories
