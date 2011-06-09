@@ -32,7 +32,7 @@ allprevsessions() {
 }
 
 prev7sessions() {
-  for i in `seq 1 7`
+  for i in `seq 0 6`
   do
     echo development.log.`compute_date $(($1+$i))`
   done
@@ -47,7 +47,7 @@ cp ../db/development.sqlite3 .
 echo "select created_at from logins;" |sqlite3 development.sqlite3 > y.logins
 logins=`wc -l < y.logins`
 
-echo "Date: Sessions -> More button -> Follow button -> Login || Returning -> 7-day -> 1-day || Unsubscribes"
+echo "Date: Sessions -> More button -> Follow button -> Login || 7-day sessions -> 7-day returning || Unsubscribes"
 stats() {
   date=`compute_date $1`
 
@@ -79,17 +79,13 @@ stats() {
 
   newlogins=`grep $(compute_date $1 "%Y-%m-%d") y.logins |wc -l`
 
-  grep "Started.*/\.js" development.log.$date |column 5 |sort |uniq > y.sessions.$date
-  grep "Started.*/\.js" development.log.`compute_date $(($1+1))` |column 5 |sort |uniq > y.sessions.prev.$date
-  returning1=`cat y.sessions.$date y.sessions.prev.$date |sort |dups |uniq |wc -l`
-  grep "Started.*/\.js" `prev7sessions $1` |column 5 |sort |uniq > y.sessions.prev7.$date
-  returning7=`cat y.sessions.$date y.sessions.prev7.$date |sort |dups |uniq |wc -l`
-  grep "Started.*/\.js" `allprevsessions development.log.$date` |column 5 |sort |uniq > y.sessions.prevall.$date
-  returningall=`cat y.sessions.$date y.sessions.prevall.$date |sort |dups |uniq |wc -l`
+  grep "Started.*/\.js" `prev7sessions $1` |perl -pwe 's/.*for |at |[0-9][0-9]:[0-9][0-9]:[0-9][0-9] //g' |sort |uniq > y.cohort.$date
+  cohort=`cat y.cohort.$date |column 1 |sort |uniq |wc -l`
+  returning=`cat y.cohort.$date |column 1 |sort |freq |grep -v " 1$" |wc -l`
 
   unsubscribes=`grep "Started.*/unsubscribe" development.log.$date |column 5 |filter |sort |uniq |wc -l`
 
-  echo "$date: $acq -> $more (`percent $more $acq`) -> $follow (`percent $follow $acq`) -> $login (`percent $login $acq`) || $returningall (`percent $returningall $acq`) -> $returning7 (`percent $returning7 $acq`) -> $returning1 (`percent $returning1 $acq`) || $unsubscribes"
+  echo "$date: $acq -> $more (`percent $more $acq`) -> $follow (`percent $follow $acq`) -> $login (`percent $login $acq`) || $cohort -> $returning (`percent $returning $cohort`) || $unsubscribes"
   grep $date milestones
 }
 
