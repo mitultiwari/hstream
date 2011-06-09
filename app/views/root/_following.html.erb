@@ -16,7 +16,7 @@
   <% end %>
 
   <h3>Top users</h3>
-  <div style='padding-bottom:1em'>
+  <div id='following' style='padding-bottom:1em'>
     <% Item.top_users.each do |item|%>
       <%= render 'root/show_user', :item => item if item%>
     <% end %>

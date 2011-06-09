@@ -182,11 +182,11 @@ function insertColumnLeft(newColumnId) {
 }
 
 function slideColumnLeft(newColumnId) {
-  $('#'+jqEsc(newColumnId)).slideUp('fast', function() {
-    var column = $('#'+jqEsc(newColumnId)).parent('.column');
+  var column = $('#'+jqEsc(newColumnId)).parent('.column');
+  column.slideUp('fast', function() {
     column.remove();
     $('#stream_column').after(column);
-    $('#'+jqEsc(newColumnId)).slideDown();
+    column.slideDown();
   });
 }
 
