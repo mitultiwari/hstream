@@ -24,12 +24,6 @@ class Login < ActiveRecord::Base
     shortlist.split(',').size rescue 0
   end
 
-  def followees
-    shortlist.split(',').collect do |user|
-      Item.where(:author => user).first
-    end
-  end
-
   def self.create_or_merge(email, shortlist)
     email = Email.find_or_create_by_email(email.downcase)
     user = find_by_email_id(email.id)

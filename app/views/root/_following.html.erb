@@ -1,10 +1,22 @@
 <div class="column view">
   <div class='closeButton'>x</div>
   <% if session[:user] && session[:user].has_followees?%>
-    <h3>You are following <%= pluralize session[:user].followee_count, 'user'%></h3>
+    <h3>You are following <%= session[:user].followee_count%></h3>
     <div style='padding-bottom:3em'>
-      <% session[:user].followees.each do |item|%>
-        <%= render 'root/show_user', :item => item if item%>
+      <% session[:user].shortlist.split(',').each do |followee|%>
+        <% if followee =~ /[a-z]/i %>
+          <div class='item' author='<%= followee%>'>
+            <a class='author internal' href='http://news.ycombinator.com/user?id=<%= followee%>'><%= followee%></a>
+            <a class='follow button' followee='<%= followee%>'>follow</a>
+          </div>
+        <% else %>
+          <div class='item' story_hnid='<%= followee%>'>
+            <span class='story internal'>
+              <%= raw Item.title_with_hn_link(followee) %>
+            </span>
+            <a class='follow button' followee='<%= followee%>'>follow</a>
+          </div>
+        <% end %>
       <% end %>
     </div>
   <% else %>
