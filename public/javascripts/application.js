@@ -9,6 +9,7 @@ $(function() {
   $('a.author').live('click', newColumn);
   $('a.comment').live('click', newColumn);
   $('.new_column_link').click(newColumn);
+  $('.closeButton').live('click', closeColumn);
 
   $(document).ready(postProcess);
   setTimeout(refreshPage, pollInterval);
@@ -152,6 +153,13 @@ function newColumn() {
   else
     insertColumnLeft(newColumnId);
   return false;
+}
+
+function closeColumn() {
+  var col = $(this).parent('.column');
+  col.slideUp('slow', function() {
+    col.remove();
+  });
 }
 
 function insertColumnLeft(newColumnId) {

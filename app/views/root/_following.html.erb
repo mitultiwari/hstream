@@ -1,4 +1,5 @@
 <div class="column view">
+  <div class='closeButton'>x</div>
   <% if session[:user] && session[:user].has_followees?%>
     <h3>You are following <%= pluralize session[:user].followee_count, 'user'%></h3>
     <div style='padding-bottom:3em'>

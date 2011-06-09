@@ -12,6 +12,7 @@ body{ margin:2 auto; }
 .context{ padding-left:5px; }
 .ancestor{ padding-bottom:0.5em; }
 .shortlist{ background:#d6d6cf; }
+.closeButton{ float:right; cursor:pointer; color:#828282; margin-right:5px; padding:5px; margin-top:-5px; }
 
 .button{ color:#f6f6ef; background:#c2c2c2; cursor:pointer; padding-left:0.5em; padding-right:0.5em; border-radius:2px; }
 .follow{ color:#bb5500; border:1px solid #bb5500; background:none !important; font-weight:bold; border-radius:2px; }
