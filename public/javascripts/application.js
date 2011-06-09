@@ -172,6 +172,10 @@ function insertColumnLeft(newColumnId) {
       }
     });
   }
+  else {
+    $('#stream_column').after($('#spinner'));
+    $('#spinner').show();
+  }
 
   ajax({
     url: convertUrl(newColumnId),
