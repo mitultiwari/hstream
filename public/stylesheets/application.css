@@ -26,6 +26,8 @@ a.follow:hover{ text-decoration:none !important; }
 .bold a:link{ color:#666; }
 .bold .subtext{ font-weight:normal; }
 .bold .comment{ font-weight:normal; }
+.onHN{ float:right; margin-right:5px; }
+.onHN a{ color:#828282; text-decoration:none; }
 #more-items{ background:#ffbb88; border:1px solid #ff6600; font-weight:normal; font-size:10pt; cursor:pointer; margin-top:5px; padding:3px; border-radius:2px; }
 #spinner{ display:none; float:left; padding-left:2em; padding-top:1em; }
 
