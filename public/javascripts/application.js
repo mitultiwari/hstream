@@ -3,7 +3,6 @@ $(function() {
   $(document).ready(getShortlistFromHash);
   $('.follow').live('click', toggleFollow);
 
-  $(document).ready(setupColumns);
   $('.story a').live('click', newColumn);
   $('a.story').live('click', newColumn);
   $('a.author').live('click', newColumn);
@@ -46,7 +45,7 @@ function postProcess() {
   }
 
   moreItemMessage();
-  $('.column').children().children('.item').slideDown();
+  $('.column').children().children('.item').slideDown('fast', setupColumns);
   $('title').html(titlePrefix()+title);
   $('a').attr('target', '_blank');
   if (columnWidth > 0)
@@ -121,7 +120,6 @@ function toggleContext() {
 var maxColumns = 0;
 var columnWidth = 0;
 function setupColumns() {
-setTimeout(function() { // wait for initial slideDown; it messes with pagetop.width
   columnWidth = $('#stream').outerWidth(false);
   var intercolumnGutter = 20; // sync with .column .view margin-left
   var availableSpace = $('#pagetop').outerWidth()-1;
@@ -132,7 +130,6 @@ setTimeout(function() { // wait for initial slideDown; it messes with pagetop.wi
   columnWidth = (availableSpace - (maxColumns-1)*intercolumnGutter) / maxColumns;
   $('.column').width(columnWidth);
   $('#spinner').width(columnWidth-10); // HACK: not sure why this needs to be narrower.
-}, 1000);
 }
 
 function columnIds() {
