@@ -1,7 +1,7 @@
 <div class='item' hnid='<%= item.hnid%>' story_hnid='<%= item.story_hnid%>' author='<%= item.author%>' style='display:none'>
   <div class='contextbox'>
     <div class='onHN external'>
-      <a href='http://news.ycombinator.com/item?id=<%= item.story_hnid || item.hnid%>'>hn</a>
+      <a href='http://news.ycombinator.com/item?id=<%= item.story_hnid || item.hnid%>'></a>
     </div>
     <div class='title internal story'>
       <%= raw item.is_story? ? item.title_with_hn_link : item.title %>
