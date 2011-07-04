@@ -21,10 +21,10 @@ percent() {
 }
 
 allprevsessions() {
-  arg=${1/development.log./}
+  arg=${1:e}
   for file in development.log.*
   do
-    if [ ${file/development.log./} -lt $arg ]
+    if [ ${file:e} -lt $arg ]
     then
       echo $file
     fi
@@ -34,7 +34,7 @@ allprevsessions() {
 prev7sessions() {
   for i in `seq 0 6`
   do
-    echo development.log.`compute_date $(($1+$i))`
+    echo development.log.*`compute_date $(($1+$i))`
   done
 }
 
@@ -53,26 +53,26 @@ stats() {
 
   if [ $date -gt "20110524" ] # that's when we added session cookie and username to STAT lines
   then
-    grep "STAT" development.log.$date |grep "/\.js" |column 4 |sort |uniq |grep -v "[a-z]" > y.realips.$date
-    grep "STAT" development.log.$date |grep "/\.js" |column 5 |sort |uniq |grep -v "[a-z]" >> y.realips.$date
+    grep "STAT" development.log.*$date |grep "/\.js" |column 4 |sort |uniq |grep -v "[a-z]" > y.realips.$date
+    grep "STAT" development.log.*$date |grep "/\.js" |column 5 |sort |uniq |grep -v "[a-z]" >> y.realips.$date
   else
-    grep "STAT" development.log.$date |grep "/\.js" |column 2 |sort |uniq |grep -v "[a-z]" > y.realips.$date
-    grep "STAT" development.log.$date |grep "/\.js" |column 3 |sort |uniq |grep -v "[a-z]" >> y.realips.$date
+    grep "STAT" development.log.*$date |grep "/\.js" |column 2 |sort |uniq |grep -v "[a-z]" > y.realips.$date
+    grep "STAT" development.log.*$date |grep "/\.js" |column 3 |sort |uniq |grep -v "[a-z]" >> y.realips.$date
   fi
-  acq=`grep STAT development.log.$date |filter |grep -v "/\.js" |column 5 |sort |uniq |wc -l`
+  acq=`grep STAT development.log.*$date |filter |grep -v "/\.js" |column 5 |sort |uniq |wc -l`
 
-  grep "Started" development.log.$date |filter |grep -v "/\.js\|/?item\|/? " > y.clicks.$date
+  grep "Started" development.log.*$date |filter |grep -v "/\.js\|/?item\|/? " > y.clicks.$date
   clicks=`cat y.clicks.$date |column 5 |sort |uniq |wc -l`
 
-  grep "Started.*/more" development.log.$date |filter > y.more.$date
+  grep "Started.*/more" development.log.*$date |filter > y.more.$date
   more=`cat y.more.$date |column 5 |sort |uniq |wc -l`
 
-  grep "Started.*/follow\>" development.log.$date |filter > y.follow.$date
+  grep "Started.*/follow\>" development.log.*$date |filter > y.follow.$date
   follow=`cat y.follow.$date |column 5 |sort |uniq |wc -l`
 
   if [ $date -gt "20110525" ]
   then
-    login=`grep STAT development.log.$date |column 3 |sort |uniq |grep -v "^nil$\|akkartik\|mitultiwari" |wc -l`
+    login=`grep STAT development.log.*$date |column 3 |sort |uniq |grep -v "^nil$\|akkartik\|mitultiwari" |wc -l`
   else
     login=0
   fi
@@ -83,7 +83,7 @@ stats() {
   cohort=`cat y.cohort.$date |column 1 |sort |uniq |wc -l`
   returning=`cat y.cohort.$date |column 1 |sort |freq |grep -v " 1$" |wc -l`
 
-  unsubscribes=`grep "Started.*/unsubscribe" development.log.$date |column 5 |filter |sort |uniq |wc -l`
+  unsubscribes=`grep "Started.*/unsubscribe" development.log.*$date |column 5 |filter |sort |uniq |wc -l`
 
   echo "$date: $acq -> $more (`percent $more $acq`) -> $follow (`percent $follow $acq`) -> $login (`percent $login $acq`) || $cohort -> $returning (`percent $returning $cohort`) || $unsubscribes"
   grep $date milestones
