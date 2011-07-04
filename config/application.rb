@@ -6,6 +6,16 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
+# Needed before we've loaded config/initializers
+module Rails
+  def self.paths=(x)
+    @@paths = x
+  end
+  def self.paths
+    @@paths
+  end
+end
+
 module HackerStream
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -35,6 +45,10 @@ module HackerStream
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
+
+    Rails.paths = config.paths
+
+    config.paths.log = "#{config.paths.log.first}.#{$$}"
 
     config.logger = Logger.new(config.paths.log.first, 'daily')
     # Configure sensitive parameters which will be filtered from the log file.
