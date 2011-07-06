@@ -137,17 +137,19 @@ def absolutify(url):
 
 
 
+from time import time, ctime, sleep, gmtime, strftime
+
 def saveItem(url, timestamp, author, contents, title=None, parent=None, story=None):
   log("  "+url)
   try:
     dbWrite("""insert into items (hnid,parent_hnid,story_hnid,timestamp,author,title,contents)
-               values (%s,%s,%s,%s,%s,%s,%s)"""
-        % (hnid(url), hnid(parent), hnid(story), timestamp, sqlForJs(author),
+               values (%s,%s,%s,'%s',%s,%s,%s)"""
+        % (hnid(url), hnid(parent), hnid(story), strftime('%Y-%m-%d %H:%M:%S', gmtime(timestamp)), sqlForJs(author),
           sqlForJs(title), sqlForJs(contents)))
   except MySQLdb.IntegrityError:
     if contents: # Ask HN stories won't refresh
-      dbWrite("""update items set title=%s, contents=%s, timestamp=%s where hnid=%s"""
-          % (sqlForJs(title), sqlForJs(contents), timestamp, hnid(url)))
+      dbWrite("""update items set title=%s, contents=%s, timestamp='%s' where hnid=%s"""
+          % (sqlForJs(title), sqlForJs(contents), strftime('%Y-%m-%d %H:%M:%S', gmtime(timestamp)), hnid(url)))
 
 def sqlForJs(s):
   if s: return "'"+s.replace("'", '&apos;')+"'"
@@ -172,8 +174,6 @@ def dbRead(cmd):
     yield item
 
 
-
-from time import time, ctime, sleep
 
 def justTime(): return ctime()[11:-5]
 
