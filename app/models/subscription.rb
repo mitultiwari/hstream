@@ -8,6 +8,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def self.create_for_all_authors(login, followees)
+    return unless followees
     followees.each do |followee|
       create_for_author login, followee
     end
