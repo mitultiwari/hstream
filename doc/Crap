@@ -1,0 +1,10 @@
+Email addresses are not currently verified. Fields 'token' and 'confirmed' in
+the emails table are unused.
+
+Servers can only run in dev environment. In prod they can't serve static files
+for some reason.
+
+All environments use the *same* db. Any crawlers or notifiers or servers you
+run on a single machine share the same db, no matter where you run them from.
+
+Crawler isn't saving timestamps. Unclear what format mysql wants for them.
