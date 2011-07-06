@@ -1,6 +1,6 @@
 <div class='comhead'>
   by <a class='author internal' followee='user:<%= item.author%>' href='http://news.ycombinator.com/user?id=<%= item.author%>'><%= item.author%></a>
-  | <%= distance_of_time_in_words(Time.now.to_i - item.timestamp.to_i) rescue '1 second'%> ago
+  <!-- HACK | < %= distance_of_time_in_words(Time.now.to_i - item.timestamp.to_i) rescue '1 second'%> ago -->
   | <a class='comment external' followee='/reply/<%= item.hnid%>' href='/?item=<%= item.hnid%>'>reply</a>
 </div>
 
