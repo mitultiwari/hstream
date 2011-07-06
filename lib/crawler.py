@@ -77,7 +77,7 @@ def computeStoryDesc(title):
   try: url.index(root)
   except ValueError: return ''
 
-  for _ in dbRead('select hnid from items where hnid = %s' %(hnid(url))):
+  for _, in dbRead('select hnid from items where hnid = %s' %(hnid(url))):
     print ("%s already saved; not bothering updating description" % (hnid(url)))
     return
 
@@ -144,7 +144,7 @@ def saveItem(url, timestamp, author, contents, title=None, parent=None, story=No
                values (%s,%s,%s,%s,%s,%s,%s)"""
         % (hnid(url), hnid(parent), hnid(story), timestamp, sqlForJs(author),
           sqlForJs(title), sqlForJs(contents)))
-  except sqlite3.IntegrityError:
+  except MySQLdb.IntegrityError:
     if contents: # Ask HN stories won't refresh
       dbWrite("""update items set title=%s, contents=%s, timestamp=%s where hnid=%s"""
           % (sqlForJs(title), sqlForJs(contents), timestamp, hnid(url)))
@@ -153,14 +153,22 @@ def sqlForJs(s):
   if s: return "'"+s.replace("'", '&apos;')+"'"
   return 'null'
 
-import sqlite3
+import MySQLdb
+db = MySQLdb.connect(db='hackerstream_prod', passwd='mtak')
+db.set_character_set('utf8')
+cursor = db.cursor()
+cursor.execute('SET NAMES utf8;')
+cursor.execute('SET CHARACTER SET utf8;')
+cursor.execute('SET character_set_connection=utf8;')
 
 def dbWrite(cmd):
-  with sqlite3.connect('db/development.sqlite3') as conn:
-    conn.execute(cmd)
+  cursor.execute(cmd)
+  db.commit()
 
 def dbRead(cmd):
-  for item in sqlite3.connect('db/development.sqlite3').execute(cmd):
+  db.query(cmd)
+  r = db.store_result()
+  for item in r.fetch_row(maxrows=0):
     yield item
 
 
