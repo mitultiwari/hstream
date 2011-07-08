@@ -92,3 +92,6 @@ for offset in `seq 1 14`
 do
   stats $offset
 done
+
+echo
+echo `wc -l < y.logins` logins total
