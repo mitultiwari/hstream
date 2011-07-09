@@ -1,9 +1,9 @@
 <div class="column view">
   <div class='closeButton'>x</div>
-  <% if session[:user] && session[:user].has_followees?%>
-    <h3>You are following <%= session[:user].followee_count%></h3>
+  <% if @me && @me.has_followees?%>
+    <h3>You are following <%= @me.followee_count%></h3>
     <div style='padding-bottom:3em'>
-      <% session[:user].shortlist.split(',').each do |followee|%>
+      <% @me.shortlist.split(',').each do |followee|%>
         <% if followee =~ /[a-z]/i %>
           <div class='item' author='<%= followee%>'>
             <a class='author internal' href='http://news.ycombinator.com/user?id=<%= followee%>'><%= followee%></a>

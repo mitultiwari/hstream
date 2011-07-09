@@ -1,7 +1,7 @@
 <% if @mostRecentItem %>
   mostRecentItem = <%= @mostRecentItem %>;
 <% end %>
-<% if session[:user] %>
-  shortlist = <%= raw session[:user].shortlist.split(',').to_json%>;
+<% if @me %>
+  shortlist = <%= raw @me.shortlist.split(',').to_json%>;
 <% end %>
 $('.item[hnid='+<%= params[:item] || 0%>+']').addClass('shortlist');

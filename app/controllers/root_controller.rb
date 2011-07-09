@@ -1,9 +1,7 @@
 class RootController < ApplicationController
   def index
     @mostRecentItem, @items = initialize_item_scopes(params)
-    if session[:user]
-      @items['filtered_stream'] = session[:user].stream @items['stream']
-    end
+    @items['filtered_stream'] = @me.stream(@items['stream']) if @me
 
     currItem = Item.find_by_hnid(params[:item]) if params[:item]
     currItem = Item.where(:author => params[:user]).first if params[:user]

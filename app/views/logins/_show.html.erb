@@ -1,4 +1,4 @@
-<div id='login-links' style='display:<%= session[:user] ? 'none' : 'block'%>'>
+<div id='login-links' style='display:<%= @me ? 'none' : 'block'%>'>
   <a id='login-link' href='#'>login</a> |
   <a id='signup-link' href='#'>signup</a>
 </div>
@@ -13,14 +13,14 @@
   <input id='dontlogout-button' type='submit' value='cancel'/>
 </div>
 
-<% if session[:user] %>
+<% if @me %>
 <script>
-  location.hash = '#<%= session[:user].shortlist%>';
+  location.hash = '#<%= @me.shortlist%>';
 </script>
 <% end %>
 
-<a id='login-user' style='display:<%= session[:user] ? 'inline' : 'none'%>' href='#'>
-<%= session[:user].email.email rescue ''%>
+<a id='login-user' style='display:<%= @me ? 'inline' : 'none'%>' href='#'>
+<%= cookies['email'] rescue ''%>
 </a>
 
 <script>
