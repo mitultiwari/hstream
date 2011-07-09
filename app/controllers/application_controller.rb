@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter lambda {
+    migrate_old_sessions
     @me = Login.find_by_id(session[:user_id])
   }
 
@@ -12,5 +13,11 @@ class ApplicationController < ActionController::Base
   def initialize_item_scopes(params)
     bound = params[:until] ? Item.find_by_hnid(params[:until]) : Item.first
     return [bound.hnid, {'stream' => Item.since(params[:mostRecentItem], bound.id)}]
+  end
+
+  def migrate_old_sessions
+    return unless session[:user]
+    session[:user_id] = session[:user].id
+    session[:user] = nil
   end
 end
